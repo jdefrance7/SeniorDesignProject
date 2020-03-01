@@ -25,6 +25,11 @@ int8_t debug_key_value(
     canardEncodeScalar(buffer, offset, UINT8, &key[n]);
     offset += UINT8;
   }
+  for(int n = 0; DEBUG_KEY_VALUE_MESSAGE_SIZE-sizeof(buffer); n++)
+  {
+    canardEncodeScalar(buffer, offset, UINT8, NULL);
+    offset += UINT8;
+  }
 
   return 0;
 }

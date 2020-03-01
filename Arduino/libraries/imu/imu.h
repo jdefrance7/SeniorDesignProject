@@ -63,7 +63,7 @@ float16_t temperature(uint8_t temperature_scale);
 // General Arduino Library
 #include <Arduino.h>
 
-// Supporting Libraries & Objects
+// Supporting Libraries & Objects (only for LSM9DS1 & NXP_FXOS_FXAS)
 #if defined(SENSOR_LSM9DS1 || SENSOR_NXP_FXOS_FXAS)
 
   #include <Adafruit_Sensor_Calibration.h>
@@ -96,7 +96,7 @@ float16_t temperature(uint8_t temperature_scale);
 // FILTER OBJECTS //////////////////////////////////////////////////////////////
 //##############################################################################
 
-// Filter Object
+// Filter Object (only for LSM9DS1 & NXP_FXOS_FXAS)
 #if defined(SENSOR_LSM9DS1 | SENSOR_NXP_FXOS_FXAS)
 
   #if defined(FILTER_NXP_SENSOR_FUSION)
@@ -119,7 +119,7 @@ float16_t temperature(uint8_t temperature_scale);
 // CALIBRATION OBJECTS /////////////////////////////////////////////////////////
 //##############################################################################
 
-// Calibration Object
+// Calibration Object (only for LSM9DS1 & NXP_FXOS_FXAS)
 #if defined(SENSOR_LSM9DS1 | SENSOR_NXP_FXOS_FXAS)
 
   #if defined(ADAFRUIT_SENSOR_CALIBRATION_USE_EEPROM)

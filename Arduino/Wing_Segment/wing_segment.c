@@ -18,9 +18,9 @@ bool queue_node_status(uint64_t timestamp_msec)
     node_status(
       buffer,
       offset,
-      g_node_uptime,
-      g_node_health,
-      g_node_mode
+      node.uptime,
+      node.health,
+      node.mode
     );
 
     push_message(
@@ -97,7 +97,7 @@ void print_uptime()
   if(Serial)
   {
     Serial.print("Uptime: ");
-    Serial.print(g_node_uptime);
+    Serial.print(node.uptime);
     Serial.println(" ms");
   }
 }

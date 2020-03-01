@@ -20,10 +20,10 @@ bool init_uavcan()
   }
 
   /* Set unique node id (void) */
-  canardSetLocalNodeID(&g_canard, g_local_node_id);
+  canardSetLocalNodeID(&g_canard, node.local_id);
 
   /* Set node filter (Success = 1) */
-  if(canardAVRConfgifureAcceptanceFilters(g_local_node_id) != 1)
+  if(canardAVRConfgifureAcceptanceFilters(node.local_id) != 1)
   {
     return false;
   }
@@ -92,7 +92,7 @@ void onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer)
             0, /* fill in node status later */
             0, /* fill in hardware version later */
             0, /* fill in software version later */
-            g_node_name
+            *(node.name);
           );
 
           offset = 0;
@@ -100,9 +100,9 @@ void onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer)
           node_status(
             buffer,
             offset,
-            g_node_uptime,
-            g_node_health,
-            g_node_mode
+            node.uptime,
+            node.health,
+            node.mode
           );
 
           offset += NODE_STATUS_MESSAGE_SIZE;
@@ -110,20 +110,20 @@ void onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer)
           hardware_version(
             buffer,
             offset,
-            g_hardware_version_major,
-            g_hardware_version_minor,
-            g_local_node_id,
-            0 /* skip certificate_of_authenticity */
+            node_hardware.major,
+            node_hardware.minor,
+            node_hardware.unique_id,
+            *(node_hardware.certificate)
           );
 
           offset += HARDWARE_VERSION_MESSAGE_SIZE;
 
           software_version(
-            software,
+            buffer,
             offset,
-            g_optional_field_flags,
-            g_vcs_commit,
-            g_image_crc
+            node_software.field_flags,
+            node_software.vcs_commit,
+            node_software.image_crc
           );
 
           offset += SOFTWARE_VERSION_MESSAGE_SIZE;

@@ -6,8 +6,10 @@
 #include <formatting.h>
 #include <messaging.h>
 
+#include "uavcan_node.h"
+
 //##############################################################################
-// UAVCAN CONFIGS //////////////////////////////////////////////////////////////
+// UAVCAN BITRATE //////////////////////////////////////////////////////////////
 //##############################################################################
 
 /* Select UAVCAN Bitrate */
@@ -21,19 +23,32 @@
 // #define CAN_BITRATE BITRATE_500_KBPS // not tested
 // #define CAN_BITRATE BITRATE_1_MBPS   // not tested
 
-/* Select Supported UAVCAN Responses Addressed to this Node */
+//##############################################################################
+// UAVCAN RESPONSES ////////////////////////////////////////////////////////////
+//##############################################################################
+
+/* Select Supported UAVCAN Responses Addressed to this Node  */
 
 // #define ACCEPT_RESPONSE_NONE
 
 // Add other response flags here (must also write support code in callback/handler)
 
+//##############################################################################
+// UAVCAN REQUESTS /////////////////////////////////////////////////////////////
+//##############################################################################
+
 /* Select Supported UAVCAN Requests Addressed to this Node  */
 
 // #define ACCEPT_REQUEST_NONE
+
 // #define ACCEPT_REQUEST_NODE_INFO
 // #define ACCEPT_REQUEST_DATA_TYPE_INFO
 
 // Add other request flags here (must also write support code in callback/handler)
+
+//##############################################################################
+// UAVCAN BROADCASTS ///////////////////////////////////////////////////////////
+//##############################################################################
 
 /* Select Supported UAVCAN Broadcasts Addressed to this Node  */
 
@@ -42,35 +57,54 @@
 // Add other broadcast flags here (must also write support code in callback/handler)
 
 //##############################################################################
-// UAVCAN OBJECTS //////////////////////////////////////////////////////////////
+// CANARD OBJECTS //////////////////////////////////////////////////////////////
 //##############################################################################
 
 // Library instance
-static CanardInstance g_canard;
-static uint8_t g_canard_memory_pool[1024];
+CanardInstance g_canard;
+uint8_t g_canard_memory_pool[1024];
 
-// Node unique id
-static uint8_t g_local_node_id = 0;
+//##############################################################################
+// UAVCAN NODE /////////////////////////////////////////////////////////////////
+//##############################################################################
 
-// Node status variables
-static uint8_t g_node_health  = UAVCAN_NODE_HEALTH_OK;
-static uint8_t g_node_mode    = UAVCAN_NODE_MODE_INITIALIZATION;
-static uint64_t g_node_uptime = 0;
-static uint8_t g_node_temp    = UAVCAN_NODE_TEMP_OK;
+uint8_t node_name = "n.segment.wing";
 
-// Node hardware version variables
-static uint8_t g_hardware_version_major = 1;
-static uint8_t g_hardware_version_minor = 0;
+// Node variables
+node.local_id = 1;
+node.health   = UAVCAN_NODE_HEALTH_OK;
+node.mode     = UAVCAN_NODE_MODE_INITIALIZATION;
+node.uptime   = 0;
+node.temp     = UAVCAN_NODE_TEMP_OK;
+node.name     = &node_name;
 
-// Node software version variables
-static uint8_t  g_software_version_major  = 1;
-static uint8_t  g_software_version_minor  = 0;
-static uint8_t  g_optional_field_flags    = 1;
-static uint32_t g_vcs_commit              = 0;
-static uint64_t g_image_crc               = 0;
+//##############################################################################
+// NODE HARDWARE INFO //////////////////////////////////////////////////////////
+//##############################################################################
 
-// Node name
-static uint8_t  g_node_name = "wing_segment_n";
+uint8_t node_unique_id[16] = {0x00, 0x00, 0x00, 0x00,
+                              0x00, 0x00, 0x00, 0x00,
+                              0x00, 0x00, 0x00, 0x00,
+                              0x00, 0x00, 0x00, 0x00};
+
+uint8_t node_certificate = "Certificate";
+
+// Hardware version variables
+hardware.major        = 1;
+hardware.minor        = 0;
+hardware.unique_id    = &node_unique_id;
+hardware.certificate  = &node_certificate;
+
+//##############################################################################
+// NODE SOFTWARE INFO //////////////////////////////////////////////////////////
+//##############################################################################
+
+// Software version variables
+software.major        = 1;
+software.minor        = 0;
+software.field_flags  = 1;
+software.vcs_commit   = GIT_HASH;
+software.image_crc    = 0;
 
 //##############################################################################
 // USER FUNCTIONS //////////////////////////////////////////////////////////////

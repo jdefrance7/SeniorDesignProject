@@ -26,9 +26,14 @@ int8_t ahrs_solution(
     return -1;
   }
 
-  for(int n = 0; n < NODE_TIMESTAMP_MESSAGE_SIZE; n++)
+  for(int n = 0; n < sizeof(timestamp); n++)
   {
     canardEncodeScalar(buffer, offset, UINT8, &timestamp[n]);
+    offset += 8;
+  }
+  for(int n = 0; n < NODE_TIMESTAMP_MESSAGE_SIZE-sizeof(timestamp); n++)
+  {
+    canardEncodeScalar(buffer, offset, UINT8, NULL);
     offset += 8;
   }
 
