@@ -4,9 +4,13 @@
 // APPLICATION FUNCTIONS ///////////////////////////////////////////////////////
 //##############################################################################
 
-bool queue_node_status(uint64_t timestamp_msec)
+uint16_t queue_node_status(uint64_t timestamp_msec)
 {
   static uint64_t msec = timestamp_msec;
+  static uint16_t re_val;
+
+  re_val = 0;
+
   if((timestamp_msec - msec) > (MAX_BROADCASTING_PERIOD_MS / 2))
   {
     uint8_t buffer[NODE_STATUS_MESSAGE_SIZE];
@@ -23,7 +27,7 @@ bool queue_node_status(uint64_t timestamp_msec)
       node.mode
     );
 
-    push_message(
+    re_val = push_message(
       &g_canard,
       NODE_STATUS_DATA_TYPE_SIGNATURE,
       NODE_STATUS_DATA_TYPE_ID,
@@ -35,12 +39,17 @@ bool queue_node_status(uint64_t timestamp_msec)
 
     msec = timestamp_msec;
   }
+  return re_val;
 }
 
-bool queue_camera_gimbal_status(uint64_t timestamp_msec)
+int16_t queue_camera_gimbal_status(uint64_t timestamp_msec)
 {
   static uint64_t msec = timestamp_msec;
-  if((timestamp_msec - msec) > CAMERA_GIMBAL_BROADCASTING_PERIOD_MS)
+  static int16_t re_val;
+
+  re_val = 0;
+
+  if((timestamp_msec - msec) > (MAX_BROADCASTING_PERIOD_MS / 4))
   {
     uint8_t buffer[CAMERA_GIMBAL_STATUS_MESSAGE_SIZE];
 
@@ -66,7 +75,7 @@ bool queue_camera_gimbal_status(uint64_t timestamp_msec)
       camera_orientation_w
     );
 
-    push_message(
+    re_val = push_message(
       &g_canard,
       CAMERA_GIMBAL_STATUS_DATA_TYPE_SIGNATURE,
       CAMERA_GIMBAL_STATUS_DATA_TYPE_ID,
@@ -78,6 +87,7 @@ bool queue_camera_gimbal_status(uint64_t timestamp_msec)
 
     msec = timestamp_msec;
   }
+  return re_val;
 }
 
 //##############################################################################
@@ -86,10 +96,16 @@ bool queue_camera_gimbal_status(uint64_t timestamp_msec)
 
 #if defined(SERIAL_DEBUG)
 
-void init_serial()
+bool init_serial()
 {
   Serial.begin(SERIAL_BAUDRATE);
-  while(!Serial);
+
+  long timeout = millis();
+  while((millis() - timeout) < SERIAL_TIMEOUT)
+  {
+    if(Serial){return true;}
+  }
+  return false;
 }
 
 void print_uptime()

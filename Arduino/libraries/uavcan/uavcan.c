@@ -34,7 +34,7 @@ bool init_uavcan()
 /**
  * Returns g_canard memory statistics
  */
-uint16_t uavcan_stats()
+int16_t uavcan_stats()
 {
   const CanardPoolAllocatorStatistics stats = canardGetPoolAllocatorStatistics(&g_canard);
   const uint16_t peak_percent = (uint16_t)(100U * stats.peak_usage_blocks / stats.capacity_blocks);
@@ -50,22 +50,22 @@ uint16_t uavcan_stats()
   {
     // DEBUG: puts("WARNING: ENLARGE MEMORY POOL");
   }
-  return peak_percent;
+  return (int16_t)peak_percent;
 }
 
 /**
  * Clears stale transfers from tx queue
  *  Wrapper for canardCleanupStaleTransfers()
  */
-bool cleanup_uavcan(uint64_t timestamp_usec)
+int16_t cleanup_uavcan(uint64_t timestamp_usec)
 {
   static uint64_t cleanup_usec = cleanup_usec;
-  if((timestamp_usec - cleanup_usec) > 1000000U)
+  if((timestamp_usec - cleanup_usec) > CANARD_RECOMMENDED_STALE_TRANSFER_CLEANUP_INTERVAL_USEC)
   {
     canardCleanupStaleTransfers(&g_canard, timestamp_usec);
     cleanup_usec = timestamp_usec;
   }
-  return true;
+  return 0;
 }
 
 /**

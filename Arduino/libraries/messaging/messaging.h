@@ -9,7 +9,7 @@
 */
 int16_t read_message(
   CanardInstance* ins,
-  CanardCANFrame* rx_frame
+  CanardCANFrame &rx_frame
 );
 
 /* Pushes a message frame onto tx queue
@@ -32,14 +32,15 @@ int16_t push_message(
 */
 int16_t send_message(
   CanardInstance* ins,
-  const CanardCANFrame* tx_frame
+  CanardCANFrame &tx_frame
 );
 
 /* Send (and pop) all available message frames from tx queue
     Returns error value
 */
 int16_t flush_messages(
-  CanardInstance* ins
+  CanardInstance* ins,
+  CanardCANFrame &tx_frame
 );
 
 #endif // MESSAGING_H

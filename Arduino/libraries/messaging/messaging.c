@@ -17,7 +17,7 @@ int16_t read_message(
   }
   else if (rx_res > 0)
   {
-    /* Proccess frame
+    /* canardHandleRxFrame return values
       CANARD_OK                                  0
       CANARD_ERROR_INVALID_ARGUMENT              -2
       CANARD_ERROR_OUT_OF_MEMORY                 -3
@@ -64,7 +64,7 @@ int16_t push_message(
 
 int16_t send_message(
   CanardInstance* ins,
-  CanardCANFrame* tx_frame
+  CanardCANFrame &tx_frame
 )
 {
   const CanardCANFrame* txf;
@@ -79,7 +79,7 @@ int16_t send_message(
     }
     else if (tx_res > 0)
     {
-      tx_frame = canardPeekTxQueue(ins);
+      tx_frame = *canardPeekTxQueue(ins);
       canardPopTxQueue(ins);
       return 0;
     }
@@ -95,7 +95,8 @@ int16_t send_message(
 }
 
 int16_t flush_messages(
-  CanardInstance* ins
+  CanardInstance* ins,
+  CanardCANFrame &tx_frame
 )
 {
   // Transmit until queue is empty
@@ -105,6 +106,7 @@ int16_t flush_messages(
     const int16_t tx_res = canardAVRTransmit(txf);
     if (tx_res < 0)
     {
+      tx_frame = txf;
       canardPopTxQueue(ins);
       return -1;
     }

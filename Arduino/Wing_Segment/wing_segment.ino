@@ -2,32 +2,37 @@
 
 void setup()
 {
-  if(!init_uavcan())
+  while(!init_uavcan())
   {
-    // DEBUG:
+    update_uptime();
+    node.health = NODE_HEALTH_ERROR;
   }
 
-  update_uptime();
-
-  if(!init_imu())
+  while(!init_imu())
   {
-    // DEBUG:
+    update_uptime();
+    node.health = NODE_HEALTH_ERROR;
   }
 
-  update_uptime();
-
-  init_serial();
+  while(!init_serial())
+  {
+    update_uptime();
+    node.health = NODE_HEALTH_ERROR;
+  }
 
   update_uptime();
   print_uptime();
+
+  node.mode = NODE_MODE_OPERATIONAL;
 }
 
 void loop()
 {
-  update_uptime();
-  print_uptime();
+  static uint16_t re_val;
+  static CanardCANFrame frame;
 
-  if(!update_imu())
+  re_val = update_imu();
+  if(re_val < 0)
   {
     // DEBUG:
   }
@@ -35,7 +40,8 @@ void loop()
   update_uptime();
   print_uptime();
 
-  if(!queue_node_status(g_node_uptime))
+  re_val = queue_node_status(node.uptime);
+  if(re_val < 0)
   {
     // DEBUG:
   }
@@ -43,7 +49,8 @@ void loop()
   update_uptime();
   print_uptime();
 
-  if(!queue_camera_gimbal_status(g_node_uptime))
+  re_val = queue_camera_gimbal_status(node.uptime);
+  if(re_val < 0)
   {
     // DEBUG:
   }
@@ -51,18 +58,16 @@ void loop()
   update_uptime();
   print_uptime();
 
-  if(flush_messages() < 0)
+  re_val = flush_messages(&g_canard, frame);
+  if(re_val < 0)
   {
-    // DEBUG:
+    // DEBUG: print frame details
   }
 
   update_uptime();
   print_uptime();
 
-  if(!cleanup_uavcan((g_node_uptime*1000)))
-  {
-    // DEBUG:
-  }
+  cleanup_uavcan((node.uptime*1000));
 
   update_uptime();
   print_uptime();

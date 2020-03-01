@@ -46,7 +46,7 @@
 
 // Hardware Support Functions
 bool init_imu(void);
-bool update_imu(void);
+int16_t update_imu(void);
 
 // Data Aquisition
 float16_t orientation(uint8_t rotational_axis);

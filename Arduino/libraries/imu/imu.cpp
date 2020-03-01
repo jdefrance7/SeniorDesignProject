@@ -35,11 +35,11 @@ bool init_imu(void)
 }
 
 // Call at frequency FILTER_UPDATE_RATE_HZ (only for LSM9DS1 & NXP_FXOS_FXAS)
-bool update_imu(void)
+int16_t update_imu(void)
 {
   #if defined(SENSOR_BNO055)
 
-    // pass, has its own onboard filter
+    return 0;
 
   #elif defined(SENSOR_LSM9DS1 | SENSOR_NXP_FXOS_FXAS)
 
@@ -68,9 +68,13 @@ bool update_imu(void)
       msec = millis();
     }
 
-  #endif
+    return 0;
 
-  return true;
+  #else
+
+    return -1;
+
+  #endif
 }
 
 float16_t orientation(uint8_t rotational_axis)
@@ -382,7 +386,7 @@ float16_t temperature(uint8_t temperature_scale)
 
   #elif defined(SENSOR_NXP_FXOS_FXAS)
 
-    // pass, temperature not supported
+    return 0;
 
   #endif
 
@@ -394,6 +398,8 @@ float16_t temperature(uint8_t temperature_scale)
   {
     return (float16_t)boardTemp + 273.5;
   }
-
-  return 0;
+  else
+  {
+    return 0;
+  }
 }
