@@ -13,12 +13,21 @@
 
 #define DEBUG_KEY_MAX_SIZE  58
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t debug_key_value(
   uint8_t buffer[],
   uint16_t offset,
   float32_t value,
   uint8_t key[]
 );
+
+
+#ifdef __cplusplus
+}
+#endif
 
 /* KeyValue DSDL
 

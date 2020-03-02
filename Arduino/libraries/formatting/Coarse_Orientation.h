@@ -13,6 +13,10 @@
 
 #define COARSE_ORIENTATION_ANGLE_MULTIPLIER         4.7746482927568605
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t coarse_orientation(
   uint8_t buffer[],
   uint8_t offset,
@@ -21,6 +25,11 @@ int8_t coarse_orientation(
   int8_t yaw,
   bool orientation_defined
 );
+
+#ifdef __cplusplus
+}
+#endif
+
 
 /* CoarseOrientation DSDL
 

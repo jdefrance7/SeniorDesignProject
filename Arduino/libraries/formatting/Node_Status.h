@@ -27,6 +27,10 @@
 
 #define OFFLINE_TIMEOUT_MS                3000
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t node_status(
   uint8_t buffer[],
   uint16_t offset,
@@ -34,6 +38,10 @@ int8_t node_status(
   uint8_t health,
   uint8_t mode
 );
+
+#ifdef __cplusplus
+}
+#endif
 
 /* NodeStatus DSDL
 

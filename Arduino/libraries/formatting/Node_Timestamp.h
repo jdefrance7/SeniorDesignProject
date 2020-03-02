@@ -13,11 +13,20 @@
 
 #define TIMESTAMP_UNKNOWN    0
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 int8_t node_timestamp(
   uint8_t buffer[],
   uint8_t offset,
   uint64_t usec
 );
+
+#ifdef __cplusplus
+}
+#endif
 
 /* Timestamp DSDL
 

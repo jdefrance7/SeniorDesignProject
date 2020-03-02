@@ -25,6 +25,10 @@
 #define READING_TYPE_TOO_CLOSE      2
 #define READING_TYPE_TOO_FAR        3
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t range_sensor(
   uint8_t buffer[],
   uint16_t offset,
@@ -32,9 +36,13 @@ int8_t range_sensor(
   uint8_t sensor_id,
   uint8_t coarse_orientation[COARSE_ORIENTATION_MESSAGE_SIZE],
   float16_t field_of_view,
-  uint5_t sensor_type,
+  uint8_t sensor_type,
   float16_t range
 );
+
+#ifdef __cplusplus
+}
+#endif
 
 /* range_sensor.Measurement DSDL
 

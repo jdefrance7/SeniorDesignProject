@@ -17,6 +17,10 @@
 #define NODE_INFO_DATA_TYPE_SIGNATURE     0xee468a8121c46a9e
 #define NODE_INFO_DATA_TYPE_ID            1
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t node_info(
   uint8_t buffer[],
   uint16_t offset,
@@ -25,6 +29,10 @@ int8_t node_info(
   uint8_t hardware_version[HARDWARE_VERSION_MESSAGE_SIZE],
   uint8_t name[]
 );
+
+#ifdef __cplusplus
+}
+#endif
 
 /* GetNodeInfo DSDL
 

@@ -1,13 +1,15 @@
 #ifndef IMU_H
 #define IMU_H
 
+#include <stdint.h>
+
 //##############################################################################
 // IMU CONFIGS /////////////////////////////////////////////////////////////////
 //##############################################################################
 
 /* Select Sensor */
 
-// #define SENSOR_BNO055
+#define SENSOR_BNO055
 // #define SENSOR_LSM9DS1
 // #define SENSOR_NXP_FXOS_FXAS
 
@@ -19,7 +21,7 @@
 
 /* Select Filter Update Rate (only for LSM9DS1 & NXP_FXOS_FXAS) */
 
-// #define FILTER_UPDATE_RATE_HZ 100
+#define FILTER_UPDATE_RATE_HZ 100
 
 //##############################################################################
 // CONSTANTS ///////////////////////////////////////////////////////////////////
@@ -33,12 +35,20 @@
 
 // Rotational Axis Designators
 #define ROLL_AXIS   1
-#define PICTH_AXIS  2
+#define PITCH_AXIS  2
 #define YAW_AXIS    3
 
 // Temperature Scales
 #define TEMPERATURE_CELSIUS   1
 #define TEMPERATURE_KELVIN    2
+
+//##############################################################################
+// SENSOR OBJECTS //////////////////////////////////////////////////////////////
+//##############################################################################
+
+#include "BNO055.h"
+#include "LSM9DS1.h"
+#include "NXP_FXOS_FXAS.h"
 
 //##############################################################################
 // USER FUNCTIONS //////////////////////////////////////////////////////////////
@@ -49,90 +59,30 @@ bool init_imu(void);
 int16_t update_imu(void);
 
 // Data Aquisition
-float16_t orientation(uint8_t rotational_axis);
-float16_t quaternion(uint8_t rotational_axis);
-float16_t angularVelocity(uint8_t rotational_axis);
-float16_t linearAcceleration(uint8_t linear_axis);
-float16_t magneticField(uint8_t linear_axis);
-float16_t temperature(uint8_t temperature_scale);
+float orientation(uint8_t rotational_axis);
+float quaternion(uint8_t rotational_axis);
+float angularVelocity(uint8_t rotational_axis);
+float linearAcceleration(uint8_t linear_axis);
+float magneticField(uint8_t linear_axis);
+float temperature(uint8_t temperature_scale);
 
-//##############################################################################
-// SUPPORTING LIBRARIES ////////////////////////////////////////////////////////
-//##############################################################################
-
-// General Arduino Library
-#include <Arduino.h>
-
-// Supporting Libraries & Objects (only for LSM9DS1 & NXP_FXOS_FXAS)
-#if defined(SENSOR_LSM9DS1 || SENSOR_NXP_FXOS_FXAS)
-
-  #include <Adafruit_Sensor_Calibration.h>
-  #include <Adafruit_AHRS.h>
-
-  Adafruit_Sensor *accelerometer, *gyroscope, *magnetometer;
-
-#endif // Supporting Libraries & Objects
-
-//##############################################################################
-// SENSOR OBJECTS //////////////////////////////////////////////////////////////
-//##############################################################################
-
-// Sensor Object
-#if defined(SENSOR_BNO055)
-
-  #include "BNO055.h"
-
-#elif defined(SENSOR_LSM9DS1)
-
-  #include "LSM9DS1.h"
-
-#elif defined(SENSOR_NXP_FXOS_FXAS)
-
-  #include "NXP_FXOS_FXAS.h"
-
-#endif // Sensor Object
-
-//##############################################################################
-// FILTER OBJECTS //////////////////////////////////////////////////////////////
-//##############################################################################
-
-// Filter Object (only for LSM9DS1 & NXP_FXOS_FXAS)
-#if defined(SENSOR_LSM9DS1 | SENSOR_NXP_FXOS_FXAS)
+#if defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
 
   #if defined(FILTER_NXP_SENSOR_FUSION)
-
-    Adafruit_NXPSensorFusion filter;
-
+    extern Adafruit_NXPSensorFusion filter;
   #elif defined(FILTER_MADGWICK)
-
-    Adafruit_Madgwick filter;
-
+    extern Adafruit_Madgwick filter;
   #elif defined(FILTER_MAHONY)
-
-    Adafruit_Mahony filter;
-
+    extern Adafruit_Mahony filter;
   #endif
-
-#endif // Filter Object
-
-//##############################################################################
-// CALIBRATION OBJECTS /////////////////////////////////////////////////////////
-//##############################################################################
-
-// Calibration Object (only for LSM9DS1 & NXP_FXOS_FXAS)
-#if defined(SENSOR_LSM9DS1 | SENSOR_NXP_FXOS_FXAS)
 
   #if defined(ADAFRUIT_SENSOR_CALIBRATION_USE_EEPROM)
-
-    Adafruit_Sensor_Calibration_EEPROM cal;
-
+    extern Adafruit_Sensor_Calibration_EEPROM cal;
   #else
-
-    Adafruit_Sensor_Calibration_SDFat cal;
-
+    extern Adafruit_Sensor_Calibration_SDFat cal;
   #endif
-
-#endif // Calibration Object
+  
+#endif
 
 //##############################################################################
 // END /////////////////////////////////////////////////////////////////////////

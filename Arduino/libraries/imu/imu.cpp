@@ -1,8 +1,26 @@
 #include "imu.h"
 
+#if defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
+
+  #if defined(FILTER_NXP_SENSOR_FUSION)
+    Adafruit_NXPSensorFusion filter;
+  #elif defined(FILTER_MADGWICK)
+    Adafruit_Madgwick filter;
+  #elif defined(FILTER_MAHONY)
+    Adafruit_Mahony filter;
+  #endif
+
+  #if defined(ADAFRUIT_SENSOR_CALIBRATION_USE_EEPROM)
+    Adafruit_Sensor_Calibration_EEPROM cal;
+  #else
+    Adafruit_Sensor_Calibration_SDFat cal;
+  #endif
+  
+#endif
+
 bool init_imu(void)
 {
-  #if defined(LSM9DS1_H | NXP_FXOS_FXAS)
+  #if defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
 
     // Retreive callibration data (Success = true, Failure = false)
     if(!cal.begin())
@@ -22,7 +40,7 @@ bool init_imu(void)
   setup_sensors();
 
   // Initialize filter (void)
-  #if defined(LSM9DS1_H | NXP_FXOS_FXAS)
+  #if defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
 
     filter.begin(FILTER_UPDATE_RATE_HZ);
 
@@ -41,9 +59,11 @@ int16_t update_imu(void)
 
     return 0;
 
-  #elif defined(SENSOR_LSM9DS1 | SENSOR_NXP_FXOS_FXAS)
+  #elif defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
 
     static long msec = millis();
+
+    float gx, gy, gz;
 
     if((millis() - msec) > (float(1000) / FILTER_UPDATE_RATE_HZ))
     {
@@ -77,25 +97,25 @@ int16_t update_imu(void)
   #endif
 }
 
-float16_t orientation(uint8_t rotational_axis)
+float orientation(uint8_t rotational_axis)
 {
   #if defined(SENSOR_BNO055)
 
     sensors_event_t event;
     bno.getEvent(&event);
 
-    switch(axis)
+    switch(rotational_axis)
     {
       case ROLL_AXIS:
-        return ((float16_t)event.orientation.x);
+        return ((float)event.orientation.x);
         break;
 
       case PITCH_AXIS:
-        return ((float16_t)event.orientation.y);
+        return ((float)event.orientation.y);
         break;
 
       case YAW_AXIS:
-        return ((float16_t)event.orientation.z);
+        return ((float)event.orientation.z);
         break;
 
       default:
@@ -103,20 +123,20 @@ float16_t orientation(uint8_t rotational_axis)
         break;
     }
 
-  #elif defined(SENSOR_LSM9DS1 | SENSOR_NXP_FXOS_FXAS)
+  #elif defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
 
-    switch(axis)
+    switch(rotational_axis)
     {
       case ROLL_AXIS:
-        return (float16_t)filter.getRoll();
+        return (float)filter.getRoll();
         break;
 
       case PITCH_AXIS:
-        return (float16_t)filter.getPitch();
+        return (float)filter.getPitch();
         break;
 
       case YAW_AXIS:
-        return (float16_t)filter.getYaw();
+        return (float)filter.getYaw();
         break;
 
       default:
@@ -131,28 +151,28 @@ float16_t orientation(uint8_t rotational_axis)
   #endif
 }
 
-float16_t quaternion(uint8_t rotational_axis)
+float quaternion(uint8_t rotational_axis)
 {
   #if defined(SENSOR_BNO055)
 
     imu::Quaternion quat = bno.getQuat();
 
-    switch(axis)
+    switch(rotational_axis)
     {
       case X_AXIS:
-        return (float16_t)quat.x();
+        return (float)quat.x();
         break;
 
       case Y_AXIS:
-        return (float16_t)quat.y();
+        return (float)quat.y();
         break;
 
       case Z_AXIS:
-        return (float16_t)quat.z();
+        return (float)quat.z();
         break;
 
       case W_AXIS:
-        return (float16_t)quat.w();
+        return (float)quat.w();
         break;
 
       default:
@@ -160,27 +180,27 @@ float16_t quaternion(uint8_t rotational_axis)
         break;
     }
 
-  #elif defined(SENSOR_LSM9DS1 | SENSOR_NXP_FXOS_FXAS)
+  #elif defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
 
     float qw, qx, qy, qz;
     filter.getQuaternion(&qw, &qx, &qy, &qz);
 
-    switch(axis)
+    switch(rotational_axis)
     {
       case X_AXIS:
-        return (float16_t)qx;
+        return (float)qx;
         break;
 
       case Y_AXIS:
-        return (float16_t)qy;
+        return (float)qy;
         break;
 
       case Z_AXIS:
-        return (float16_t)qz;
+        return (float)qz;
         break;
 
       case W_AXIS:
-        return (float16_t)qw;
+        return (float)qw;
         break;
 
       default:
@@ -195,25 +215,25 @@ float16_t quaternion(uint8_t rotational_axis)
   #endif
 }
 
-float16_t angularVelocity(uint8_t rotational_axis)
+float angularVelocity(uint8_t rotational_axis)
 {
   #if defined(SENSOR_BNO055)
 
     sensors_event_t angVelocityData;
     bno.getEvent(&angVelocityData, Adafruit_BNO055::VECTOR_GYROSCOPE);
 
-    switch(axis)
+    switch(rotational_axis)
     {
       case ROLL_AXIS:
-        return (float16_t)angVelocityData->gyro.x;
+        return (float)angVelocityData.gyro.x;
         break;
 
       case PITCH_AXIS:
-        return (float16_t)angVelocityData->gyro.y;
+        return (float)angVelocityData.gyro.y;
         break;
 
       case YAW_AXIS:
-        return (float16_t)angVelocityData->gyro.Z;
+        return (float)angVelocityData.gyro.z;
         break;
 
       default:
@@ -221,24 +241,24 @@ float16_t angularVelocity(uint8_t rotational_axis)
         break;
     }
 
-  #elif defined(SENSOR_LSM9DS1 | SENSOR_NXP_FXOS_FXAS)
+  #elif defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
 
     sensors_event_t angVelocityData;
     gyroscope->getEvent(&angVelocityData);
     cal.calibrate(angVelocityData);
 
-    switch (axis)
+    switch(rotational_axis)
     {
       case ROLL_AXIS:
-        return (float16_t)angVelocityData.gyro.x;
+        return (float)angVelocityData.gyro.x;
         break;
 
       case PITCH_AXIS:
-        return (float16_t)angVelocityData.gyro.y;
+        return (float)angVelocityData.gyro.y;
         break;
 
       case YAW_AXIS:
-        return (float16_t)angVelocityData.gyro.z;
+        return (float)angVelocityData.gyro.z;
         break;
 
       default:
@@ -253,25 +273,25 @@ float16_t angularVelocity(uint8_t rotational_axis)
   #endif
 }
 
-float16_t linearAcceleration(uint8_t linear_axis)
+float linearAcceleration(uint8_t linear_axis)
 {
   #if defined(SENSOR_BNO055)
 
     sensors_event_t linearAccelData;
     bno.getEvent(&linearAccelData, Adafruit_BNO055::VECTOR_LINEARACCEL);
 
-    switch(axis)
+    switch(linear_axis)
     {
       case X_AXIS:
-        return (float16_t)linearAccelData->acceleration.x;
+        return (float)linearAccelData.acceleration.x;
         break;
 
       case Y_AXIS:
-        return (float16_t)linearAccelData->acceleration.y;
+        return (float)linearAccelData.acceleration.y;
         break;
 
       case Z_AXIS:
-        return (float16_t)linearAccelData->acceleration.z;
+        return (float)linearAccelData.acceleration.z;
         break;
 
       default:
@@ -279,24 +299,24 @@ float16_t linearAcceleration(uint8_t linear_axis)
         break;
     }
 
-  #elif defined(SENSOR_LSM9DS1 | SENSOR_NXP_FXOS_FXAS)
+  #elif defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
 
     sensors_event_t accel;
     accelerometer->getEvent(&accel);
     cal.calibrate(accel);
 
-    switch(axis)
+    switch(linear_axis)
     {
       case X_AXIS:
-        return (float16_t)accel.acceleration.x;
+        return (float)accel.acceleration.x;
         break;
 
       case Y_AXIS:
-        return (float16_t)accel.acceleration.y;
+        return (float)accel.acceleration.y;
         break;
 
       case Z_AXIS:
-        return (float16_t)accel.acceleration.z;
+        return (float)accel.acceleration.z;
         break;
 
       default:
@@ -311,24 +331,24 @@ float16_t linearAcceleration(uint8_t linear_axis)
   #endif
 }
 
-float16_t magneticField(uint8_t linear_axis)
+float magneticField(uint8_t linear_axis)
 {
   #if defined(SENSOR_BNO055)
 
     imu::Vector<3> mag = bno.getVector(Adafruit_BNO055::VECTOR_MAGNETOMETER);
 
-  switch(axis)
+  switch(linear_axis)
   {
     case X_AXIS:
-      return (float16_t)mag.x();
+      return (float)mag.x();
       break;
 
     case Y_AXIS:
-      return (float16_t)mag.y();
+      return (float)mag.y();
       break;
 
     case Z_AXIS:
-      return (float16_t)mag.z();
+      return (float)mag.z();
       break;
 
     default:
@@ -336,24 +356,24 @@ float16_t magneticField(uint8_t linear_axis)
       break;
   }
 
-  #elif defined(SENSOR_LSM9DS1 | SENSOR_NXP_FXOS_FXAS)
+  #elif defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
 
     sensors_event_t mag;
     magnetometer->getEvent(&mag);
     cal.calibrate(mag);
 
-    switch(axis)
+    switch(linear_axis)
     {
       case X_AXIS:
-        return (float16_t)mag.magnetic.x;
+        return (float)mag.magnetic.x;
         break;
 
       case Y_AXIS:
-        return (float16_t)mag.magnetic.y;
+        return (float)mag.magnetic.y;
         break;
 
       case Z_AXIS:
-        return (float16_t)mag.magnetic.z;
+        return (float)mag.magnetic.z;
         break;
 
       default:
@@ -368,21 +388,21 @@ float16_t magneticField(uint8_t linear_axis)
   #endif
 }
 
-float16_t temperature(uint8_t temperature_scale)
+float temperature(uint8_t temperature_scale)
 {
-  static float16_t boardTemp = 0;
+  static float boardTemp = 0;
 
   #if defined(SENSOR_BNO055)
 
-    boardTemp = (float16_t)bno.getTemp();
+    boardTemp = (float)bno.getTemp();
 
     return 0;
 
   #elif defined(SENSOR_LSM9DS1)
 
-    lsm.readTemp();
+    lsm9ds1.readTemp();
 
-    boardTemp = (float16_t)lsm.temperature;
+    boardTemp = (float)lsm9ds1.temperature;
 
   #elif defined(SENSOR_NXP_FXOS_FXAS)
 
@@ -392,11 +412,11 @@ float16_t temperature(uint8_t temperature_scale)
 
   if(temperature_scale == TEMPERATURE_CELSIUS)
   {
-    return (float16_t)boardTemp;
+    return (float)boardTemp;
   }
   else if(temperature_scale == TEMPERATURE_KELVIN)
   {
-    return (float16_t)boardTemp + 273.5;
+    return (float)boardTemp + 273.5;
   }
   else
   {

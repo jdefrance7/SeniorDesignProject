@@ -18,7 +18,7 @@ int8_t data_type_info(
   canardEncodeScalar(buffer, offset, UINT16, &id);
   offset += UINT16;
 
-  canardEncodeScalar(buffer, offset, UINT8, &kind)
+  canardEncodeScalar(buffer, offset, UINT8, &kind);
   offset += UINT8;
 
   canardEncodeScalar(buffer, offset, UINT8, &flags);

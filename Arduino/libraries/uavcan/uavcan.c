@@ -5,6 +5,10 @@
  */
 bool init_uavcan()
 {
+  node.health   = NODE_HEALTH_OK;
+  node.mode     = NODE_MODE_INITIALIZATION;
+  node.uptime   = 0;
+
   /* Initializing the Libcanard instance (void) */
   canardInit(&g_canard,
              g_canard_memory_pool,
@@ -16,6 +20,7 @@ bool init_uavcan()
   /* Initializing the canard_avr backend driver (Success = 0) */
   if(canardAVRInit(CAN_BITRATE) != 0)
   {
+    node.health = NODE_HEALTH_ERROR;
     return false;
   }
 
@@ -23,8 +28,9 @@ bool init_uavcan()
   canardSetLocalNodeID(&g_canard, node.local_id);
 
   /* Set node filter (Success = 1) */
-  if(canardAVRConfgifureAcceptanceFilters(node.local_id) != 1)
+  if(canardAVRConfigureAcceptanceFilters(node.local_id) != 1)
   {
+    node.health = NODE_HEALTH_ERROR;
     return false;
   }
 
@@ -59,7 +65,13 @@ int16_t uavcan_stats()
  */
 int16_t cleanup_uavcan(uint64_t timestamp_usec)
 {
-  static uint64_t cleanup_usec = cleanup_usec;
+  static uint64_t cleanup_usec = 0;
+
+  if(cleanup_usec == 0)
+  {
+    cleanup_usec = timestamp_usec;
+  }
+
   if((timestamp_usec - cleanup_usec) > CANARD_RECOMMENDED_STALE_TRANSFER_CLEANUP_INTERVAL_USEC)
   {
     canardCleanupStaleTransfers(&g_canard, timestamp_usec);
@@ -187,7 +199,7 @@ bool shouldAcceptTransfer(const CanardInstance* ins,
 
   static bool accept_transfer;
 
-  accept_transfer = false
+  accept_transfer = false;
 
   if(transfer_type == CanardTransferTypeResponse)
   {

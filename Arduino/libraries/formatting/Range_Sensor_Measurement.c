@@ -7,7 +7,7 @@ int8_t range_sensor(
   uint8_t sensor_id,
   uint8_t coarse_orientation[],
   float16_t field_of_view,
-  uint5_t sensor_type,
+  uint8_t sensor_type,
   float16_t range
 )
 {
@@ -35,7 +35,7 @@ int8_t range_sensor(
     canardEncodeScalar(buffer, offset, UINT8, &coarse_orientation[n]);
     offset += UINT8;
   }
-  for(int n = 0; n < COARSE_OREINTATION_MESSAGE_SIZE - sizeof(coarse_orientation); n++)
+  for(int n = 0; n < COARSE_ORIENTATION_MESSAGE_SIZE - sizeof(coarse_orientation); n++)
   {
     canardEncodeScalar(buffer, offset, UINT8, NULL);
     offset += UINT8;

@@ -1,12 +1,21 @@
 #ifndef UAVCAN_H
 #define UAVCAN_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "can_config.h"
+#include "can.h"
 #include <canard.h>
 #include <canard_avr.h>
 #include <formatting.h>
 #include <messaging.h>
+#include <uavcan_node.h>
 
-#include "uavcan_node.h"
+uavcan_node node;
+uavcan_node_hardware_version hardware;
+uavcan_node_software_version software;
 
 //##############################################################################
 // UAVCAN BITRATE //////////////////////////////////////////////////////////////
@@ -96,7 +105,7 @@ uint8_t g_canard_memory_pool[1024];
 //##############################################################################
 
 bool init_uavcan();
-uint16_t uavcan_stats();
+int16_t uavcan_stats();
 int16_t cleanup_uavcan(uint64_t timestamp_usec);
 
 //##############################################################################
@@ -113,5 +122,9 @@ bool shouldAcceptTransfer(const CanardInstance* ins,
 //##############################################################################
 // END OF FILE /////////////////////////////////////////////////////////////////
 //##############################################################################
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // UAVCAN_H

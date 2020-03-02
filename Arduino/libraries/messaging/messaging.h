@@ -1,7 +1,11 @@
 #ifndef MESSAGING_H
 #define MESSAGING_H
 
-#include "canard_avr.h"
+#include <canard_avr.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Reads (and pops) a single message frame from the rx queue
     Stores read message frame in rx_frame
@@ -9,7 +13,7 @@
 */
 int16_t read_message(
   CanardInstance* ins,
-  CanardCANFrame &rx_frame
+  CanardCANFrame* rx_frame
 );
 
 /* Pushes a message frame onto tx queue
@@ -32,7 +36,7 @@ int16_t push_message(
 */
 int16_t send_message(
   CanardInstance* ins,
-  CanardCANFrame &tx_frame
+  CanardCANFrame* tx_frame
 );
 
 /* Send (and pop) all available message frames from tx queue
@@ -40,7 +44,11 @@ int16_t send_message(
 */
 int16_t flush_messages(
   CanardInstance* ins,
-  CanardCANFrame &tx_frame
+  CanardCANFrame* tx_frame
 );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // MESSAGING_H

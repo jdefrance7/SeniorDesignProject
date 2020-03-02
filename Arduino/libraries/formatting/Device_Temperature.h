@@ -15,12 +15,22 @@
 #define ERROR_FLAG_OVERHEATING                    1
 #define ERROR_FLAG_OVERCOOLING                    2
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 int8_t device_temperature(
   uint8_t buffer[],
   uint16_t offset,
   uint16_t device_id,
+  float16_t temperature,
   uint8_t error_flags
 );
+
+#ifdef __cplusplus
+}
+#endif
 
 /* device.Temperature DSDL
 

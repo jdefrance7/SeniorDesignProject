@@ -19,6 +19,10 @@
 #define DEBUG_SOURCE_SIZE   31
 #define DEBUG_TEXT_SIZE     90
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t debug_log_message(
   uint8_t buffer[],
   uint16_t offset,
@@ -26,6 +30,10 @@ int8_t debug_log_message(
   uint8_t source[],
   uint8_t text[]
 );
+
+#ifdef __cplusplus
+}
+#endif
 
 /* LogMessage DSDL
 

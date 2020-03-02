@@ -1,4 +1,4 @@
-#include "Magnetic_Field_Strenth.h"
+#include "Magnetic_Field_Strength.h"
 
 int8_t magnetic_field_strength(
   uint8_t buffer[],
@@ -17,7 +17,7 @@ int8_t magnetic_field_strength(
   canardEncodeScalar(buffer, offset, UINT8,   &sensor_id);
   offset += UINT8;
 
-  canardEncodeScalar(buffer, offset, FLAOT16, &magnetic_field_x);
+  canardEncodeScalar(buffer, offset, FLOAT16, &magnetic_field_x);
   offset += FLOAT16;
 
   canardEncodeScalar(buffer, offset, FLOAT16, &magnetic_field_y);

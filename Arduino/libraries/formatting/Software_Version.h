@@ -11,6 +11,10 @@
 #define SOFTWARE_VERSION_DATA_TYPE_SIGNATURE      0xdd46fd376527fea1
 #define SOFTWARE_VERSION_DATA_TYPE_ID             DATA_TYPE_NA
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t software_version(
   uint8_t buffer[],
   uint16_t offset,
@@ -20,6 +24,10 @@ int8_t software_version(
   uint32_t vcs_commit,
   uint64_t image_crc
 );
+
+#ifdef __cplusplus
+}
+#endif
 
 /* SoftwareVersion DSDL
 

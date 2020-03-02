@@ -11,13 +11,22 @@
 #define MAGNETIC_FIELD_STRENGTH_DATA_TYPE_SIGNATURE    0xb6ac0c442430297e
 #define MAGNETIC_FIELD_STRENGTH_DATA_TYPE_ID           1002
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t magnetic_field_strength(
   uint8_t buffer[],
+  uint16_t offset,
   uint8_t sensor_id,
   float16_t magnetic_field_x,
   float16_t magnetic_field_y,
   float16_t magnetic_field_z
 );
+
+#ifdef __cplusplus
+}
+#endif
 
 /* MagneticFieldStrength2 DSDL
 

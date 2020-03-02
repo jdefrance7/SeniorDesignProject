@@ -68,7 +68,7 @@ int8_t ahrs_solution(
   offset += FLOAT16;
 
   canardEncodeScalar(buffer, offset, VOID4, NULL);
-  offest += 4;
+  offset += 4;
 
   for(int n = 0; n < 9; n++)
   {

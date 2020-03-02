@@ -1,22 +1,19 @@
 #ifndef BNO055_H
 #define BNO055_H
 
+#if defined(SENSOR_BNO055)
+
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
 
-Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28);
+extern Adafruit_BNO055 bno;
 
-bool init_sensors(void) {
-  if(!bno.begin()) {
-    return false;
-  }
-  bno.setExtCrystalUse(true);
+bool init_sensors(void);
 
-  return true;
-}
+void setup_sensors(void);
 
-void setup_sensors(void) {}
+#endif
 
 #endif // BNO055_H

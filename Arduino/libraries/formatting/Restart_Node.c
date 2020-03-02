@@ -10,8 +10,8 @@ int8_t restart_node(
   {
     return -1;
   }
-  
-  canardEncodeScalar(buffer, offset, BOOK, &ok);
+
+  canardEncodeScalar(buffer, offset, BOOL, &ok);
   offset += BOOL;
 
   return 0;

@@ -14,6 +14,10 @@
 #define AHRS_SOLUTION_DATA_TYPE_SIGNATURE    0x72a63a3c6f41fa9b
 #define AHRS_SOLUTION_DATA_TYPE_ID           1000
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t ahrs_solution(
   uint8_t buffer[],
   uint16_t offset,
@@ -29,6 +33,10 @@ int8_t ahrs_solution(
   float16_t linear_acceleration_y,
   float16_t linear_acceleration_z
 );
+
+#ifdef __cplusplus
+}
+#endif
 
 /* ahrs.Solution DSDL
 

@@ -14,11 +14,19 @@
 
 #define MAGIC_NUMBER          0xACCE551B1E
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t restart_node(
   uint8_t buffer[],
   uint16_t offset,
   bool ok
 );
+
+#ifdef __cplusplus
+}
+#endif
 
 /* RestartNode DSDL
 

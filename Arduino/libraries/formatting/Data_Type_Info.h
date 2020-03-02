@@ -22,15 +22,23 @@
 #define DATA_TYPE_FLAG_PUBLISHING             4
 #define DATA_TYPE_FLAG_SERVING                8
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t data_type_info(
   uint8_t buffer[],
   uint16_t offset,
   uint64_t signature,
   uint16_t id,
-  // DataTypeKind
+  uint8_t kind,
   uint8_t flags,
   uint8_t name[]
 );
+
+#ifdef __cplusplus
+}
+#endif
 
 /* GetDataTypeInfo DSDL
 

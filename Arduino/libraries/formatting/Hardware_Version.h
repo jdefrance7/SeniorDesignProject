@@ -14,6 +14,10 @@
 #define HARDWARE_VERSION_UNIQUE_ID_SIZE                     16
 #define HARDWARE_VERSION_CERTIFICATE_OF_AUTHENTICITY_SIZE   255
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t hardware_version(
   uint8_t buffer[],
   uint16_t offset,
@@ -22,6 +26,11 @@ int8_t hardware_version(
   uint8_t unique_id[],
   uint8_t certificate_of_authenticity[]
 );
+
+#ifdef __cplusplus
+}
+#endif
+
 
 /* HardwareVersion DSDL
 

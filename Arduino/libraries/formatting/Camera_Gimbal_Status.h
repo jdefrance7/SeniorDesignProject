@@ -18,6 +18,10 @@
 
 #define CAMERA_ORIENTATION_SIZE               4
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t camera_gimbal_status(
   uint8_t buffer[],
   uint16_t offset,
@@ -28,6 +32,11 @@ int8_t camera_gimbal_status(
   float16_t camera_orientation_z,
   float16_t camera_orientation_w
 );
+
+#ifdef __cplusplus
+}
+#endif
+
 
 /* camera_gimbal.Status DSDL
 
