@@ -1,9 +1,3 @@
-[submodule "libcanard"]
-	path = libcanard
-	url = https://github.com/UAVCAN/libcanard
-[submodule "Arduino/Wing_Segment/src/libcanard"]
-	path = Arduino/Wing_Segment/src/libcanard
-	url = https://github.com/UAVCAN/libcanard
-[submodule "Arduino/Wing_Segment/src/avr-can-lib"]
-	path = Arduino/Wing_Segment/src/avr-can-lib
-	url = https://github.com/rennerm/avr-can-lib/
+[submodule "References/CAN485"]
+	path = References/CAN485
+	url = https://github.com/Atlantis-Specialist-Technologies/CAN485/
