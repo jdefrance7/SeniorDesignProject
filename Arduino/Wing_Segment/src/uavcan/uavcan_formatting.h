@@ -37,6 +37,7 @@
 
 #define CAMERA_ORIENTATION_SIZE               4
 
+//------------------------------------------------------------------------------
 
 #define COARSE_ORIENTATION_MESSAGE_SIZE             (16 / 8)
 #define COARSE_ORIENTATION_DATA_TYPE_SIGNATURE      0x271ba10b0dac9e52
@@ -44,6 +45,7 @@
 
 #define COARSE_ORIENTATION_ANGLE_MULTIPLIER         4.7746482927568605
 
+//------------------------------------------------------------------------------
 
 #define DATA_TYPE_INFO_REQUEST_SIZE           (671 / 8)
 #define DATA_TYPE_INFO_MESSAGE_SIZE           (743 / 8)
@@ -60,6 +62,7 @@
 #define DATA_TYPE_FLAG_PUBLISHING             4
 #define DATA_TYPE_FLAG_SERVING                8
 
+//------------------------------------------------------------------------------
 
 #define DEBUG_KEY_VALUE_MESSAGE_SIZE            (502 / 8)
 #define DEBUG_KEY_VALUE_DATA_TYPE_SIGNATURE     0xe02f25d6e0c98ae0
@@ -67,6 +70,7 @@
 
 #define DEBUG_KEY_MAX_SIZE  58
 
+//------------------------------------------------------------------------------
 
 #define DEBUG_LOG_MESSAGE_MESSAGE_SIZE          (983 / 8)
 #define DEBUG_LOG_MESSAGE_DATA_TYPE_SIGNATURE   0xd654a48e0c049d75
@@ -80,6 +84,7 @@
 #define DEBUG_SOURCE_SIZE   31
 #define DEBUG_TEXT_SIZE     90
 
+//------------------------------------------------------------------------------
 
 #define DEVICE_TEMPERATURE_MESSAGE_SIZE           (40 / 8)
 #define DEVICE_TEMPERATURE_DATA_TYPE_SIGNATURE    0x70261c28a94144c6
@@ -89,6 +94,7 @@
 #define ERROR_FLAG_OVERHEATING                    1
 #define ERROR_FLAG_OVERCOOLING                    2
 
+//------------------------------------------------------------------------------
 
 #define HARDWARE_VERSION_MESSAGE_SIZE             (2192 / 8)
 #define HARDWARE_VERSION_DATA_TYPE_SIGNATURE      0x0ad5c4c933f4a0c4
@@ -97,17 +103,20 @@
 #define HARDWARE_VERSION_UNIQUE_ID_SIZE                     16
 #define HARDWARE_VERSION_CERTIFICATE_OF_AUTHENTICITY_SIZE   255
 
+//------------------------------------------------------------------------------
 
 #define MAGNETIC_FIELD_STRENGTH_MESSAGE_SIZE           (204 / 8)
 #define MAGNETIC_FIELD_STRENGTH_DATA_TYPE_SIGNATURE    0xb6ac0c442430297e
 #define MAGNETIC_FIELD_STRENGTH_DATA_TYPE_ID           1002
 
+//------------------------------------------------------------------------------
 
 #define NODE_INFO_REQUEST_SIZE            0
 #define NODE_INFO_MESSAGE_SIZE            (3015 / 8)
 #define NODE_INFO_DATA_TYPE_SIGNATURE     0xee468a8121c46a9e
 #define NODE_INFO_DATA_TYPE_ID            1
 
+//------------------------------------------------------------------------------
 
 #define NODE_STATUS_MESSAGE_SIZE          (56 / 8)
 #define NODE_STATUS_DATA_TYPE_SIGNATURE   0x0f0868d0c1a7c6f1
@@ -129,6 +138,7 @@
 
 #define OFFLINE_TIMEOUT_MS                3000
 
+//------------------------------------------------------------------------------
 
 #define RANGE_SENSOR_MEASUREMENT_MESSAGE_SIZE           (120 / 8)
 #define RANGE_SENSOR_MEASUREMENT_DATA_TYPE_SIGNATURE    0x68fffe70fc771952
@@ -144,6 +154,7 @@
 #define READING_TYPE_TOO_CLOSE      2
 #define READING_TYPE_TOO_FAR        3
 
+//------------------------------------------------------------------------------
 
 #define NODE_TIMESTAMP_MESSAGE_SIZE           (56 / 8)
 #define NODE_TIMESTAMP_DATA_TYPE_SIGNATURE    0x05bd0b5c81087e0d
@@ -151,6 +162,7 @@
 
 #define TIMESTAMP_UNKNOWN    0
 
+//------------------------------------------------------------------------------
 
 #define RESTART_NODE_REQUEST_SIZE           (40 / 8)
 #define RESTART_NODE_MESSAGE_SIZE           1
@@ -159,6 +171,7 @@
 
 #define MAGIC_NUMBER          0xACCE551B1E
 
+//------------------------------------------------------------------------------
 
 #define SOFTWARE_VERSION_MESSAGE_SIZE             (120 / 8)
 #define SOFTWARE_VERSION_DATA_TYPE_SIGNATURE      0xdd46fd376527fea1
@@ -480,5 +493,9 @@ int8_t software_version(
 #ifdef __cplusplus
 }
 #endif
+
+//##############################################################################
+// END OF FILE /////////////////////////////////////////////////////////////////
+//##############################################################################
 
 #endif // UAVCAN_FORMATTING_H

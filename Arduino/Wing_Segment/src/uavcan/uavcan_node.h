@@ -34,7 +34,6 @@ typedef struct
   uint64_t image_crc;
 } uavcan_node_software_version;
 
-
 #ifdef __cplusplus
 }
 #endif

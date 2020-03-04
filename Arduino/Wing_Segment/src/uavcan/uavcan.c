@@ -87,6 +87,9 @@ void onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer)
 {
   if(transfer->transfer_type == CanardTransferTypeResponse)
   {
+    // Add response handlers here
+
+    // Handle: Node Info
     if(transfer->data_type_id == NODE_INFO_DATA_TYPE_ID)
     {
       uint16_t offset;
@@ -160,11 +163,11 @@ void onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer)
   }
   else if(transfer->transfer_type == CanardTransferTypeRequest)
   {
-    //
+    // Add request handlers here
   }
   else if(transfer->transfer_type == CanardTransferTypeBroadcast)
   {
-    //
+    // Add braodcast handlers here
   }
 }
 
@@ -189,45 +192,29 @@ bool shouldAcceptTransfer(const CanardInstance* ins,
 
   if(transfer_type == CanardTransferTypeResponse)
   {
-    #if defined(ACCEPTING_RESPONSES)
-    {
-
-    }
-    #endif
+    // Add response callbacks here
   }
   else if(transfer_type == CanardTransferTypeRequest)
   {
-    #if defined(ACCEPTING_REQUESTS)
-    {
-      #if defined(ACCEPT_REQUEST_NODE_INFO)
-      {
-        if(data_type_id == NODE_INFO_DATA_TYPE_ID)
-        {
-          *out_data_type_signature = NODE_INFO_DATA_TYPE_SIGNATURE;
-          accept_transfer = true;
-        }
-      }
-      #endif
+    // Add request callbacks here
 
-      #if defined(ACCEPT_REQUEST_DATA_TYPE_INFO)
-      {
-        if(data_type_id == DATA_TYPE_INFO_DATA_TYPE_ID)
-        {
-          *out_data_type_signature = DATA_TYPE_INFO_DATA_TYPE_SIGNATURE;
-          accept_transfer = true;
-        }
-      }
-      #endif
+    // Handle: Node Info
+    if(data_type_id == NODE_INFO_DATA_TYPE_ID)
+    {
+      *out_data_type_signature = NODE_INFO_DATA_TYPE_SIGNATURE;
+      accept_transfer = true;
     }
-    #endif
+
+    // Handle: Data Type Info
+    if(data_type_id == DATA_TYPE_INFO_DATA_TYPE_ID)
+    {
+      *out_data_type_signature = DATA_TYPE_INFO_DATA_TYPE_SIGNATURE;
+      accept_transfer = true;
+    }
   }
   else if(transfer_type == CanardTransferTypeBroadcast)
   {
-    #if defined(ACCEPTING_BROADCASTS)
-    {
-
-    }
-    #endif
+    // Add broadcast callbacks here
   }
 
   return accept_transfer;

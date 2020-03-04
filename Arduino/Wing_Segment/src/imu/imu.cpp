@@ -1,25 +1,5 @@
 #include "imu.h"
 
-#if defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
-
-  #if defined(FILTER_NXP_SENSOR_FUSION)
-    Adafruit_NXPSensorFusion filter;
-  #elif defined(FILTER_MADGWICK)
-    Adafruit_Madgwick filter;
-  #elif defined(FILTER_MAHONY)
-    Adafruit_Mahony filter;
-  #else
-    #error Filter not selected
-  #endif
-
-  #if defined(ADAFRUIT_SENSOR_CALIBRATION_USE_EEPROM)
-    Adafruit_Sensor_Calibration_EEPROM cal;
-  #else
-    Adafruit_Sensor_Calibration_SDFat cal;
-  #endif
-
-#endif
-
 bool init_imu(void)
 {
   #if defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
@@ -220,29 +200,11 @@ float quaternion(uint8_t rotational_axis)
 
 float angularVelocity(uint8_t rotational_axis)
 {
+  sensors_event_t angVelocityData;
+
   #if defined(SENSOR_BNO055)
 
-    sensors_event_t angVelocityData;
     bno.getEvent(&angVelocityData, Adafruit_BNO055::VECTOR_GYROSCOPE);
-
-    switch(rotational_axis)
-    {
-      case ROLL_AXIS:
-        return (float)angVelocityData.gyro.x;
-        break;
-
-      case PITCH_AXIS:
-        return (float)angVelocityData.gyro.y;
-        break;
-
-      case YAW_AXIS:
-        return (float)angVelocityData.gyro.z;
-        break;
-
-      default:
-        return 0;
-        break;
-    }
 
   #elif defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
 
@@ -250,88 +212,61 @@ float angularVelocity(uint8_t rotational_axis)
     gyroscope->getEvent(&angVelocityData);
     cal.calibrate(angVelocityData);
 
-    switch(rotational_axis)
-    {
-      case ROLL_AXIS:
-        return (float)angVelocityData.gyro.x;
-        break;
-
-      case PITCH_AXIS:
-        return (float)angVelocityData.gyro.y;
-        break;
-
-      case YAW_AXIS:
-        return (float)angVelocityData.gyro.z;
-        break;
-
-      default:
-        return 0;
-        break;
-    }
-
-  #else
-
-    return 0;
-
   #endif
+
+  switch(rotational_axis)
+  {
+    case ROLL_AXIS:
+      return (float)angVelocityData.gyro.x;
+      break;
+
+    case PITCH_AXIS:
+      return (float)angVelocityData.gyro.y;
+      break;
+
+    case YAW_AXIS:
+      return (float)angVelocityData.gyro.z;
+      break;
+
+    default:
+      return 0;
+      break;
+  }
 }
 
 float linearAcceleration(uint8_t linear_axis)
 {
+  sensors_event_t linearAccelData;
+
   #if defined(SENSOR_BNO055)
 
-    sensors_event_t linearAccelData;
     bno.getEvent(&linearAccelData, Adafruit_BNO055::VECTOR_LINEARACCEL);
-
-    switch(linear_axis)
-    {
-      case X_AXIS:
-        return (float)linearAccelData.acceleration.x;
-        break;
-
-      case Y_AXIS:
-        return (float)linearAccelData.acceleration.y;
-        break;
-
-      case Z_AXIS:
-        return (float)linearAccelData.acceleration.z;
-        break;
-
-      default:
-        return 0;
-        break;
-    }
 
   #elif defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
 
-    sensors_event_t accel;
-    accelerometer->getEvent(&accel);
-    cal.calibrate(accel);
-
-    switch(linear_axis)
-    {
-      case X_AXIS:
-        return (float)accel.acceleration.x;
-        break;
-
-      case Y_AXIS:
-        return (float)accel.acceleration.y;
-        break;
-
-      case Z_AXIS:
-        return (float)accel.acceleration.z;
-        break;
-
-      default:
-        return 0;
-        break;
-    }
-
-  #else
-
-    return 0;
+    accelerometer->getEvent(&linearAccelData);
+    cal.calibrate(linearAccelData);
 
   #endif
+
+  switch(linear_axis)
+  {
+    case X_AXIS:
+      return (float)linearAccelData.acceleration.x;
+      break;
+
+    case Y_AXIS:
+      return (float)linearAccelData.acceleration.y;
+      break;
+
+    case Z_AXIS:
+      return (float)linearAccelData.acceleration.z;
+      break;
+
+    default:
+      return 0;
+      break;
+  }
 }
 
 float magneticField(uint8_t linear_axis)

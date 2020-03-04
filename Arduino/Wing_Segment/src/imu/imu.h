@@ -1,19 +1,11 @@
 #ifndef IMU_H
 #define IMU_H
 
-// #include <stdint.h>
-
 //##############################################################################
 // IMU CONFIG //////////////////////////////////////////////////////////////////
 //##############################################################################
 
-#ifndef IMU_CONFIG
-#define IMU_CONFIG
-
-//------------------------------------------------------------------------------
-
 /* Select Sensor */
-
 #define SENSOR_BNO055
 // #define SENSOR_LSM9DS1
 // #define SENSOR_NXP_FXOS_FXAS
@@ -21,7 +13,6 @@
 //------------------------------------------------------------------------------
 
 /* Select Filter (only for LSM9DS1 & NXP_FXOS_FXAS) */
-
 // #define FILTER_NXP_SENSOR_FUSION
 // #define FILTER_MADGWICK
 // #define FILTER_MAHONY
@@ -29,35 +20,36 @@
 //------------------------------------------------------------------------------
 
 /* Define Filter Update Rate (only for LSM9DS1 & NXP_FXOS_FXAS) */
-
 // #define FILTER_UPDATE_RATE_HZ 100
 
-//------------------------------------------------------------------------------
-
-#endif // IMU_CONFIG
-
 //##############################################################################
-// CONSTANTS ///////////////////////////////////////////////////////////////////
+// IMU CONSTANTS ///////////////////////////////////////////////////////////////
 //##############################################################################
 
-// Linear Axis Designators
+/* Linear Axis Designators */
 #define X_AXIS      1
 #define Y_AXIS      2
 #define Z_AXIS      3
 #define W_AXIS      4
 
-// Rotational Axis Designators
+//------------------------------------------------------------------------------
+
+/* Rotational Axis Designators */
 #define ROLL_AXIS   1
 #define PITCH_AXIS  2
 #define YAW_AXIS    3
 
-// Temperature Scales
+//------------------------------------------------------------------------------
+
+/* Temperature Scales */
 #define TEMPERATURE_CELSIUS   1
 #define TEMPERATURE_KELVIN    2
 
 //##############################################################################
-// SENSOR HEADERS //////////////////////////////////////////////////////////////
+// IMU SENSOR HEADERS //////////////////////////////////////////////////////////
 //##############################################################################
+
+/* Adafruit BNO055 */
 
 #if defined(SENSOR_BNO055)
 
@@ -68,8 +60,9 @@
 
 extern Adafruit_BNO055 bno;
 
-bool init_sensors(void);
-void setup_sensors(void);
+//------------------------------------------------------------------------------
+
+/* Adafruit LSM9DS1 */
 
 #elif defined(SENSOR_LSM9DS1)
 
@@ -83,9 +76,9 @@ extern Adafruit_Sensor *accelerometer;
 extern Adafruit_Sensor *gyroscope;
 extern Adafruit_Sensor *magnetometer;
 
-bool init_sensors(void);
-void setup_sensors(void);
+//------------------------------------------------------------------------------
 
+/* Adafruit NXP_FXOS_FXAS */
 
 #elif defined(SENSOR_NXP_FXOS_FXAS)
 
@@ -102,24 +95,27 @@ extern Adafruit_Sensor *accelerometer;
 extern Adafruit_Sensor *gyroscope;
 extern Adafruit_Sensor *magnetometer;
 
-bool init_sensors(void);
+//------------------------------------------------------------------------------
 
+/* SENSOR_NONE */
+
+#endif
+
+//##############################################################################
+// IMU USER FUNCTIONS //////////////////////////////////////////////////////////
+//##############################################################################
+
+// Initialization Functions
+bool init_sensors(void);
 void setup_sensors(void);
 
-
-#else
-
-#error Must select a sensor
-
-#endif // SENSOR
-
-//##############################################################################
-// USER FUNCTIONS //////////////////////////////////////////////////////////////
-//##############################################################################
+//------------------------------------------------------------------------------
 
 // Hardware Support Functions
 bool init_imu(void);
 int16_t update_imu(void);
+
+//------------------------------------------------------------------------------
 
 // Data Aquisition
 float orientation(uint8_t rotational_axis);
@@ -154,8 +150,7 @@ float temperature(uint8_t temperature_scale);
 #endif
 
 //##############################################################################
-// END /////////////////////////////////////////////////////////////////////////
+// END OF FILE /////////////////////////////////////////////////////////////////
 //##############################################################################
-
 
 #endif // IMU_H
