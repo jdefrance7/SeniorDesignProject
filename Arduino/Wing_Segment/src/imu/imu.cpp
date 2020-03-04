@@ -8,6 +8,8 @@
     Adafruit_Madgwick filter;
   #elif defined(FILTER_MAHONY)
     Adafruit_Mahony filter;
+  #else
+    #error Filter not selected
   #endif
 
   #if defined(ADAFRUIT_SENSOR_CALIBRATION_USE_EEPROM)
@@ -15,7 +17,7 @@
   #else
     Adafruit_Sensor_Calibration_SDFat cal;
   #endif
-  
+
 #endif
 
 bool init_imu(void)
@@ -65,7 +67,8 @@ int16_t update_imu(void)
 
     float gx, gy, gz;
 
-    if((millis() - msec) > (float(1000) / FILTER_UPDATE_RATE_HZ))
+    // Check for update condition
+    if((millis() - msec) > (1000.0 / FILTER_UPDATE_RATE_HZ))
     {
       static sensors_event_t accel, gyro, mag;
 

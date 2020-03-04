@@ -1,11 +1,16 @@
 #ifndef IMU_H
 #define IMU_H
 
-#include <stdint.h>
+// #include <stdint.h>
 
 //##############################################################################
-// IMU CONFIGS /////////////////////////////////////////////////////////////////
+// IMU CONFIG //////////////////////////////////////////////////////////////////
 //##############################################################################
+
+#ifndef IMU_CONFIG
+#define IMU_CONFIG
+
+//------------------------------------------------------------------------------
 
 /* Select Sensor */
 
@@ -13,15 +18,23 @@
 // #define SENSOR_LSM9DS1
 // #define SENSOR_NXP_FXOS_FXAS
 
-/* Select Filter from below (only for LSM9DS1 & NXP_FXOS_FXAS) */
+//------------------------------------------------------------------------------
+
+/* Select Filter (only for LSM9DS1 & NXP_FXOS_FXAS) */
 
 // #define FILTER_NXP_SENSOR_FUSION
 // #define FILTER_MADGWICK
 // #define FILTER_MAHONY
 
-/* Select Filter Update Rate (only for LSM9DS1 & NXP_FXOS_FXAS) */
+//------------------------------------------------------------------------------
 
-#define FILTER_UPDATE_RATE_HZ 100
+/* Define Filter Update Rate (only for LSM9DS1 & NXP_FXOS_FXAS) */
+
+// #define FILTER_UPDATE_RATE_HZ 100
+
+//------------------------------------------------------------------------------
+
+#endif // IMU_CONFIG
 
 //##############################################################################
 // CONSTANTS ///////////////////////////////////////////////////////////////////
@@ -43,12 +56,62 @@
 #define TEMPERATURE_KELVIN    2
 
 //##############################################################################
-// SENSOR OBJECTS //////////////////////////////////////////////////////////////
+// SENSOR HEADERS //////////////////////////////////////////////////////////////
 //##############################################################################
 
-#include "BNO055.h"
-#include "LSM9DS1.h"
-#include "NXP_FXOS_FXAS.h"
+#if defined(SENSOR_BNO055)
+
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BNO055.h>
+#include <utility/imumaths.h>
+
+extern Adafruit_BNO055 bno;
+
+bool init_sensors(void);
+void setup_sensors(void);
+
+#elif defined(SENSOR_LSM9DS1)
+
+#include <Adafruit_LSM9DS1.h>
+#include <Adafruit_Sensor_Calibration.h>
+#include <Adafruit_AHRS.h>
+
+extern Adafruit_LSM9DS1 lsm9ds1;
+
+extern Adafruit_Sensor *accelerometer;
+extern Adafruit_Sensor *gyroscope;
+extern Adafruit_Sensor *magnetometer;
+
+bool init_sensors(void);
+void setup_sensors(void);
+
+
+#elif defined(SENSOR_NXP_FXOS_FXAS)
+
+#include <Adafruit_FXAS21002C.h>
+#include <Adafruit_FXOS8700.h>
+
+#include <Adafruit_Sensor_Calibration.h>
+#include <Adafruit_AHRS.h>
+
+extern Adafruit_FXOS8700 fxos;
+extern Adafruit_FXAS21002C fxas;
+
+extern Adafruit_Sensor *accelerometer;
+extern Adafruit_Sensor *gyroscope;
+extern Adafruit_Sensor *magnetometer;
+
+bool init_sensors(void);
+
+void setup_sensors(void);
+
+
+#else
+
+#error Must select a sensor
+
+#endif // SENSOR
 
 //##############################################################################
 // USER FUNCTIONS //////////////////////////////////////////////////////////////
@@ -66,6 +129,10 @@ float linearAcceleration(uint8_t linear_axis);
 float magneticField(uint8_t linear_axis);
 float temperature(uint8_t temperature_scale);
 
+//##############################################################################
+// FILTER & CALIBRATION OBJECTS ////////////////////////////////////////////////
+//##############################################################################
+
 #if defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
 
   #if defined(FILTER_NXP_SENSOR_FUSION)
@@ -74,6 +141,8 @@ float temperature(uint8_t temperature_scale);
     extern Adafruit_Madgwick filter;
   #elif defined(FILTER_MAHONY)
     extern Adafruit_Mahony filter;
+  #else
+    #error Must select a filter
   #endif
 
   #if defined(ADAFRUIT_SENSOR_CALIBRATION_USE_EEPROM)
@@ -81,11 +150,12 @@ float temperature(uint8_t temperature_scale);
   #else
     extern Adafruit_Sensor_Calibration_SDFat cal;
   #endif
-  
+
 #endif
 
 //##############################################################################
 // END /////////////////////////////////////////////////////////////////////////
 //##############################################################################
+
 
 #endif // IMU_H

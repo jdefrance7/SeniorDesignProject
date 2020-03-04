@@ -4,23 +4,26 @@
 // APPLICATION FUNCTIONS ///////////////////////////////////////////////////////
 //##############################################################################
 
-void update_uptime() {node.uptime = millis();}
+void update_uptime()
+{
+  node.uptime = millis();
+}
 
 void restart()
 {
-  node.local_id = 1;
-  node.name = &node_name;
+  node.local_id = LOCAL_NODE_ID;
+  memcpy(node.name, LOCAL_NODE_NAME, sizeof(LOCAL_NODE_NAME));
 
-  hardware.major        = 1;
-  hardware.minor        = 0;
-  hardware.unique_id    = &node_unique_id[0];
-  hardware.certificate  = &node_certificate;
+  hardware.major        = HARDWARE_VERSION_MAJOR;
+  hardware.minor        = HARDWARE_VERSION_MINOR;
+  hardware.unique_id    = NODE_UNIQUE_ID;
+  memcpy(hardware.certificate, NODE_CERTIFICATE, sizeof(NODE_CERTIFICATE));
 
-  software.major        = 1;
-  software.minor        = 0;
-  software.field_flags  = 0;
-  software.vcs_commit   = 0;
-  software.image_crc    = 0;
+  software.major        = SOFTWARE_VERSION_MAJOR;
+  software.minor        = SOFTWARE_VERSION_MINOR;
+  software.field_flags  = SOFTWARE_VERSION_FIELD_FLAGS;
+  software.vcs_commit   = SOFTWARE_VERSION_VCS_COMMIT;
+  software.image_crc    = SOFTWARE_VERSION_IMAGE_CRC;
 
   node.mode = NODE_MODE_INITIALIZATION;
 
@@ -41,14 +44,6 @@ void restart()
   }
 
   node.health = NODE_HEALTH_OK;
-
-//  while(!init_serial())
-//  {
-//    update_uptime();
-//    node.health = NODE_HEALTH_ERROR;
-//  }
-//
-//  node.health = NODE_HEALTH_OK;
 
   // Update node's uptime
   update_uptime();
@@ -80,7 +75,6 @@ int16_t queue_node_status(uint64_t timestamp_msec)
     );
 
     re_val = push_message(
-      &g_canard,
       NODE_STATUS_DATA_TYPE_SIGNATURE,
       NODE_STATUS_DATA_TYPE_ID,
       &transfer_id,
@@ -128,7 +122,6 @@ int16_t queue_camera_gimbal_status(uint64_t timestamp_msec)
     );
 
     re_val = push_message(
-      &g_canard,
       CAMERA_GIMBAL_STATUS_DATA_TYPE_SIGNATURE,
       CAMERA_GIMBAL_STATUS_DATA_TYPE_ID,
       &transfer_id,
@@ -141,36 +134,6 @@ int16_t queue_camera_gimbal_status(uint64_t timestamp_msec)
   }
   return re_val;
 }
-
-//##############################################################################
-// DEBUG FUNCTIONS /////////////////////////////////////////////////////////////
-//##############################################################################
-
-//#if defined(SERIAL_DEBUG)
-//
-//bool init_serial()
-//{
-//  Serial.begin(SERIAL_BAUDRATE);
-//
-//  long timeout = millis();
-//  while((millis() - timeout) < SERIAL_TIMEOUT)
-//  {
-//    if(Serial){return true;}
-//  }
-//  return false;
-//}
-//
-//void print_uptime()
-//{
-//  if(Serial)
-//  {
-//    Serial.print("Uptime: ");
-//    Serial.print(node.uptime);
-//    Serial.println(" ms");
-//  }
-//}
-//
-//#endif
 
 //##############################################################################
 // END OF FILE /////////////////////////////////////////////////////////////////

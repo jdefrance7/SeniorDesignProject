@@ -11,9 +11,6 @@ void loop()
   // Return value used to check function errors
   static int16_t re_val;
 
-  // CAN frame used to debug flush message error
-  static CanardCANFrame frame;
-
   // Update IMU - recallibrates filters
   re_val = update_imu();
   if(re_val < 0)
@@ -45,7 +42,7 @@ void loop()
   update_uptime();
 
   // Flush Messages - transmits all CAN frames from tx queue of g_canard
-  re_val = flush_messages(&g_canard, &frame);
+  re_val = flush_messages();
   if(re_val < 0)
   {
     // DEBUG: print frame details

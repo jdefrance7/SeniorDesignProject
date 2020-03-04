@@ -1,8 +1,5 @@
-#ifndef DSDL_H
-#define DSDL_H
-
-typedef float float16_t;
-typedef float float32_t;
+#ifndef UAVCAN_CONSTANTS_H
+#define UAVCAN_CONSTANTS_H
 
 //##############################################################################
 // Description /////////////////////////////////////////////////////////////////
@@ -10,6 +7,13 @@ typedef float float32_t;
 
 // List of DSDL variable types and their bit lengths.
 // Also includes some library constants for reference.
+
+//##############################################################################
+// Type Definitions ////////////////////////////////////////////////////////////
+//##############################################################################
+
+typedef float float16_t;
+typedef float float32_t;
 
 //##############################################################################
 // Library References //////////////////////////////////////////////////////////
@@ -89,6 +93,7 @@ typedef float float32_t;
 #define INT61      61
 #define INT62      62
 #define INT63      63
+#define INT64      64
 
 //##############################################################################
 // Unsigned Integers ///////////////////////////////////////////////////////////
@@ -232,5 +237,6 @@ typedef float float32_t;
 #define VOID61     61
 #define VOID62     62
 #define VOID63     63
+#define VOID64     64
 
-#endif // DSDL_H
+#endif // UAVCAN_CONSTANTS_H

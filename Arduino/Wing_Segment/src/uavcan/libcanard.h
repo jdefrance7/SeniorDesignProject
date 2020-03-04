@@ -1,24 +1,33 @@
-#ifndef WING_SEGMENT_H
-#define WING_SEGMENT_H
+#ifndef LIBCANARD_H
+#define LIBCANARD_H
+
+#ifndef HAS_CAN_CONFIG_H
+#define HAS_CAN_CONFIG_H
+#endif
 
 //##############################################################################
 // INCLUDES ////////////////////////////////////////////////////////////////////
 //##############################################################################
 
-#include "src/imu/imu.h"
-#include "src/uavcan/uavcan.h"
+// Implementation of UAVCAN protocol in C
+#include <canard.h>
+
+// CAN driver for the AT90CAN128
+#include <can.h>
+
+// Interface between Libcanard and the AT90CAN128 driver
+#include <canard_avr.h>
 
 //##############################################################################
-// APPLICATION FUNCTIONS ///////////////////////////////////////////////////////
+// LIBCANARD OBJECTS ///////////////////////////////////////////////////////////
 //##############################################################################
 
-void restart();
-void update_uptime();
-int16_t queue_node_status(uint64_t timestamp_msec);
-int16_t queue_camera_gimbal_status(uint64_t timestamp_msec);
+// Library instance
+CanardInstance g_canard;
+uint8_t g_canard_memory_pool[1024];
 
 //##############################################################################
 // END OF FILE /////////////////////////////////////////////////////////////////
 //##############################################################################
 
-#endif // WING_SEGMENT_H
+#endif // LIBCANARD_H

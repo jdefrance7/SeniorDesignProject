@@ -1,13 +1,10 @@
-#include "messaging.h"
+#include "uavcan_messaging.h"
 
 int16_t read_message(
-  CanardInstance* ins,
-  CanardCANFrame* rx_frame
+  CanardCANFrame* rx_frame,
+  const uint64_t timestamp
 )
 {
-  // Timestamp usec
-  const uint64_t timestamp = getMonotonicTimestampUSec();
-
   // Receive CAN frame (Failure = -1, Success = 1, Timeout = 0)
   const int16_t rx_res = canardAVRReceive(rx_frame);
   if (rx_res < 0)
@@ -32,7 +29,7 @@ int16_t read_message(
       CANARD_ERROR_RX_SHORT_FRAME                -16
       CANARD_ERROR_RX_BAD_CRC                    -17
     */
-    return canardHandleRxFrame(ins, rx_frame, timestamp);
+    return canardHandleRxFrame(&g_canard, rx_frame, timestamp);
   }
   else
   {
@@ -42,7 +39,6 @@ int16_t read_message(
 }
 
 int16_t push_message(
-  CanardInstance* ins,
   uint64_t data_type_signature,
   uint16_t data_type_id,
   uint8_t* inout_transfer_id,
@@ -52,7 +48,7 @@ int16_t push_message(
 )
 {
   return canardBroadcast(
-   ins,
+   &g_canard,
    data_type_signature,
    data_type_id,
    inout_transfer_id,
@@ -62,25 +58,21 @@ int16_t push_message(
   );
 }
 
-int16_t send_message(
-  CanardInstance* ins,
-  CanardCANFrame* tx_frame
-)
+int16_t send_message()
 {
   const CanardCANFrame* txf;
-  if(txf = canardPeekTxQueue(ins) != NULL)
+  if(txf = canardPeekTxQueue(&g_canard) != NULL)
   {
     // Check transmit return value (Failure = -1, Success = 1, Timeout = 0)
     const int16_t tx_res = canardAVRTransmit(txf);
     if (tx_res < 0)
     {
-      canardPopTxQueue(ins);
+      canardPopTxQueue(&g_canard);
       return -1;
     }
     else if (tx_res > 0)
     {
-      tx_frame = canardPeekTxQueue(ins);
-      canardPopTxQueue(ins);
+      canardPopTxQueue(&g_canard);
       return 0;
     }
     else
@@ -94,25 +86,21 @@ int16_t send_message(
   }
 }
 
-int16_t flush_messages(
-  CanardInstance* ins,
-  CanardCANFrame* tx_frame
-)
+int16_t flush_messages()
 {
   // Transmit until queue is empty
-  for (const CanardCANFrame* txf = NULL; (txf = canardPeekTxQueue(ins)) != NULL;)
+  for (const CanardCANFrame* txf = NULL; (txf = canardPeekTxQueue(&g_canard)) != NULL;)
   {
     // Check transmit return value (Failure = -1, Success = 1, Timeout = 0)
     const int16_t tx_res = canardAVRTransmit(txf);
     if (tx_res < 0)
     {
-      tx_frame = txf;
-      canardPopTxQueue(ins);
+      canardPopTxQueue(&g_canard);
       return -1;
     }
     else if (tx_res > 0)
     {
-      canardPopTxQueue(ins);
+      canardPopTxQueue(&g_canard);
     }
     else
     {

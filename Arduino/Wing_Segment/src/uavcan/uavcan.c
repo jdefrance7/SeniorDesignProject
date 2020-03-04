@@ -87,98 +87,84 @@ void onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer)
 {
   if(transfer->transfer_type == CanardTransferTypeResponse)
   {
-    #ifndef ACCEPT_RESPONSE_NONE
+    if(transfer->data_type_id == NODE_INFO_DATA_TYPE_ID)
     {
-      #if defined(ACCEPTING_REQUEST_NODE_INFO)
+      uint16_t offset;
+
+      uint8_t buffer[NODE_INFO_MESSAGE_SIZE];
+      offset = 0;
+
+      node_info(
+        buffer,
+        offset,
+        0, /* fill in node status later */
+        0, /* fill in hardware version later */
+        0, /* fill in software version later */
+        node.name
+      );
+
+      offset = 0;
+
+      node_status(
+        buffer,
+        offset,
+        node.uptime,
+        node.health,
+        node.mode
+      );
+
+      offset += NODE_STATUS_MESSAGE_SIZE;
+
+      hardware_version(
+        buffer,
+        offset,
+        hardware.major,
+        hardware.minor,
+        hardware.unique_id,
+        hardware.certificate
+      );
+
+      offset += HARDWARE_VERSION_MESSAGE_SIZE;
+
+      software_version(
+        buffer,
+        offset,
+        software.major,
+        software.minor,
+        software.field_flags,
+        software.vcs_commit,
+        software.image_crc
+      );
+
+      offset += SOFTWARE_VERSION_MESSAGE_SIZE;
+
+      const int16_t resp_res = canardRequestOrRespond(ins,
+                                                     transfer->source_node_id,
+                                                     NODE_INFO_DATA_TYPE_SIGNATURE,
+                                                     NODE_INFO_DATA_TYPE_ID,
+                                                     &transfer->transfer_id,
+                                                     transfer->priority,
+                                                     CanardResponse,
+                                                     &buffer[0],
+                                                     (uint16_t)NODE_INFO_MESSAGE_SIZE);
+
+      if (resp_res <= 0)
       {
-        if(transfer->data_type_id == NODE_INFO_DATA_TYPE_ID)
-        {
-          uint16_t offset;
-
-          uint8_t buffer[NODE_INFO_MESSAGE_SIZE];
-          offset = 0;
-
-          node_info(
-            buffer,
-            offset,
-            0, /* fill in node status later */
-            0, /* fill in hardware version later */
-            0, /* fill in software version later */
-            *(node.name);
-          );
-
-          offset = 0;
-
-          node_status(
-            buffer,
-            offset,
-            node.uptime,
-            node.health,
-            node.mode
-          );
-
-          offset += NODE_STATUS_MESSAGE_SIZE;
-
-          hardware_version(
-            buffer,
-            offset,
-            node_hardware.major,
-            node_hardware.minor,
-            node_hardware.unique_id,
-            *(node_hardware.certificate)
-          );
-
-          offset += HARDWARE_VERSION_MESSAGE_SIZE;
-
-          software_version(
-            buffer,
-            offset,
-            node_software.field_flags,
-            node_software.vcs_commit,
-            node_software.image_crc
-          );
-
-          offset += SOFTWARE_VERSION_MESSAGE_SIZE;
-
-          const int16_t resp_res = canardRequestOrRespond(ins,
-                                                         transfer->source_node_id,
-                                                         NODE_INFO_DATA_TYPE_SIGNATURE,
-                                                         NODE_INFO_DATA_TYPE_ID,
-                                                         &transfer->transfer_id,
-                                                         transfer->priority,
-                                                         CanardResponse,
-                                                         &buffer[0],
-                                                         (uint16_t)NODE_INFO_MESSAGE_SIZE);
-
-          if (resp_res <= 0)
-          {
-            // DEBUG: handle error
-          }
-          else
-          {
-            // TODO: flush_messages(&g_canard); ???
-          }
-        }
+        // DEBUG: handle error
       }
-      #endif
+      else
+      {
+        // TODO: flush_messages(&g_canard); ???
+      }
     }
-    #endif
   }
   else if(transfer->transfer_type == CanardTransferTypeRequest)
   {
-    #ifndef ACCEPT_REQUEST_NONE
-    {
-
-    }
-    #endif
+    //
   }
   else if(transfer->transfer_type == CanardTransferTypeBroadcast)
   {
-    #ifndef ACCEPT_BROADCAST_NONE
-    {
-
-    }
-    #endif
+    //
   }
 }
 
