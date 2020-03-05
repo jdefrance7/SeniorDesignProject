@@ -13,7 +13,7 @@ This project was created using the Arduino IDE for the AST-CAN485 development bo
 ### Dependencies
 A specific compiler set and multiple third-party libraries were used and adapted to fit this project's needs.
 
-Compiler
+Compiler Set
 * [AVR-GCC](https://gcc.gnu.org/wiki/avr-gcc)
 * [AVR-G++](https://linux.die.net/man/1/avr-g++)
 
