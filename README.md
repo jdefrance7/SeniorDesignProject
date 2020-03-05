@@ -13,15 +13,21 @@ This project was created using the Arduino IDE for the AST-CAN485 development bo
 ### Dependencies
 A specific compiler set and multiple third-party libraries were used and adapted to fit this project's needs.
 
-|Compiler               | IMU Libraries             | CAN Libraries                 |
-|-----------------------|---------------------------|-------------------------------|
-|[AVR-GCC][1]           |[Adafruit_BNO055][3]       |[libcanard][9]                 |
-|[AVR-G++][2]           |[Adafruit_LSM9DS1][4]      |[Universal Can Library][10]    |
-|                       |[Adafruit_FXOS8700][5]     |                               |
-|                       |[Adafruit_FXAS21002C][6]   |                               |
-|                       |[Adafruit_AHRS][7]         |                               |
-|                       |[Adafruit_Sensor][8]       |                               |
+Compiler
+* [AVR-GCC][1]
+* [AVR-G++][2]
 
+IMU Libraries
+* [Adafruit_BNO055][3]
+* [Adafruit_LSM9DS1][4]
+* [Adafruit_FXOS8700][5]
+* [Adafruit_FXAS21002C][6]
+* [Adafruit_AHRS][7]
+* [Adafruit_Sensor][8]
+
+CAN Libraries
+* [libcanard][9]
+* [Universal Can Library][10]
 
 [1]: (https://gcc.gnu.org/wiki/avr-gcc)
 [2]: (https://linux.die.net/man/1/avr-g++)
