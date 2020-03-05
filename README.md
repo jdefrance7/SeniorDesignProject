@@ -13,21 +13,26 @@ This project was created using the Arduino IDE for the AST-CAN485 development bo
 ### Dependencies
 A specific compiler set and multiple third-party libraries were used and adapted to fit this project's needs.
 
-Compiler
-* [AVR-GCC](https://gcc.gnu.org/wiki/avr-gcc)
-* [AVR-G++](https://linux.die.net/man/1/avr-g++)
+|Compiler               | IMU Libraries             | CAN Libraries                 |
+|-----------------------|---------------------------|-------------------------------|
+|[AVR-GCC][1]           |Adafruit_BNO055[3]         |libcanard[9]                   |
+|[AVR-G++][2]           |Adafruit_LSM9DS1[4]        |Universal Can Library[10]      |
+|                       |Adafruit_FXOS8700[5]       |                               |
+|                       |Adafruit_FXAS21002C[6]     |                               |
+|                       |Adafruit_AHRS[7]           |                               |
+|                       |Adafruit_Sensor[8]         |                               |
 
-IMU Libraries
-* [Adafruit_BNO055](https://github.com/adafruit/Adafruit_BNO055)
-* [Adafruit_LSM9DS1](https://github.com/adafruit/Adafruit_LSM9DS1)
-* [Adafruit_FXOS8700](https://github.com/adafruit/Adafruit_FXOS8700)
-* [Adafruit_FXAS21002C](https://github.com/adafruit/Adafruit_FXAS21002C)
-* [Adafruit_AHRS](https://github.com/adafruit/Adafruit_AHRS)
-* [Adafruit_Sensor](https://github.com/adafruit/Adafruit_Sensor)
 
-CAN Libraries
-* [libcanard](https://github.com/UAVCAN/libcanard)
-* [Universal Can Library](https://github.com/rennerm/avr-can-lib/tree/9c6bc9118de66d6edaf1b8539e2b9717ba26d123#universelle-can-blibiothek-avr-can-lib)
+[1](https://gcc.gnu.org/wiki/avr-gcc)
+[2](https://linux.die.net/man/1/avr-g++)
+[3](https://github.com/adafruit/Adafruit_BNO055)
+[4](https://github.com/adafruit/Adafruit_LSM9DS1)
+[5](https://github.com/adafruit/Adafruit_FXOS8700)
+[6](https://github.com/adafruit/Adafruit_FXAS21002C)
+[7](https://github.com/adafruit/Adafruit_AHRS)
+[8](https://github.com/adafruit/Adafruit_Sensor)
+[9](https://github.com/UAVCAN/libcanard)
+[10](https://github.com/rennerm/avr-can-lib/tree/9c6bc9118de66d6edaf1b8539e2b9717ba26d123#universelle-can-blibiothek-avr-can-lib)
 
 ## Implementation
 For our purposes, the `libcanard` library was split into three sub-libraries:
