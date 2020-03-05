@@ -1,23 +1,28 @@
 # Senior Design Project
 Electrical Engineering Senior Design Project at the University of Minnesota - Twin Cities, 2020
 
-The purpose of this project portion is to read IMU sensor data from individual wing segments, process it, and then send it to the Pixhawk flight controller over CAN.
+The purpose of this project is to read IMU sensor data from individual wing segments and send it to the Pixhawk flight controller over CAN for the purpose of obtaining wing segment orientation data to be used for control calculations and diagnotstics.
 
 ## Getting Started
 This project was created using the Arduino IDE for the AST-CAN485 development board.
+
+[Arduino IDE](https://www.arduino.cc/en/main/software)
+
+[AST-CAN485](https://www.sparkfun.com/products/14483)
 
 ### Dependencies
 Multiple third-party libraries were used and adapted to fit this project's needs.
 
 IMU Libraries
-* Adafruit_BNO055
-* Adafruit_LSM9DS1
-* Adafruit_FXOS8700
-* Adafruit_FXAS21002C
-* Adafruit_AHRS
+* [Adafruit_BNO055](https://github.com/adafruit/Adafruit_BNO055)
+* [Adafruit_LSM9DS1](https://github.com/adafruit/Adafruit_LSM9DS1)
+* [Adafruit_FXOS8700](https://github.com/adafruit/Adafruit_FXOS8700)
+* [Adafruit_FXAS21002C](https://github.com/adafruit/Adafruit_FXAS21002C)
+* [Adafruit_AHRS](https://github.com/adafruit/Adafruit_AHRS)
+* [Adafruit_Sensor](https://github.com/adafruit/Adafruit_Sensor)
 
 CAN Libraries
-* libcanard
+* [libcanard](https://github.com/UAVCAN/libcanard)
 
 ## Implementation
 asdf
