@@ -32,7 +32,7 @@ CAN Libraries
 ## Implementation
 For our purposes, the `libcanard` library was split into three sub-libraries:
 
-1. `canard` - contains the basic C implementation of UAVCAN
+1. `<canard>` - contains the basic C implementation of UAVCAN
 
     `canard.h`
 
@@ -40,7 +40,7 @@ For our purposes, the `libcanard` library was split into three sub-libraries:
 
     `canard_internals.h`
 
-2. `can` - contains the CAN driver for the AT90CAN128 microcontroller
+2. `<can>` - contains the CAN driver for the AT90CAN128 microcontroller
 
     `can.h`
 
@@ -48,13 +48,13 @@ For our purposes, the `libcanard` library was split into three sub-libraries:
 
     `can_config.h`
 
-3. `canard_avr` - used to bridge 'canard' and 'can'
+3. `<canard_avr>` - used to bridge `<canard>` and `<can>`
 
     `canard_avr.h`
 
     `canard_avr.c`
     
-See [libcanard](https://github.com/UAVCAN/libcanard) for more details on how the UAVCAN stack is implemented.
+See [libcanard](https://github.com/UAVCAN/libcanard) for more details on how UAVCAN is implemented by the `libcanard` stack and its drivers.
 
 ## Authors
 Joe DeFrance, Alex Mootz, Andrew Schweyen, George Sahyoun, Luke Timper, Nathan Raab
