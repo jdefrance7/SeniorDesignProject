@@ -29,25 +29,25 @@ For our purposes, the libcanard library was split into three sub-libraries:
 
 1. canard - contains the basic C implementation of UAVCAN
 
- ...canard.h
+    canard.h
 
- ...canard.c
+    canard.c
 
- ...canard_internals.h
+    canard_internals.h
 
 2. can - contains the CAN driver for the AT90CAN128 microcontroller
 
- ...can.h
+    can.h
 
- ...libcan.a
+    libcan.a
 
- ...can_config.h
+    can_config.h
 
 3. canard_avr - used to bridge canard and the CAN driver
 
- ...canard_avr.h
+    canard_avr.h
 
- ...canard_avr.c
+    canard_avr.c
 
 ## Authors
 Joe DeFrance, Alex Mootz, Andrew Schweyen, George Sahyoun, Luke Timper, Nathan Raab
