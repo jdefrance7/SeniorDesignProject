@@ -11,7 +11,11 @@ This project was created using the Arduino IDE for the AST-CAN485 development bo
 [AST-CAN485](https://www.sparkfun.com/products/14483)
 
 ### Dependencies
-Multiple third-party libraries were used and adapted to fit this project's needs.
+A specific compiler set and multiple third-party libraries were used and adapted to fit this project's needs.
+
+Compiler
+* [AVR-GCC](https://gcc.gnu.org/wiki/avr-gcc)
+* [AVR-G++](https://linux.die.net/man/1/avr-g++)
 
 IMU Libraries
 * [Adafruit_BNO055](https://github.com/adafruit/Adafruit_BNO055)
