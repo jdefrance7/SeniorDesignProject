@@ -4,14 +4,14 @@ Electrical Engineering Senior Design Project at the University of Minnesota - Tw
 The purpose of this project is to read IMU sensor data from individual wing segments and send it to the Pixhawk flight controller over CAN for the purpose of obtaining wing segment orientation data to be used for control calculations and diagnotstics.
 
 ## Getting Started
-This project was created using the Arduino IDE for the AST-CAN485 development board. Links to their documentation can be found below.
+This project was created using the Arduino IDE for the AST-CAN485 development board. 
 
 [Arduino IDE](https://www.arduino.cc/en/main/software)
 
 [AST-CAN485](https://www.sparkfun.com/products/14483)
 
 ### Dependencies
-Multiple third-party libraries were used and adapted to fit this project's needs. Links to their GitHub repositories can be found below.
+Multiple third-party libraries were used and adapted to fit this project's needs.
 
 IMU Libraries
 * [Adafruit_BNO055](https://github.com/adafruit/Adafruit_BNO055)
@@ -43,7 +43,7 @@ For our purposes, the `libcanard` library was split into three sub-libraries:
 
     `can_config.h`
 
-3. `canard_avr` - used to bridge canard and the CAN driver
+3. `canard_avr` - used to bridge 'canard' and 'can'
 
     `canard_avr.h`
 
@@ -55,4 +55,4 @@ Joe DeFrance, Alex Mootz, Andrew Schweyen, George Sahyoun, Luke Timper, Nathan R
 ## Acknowledgements
 We would like to thank Professor Nikolaos Papanikolopoulos, Travis Hanson, and all of the team members in the Solar UAV lab at the University of Minnesota - Twin Cities for allowing us to work on this amazing project with them.
 
-We would also like to acknowledge Professor Paul Imbertson for his time and effort in helping guide us as the Senior Design Faculty Mentor.
+We would also like to acknowledge Professor Paul Imbertson for his time and effort as the Senior Design Faculty Mentor.
