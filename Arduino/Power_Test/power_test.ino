@@ -22,7 +22,7 @@ static float voltages[4];
 static float currents[4];
 static float netpower[4];
 
-String line = "";
+String line;
 
 setup()
 {
@@ -33,6 +33,8 @@ setup()
   {
     sensors[n].begin();
   }
+
+  line = "";
 
   line += "S1 Voltage (V), S1 Current (mA), S1 Power (mW), ";
   line += "S2 Voltage (V), S2 Current (mA), S2 Power (mW), ";
