@@ -55,7 +55,7 @@ CAN Libraries
 3. Select "PROGRAMMER" from the `Tools-Programmer:` menu.
 4. select `Sketch->Upload Using Programmer` from the toolbar.
 
-## Implementation
+## Notes
 For our purposes, the `libcanard` library was split into three sub-libraries:
 
 1. `<canard>` - contains the basic C implementation of UAVCAN
