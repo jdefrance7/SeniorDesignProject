@@ -84,7 +84,7 @@ For our purposes, the `libcanard` library was split into three sub-libraries:
 
     `canard_avr.c`
     
-See [libcanard](https://github.com/UAVCAN/libcanard) for more details on how UAVCAN is implemented by the `libcanard` stack and its drivers.
+See [UAVCAN/libcanard](https://github.com/UAVCAN/libcanard) for more details on how UAVCAN is implemented by the `libcanard` stack and its drivers.
 
 ## Authors
 Joe DeFrance, Alex Mootz, Andrew Schweyen, George Sahyoun, Luke Timper, Nathan Raab
