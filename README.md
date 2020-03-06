@@ -1,5 +1,5 @@
 # Senior Design Project
-Electrical Engineering Senior Design Project at the University of Minnesota - Twin Cities, 2020
+Electrical Engineering Senior Design Project at the University of Minnesota - Twin Cities, Spring 2020
 
 The purpose of this project is to read IMU sensor data from individual wing segments and send it to the Pixhawk flight controller over CAN for the purpose of obtaining wing segment orientation data to be used for control calculations and diagnotstics.
 
