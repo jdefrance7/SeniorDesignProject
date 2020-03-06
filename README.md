@@ -10,28 +10,6 @@ This project was created using the Arduino IDE for the AST-CAN485 development bo
 
 [AST-CAN485](https://www.sparkfun.com/products/14483)
 
-### Dependencies
-A specific compiler set and multiple third-party libraries were used and adapted to fit this project's needs.
-
-Compiler Set
-* [AVR-GCC](https://gcc.gnu.org/wiki/avr-gcc)
-* [AVR-G++](https://linux.die.net/man/1/avr-g++)
-
-IMU Libraries
-* [Adafruit_BNO055](https://github.com/adafruit/Adafruit_BNO055)
-* [Adafruit_LSM9DS1](https://github.com/adafruit/Adafruit_LSM9DS1)
-* [Adafruit_FXOS8700](https://github.com/adafruit/Adafruit_FXOS8700)
-* [Adafruit_FXAS21002C](https://github.com/adafruit/Adafruit_FXAS21002C)
-* [Adafruit_AHRS](https://github.com/adafruit/Adafruit_AHRS)
-* [Adafruit_Sensor](https://github.com/adafruit/Adafruit_Sensor)
-
-Power Sensor Library
-* [Adafruit_INA219](https://github.com/adafruit/Adafruit_INA219)
-
-CAN Libraries
-* [libcanard](https://github.com/UAVCAN/libcanard)
-* [Universal Can Library](https://github.com/rennerm/avr-can-lib/tree/9c6bc9118de66d6edaf1b8539e2b9717ba26d123#universelle-can-blibiothek-avr-can-lib)
-
 ### Installing
 
 1. Download the Arduino IDE.
@@ -56,6 +34,30 @@ CAN Libraries
 4. select `Sketch->Upload Using Programmer` from the toolbar.
 
 ## Notes
+
+### Dependencies
+A specific compiler set and multiple third-party libraries were used and adapted to fit this project's needs.
+
+Compiler Set
+* [AVR-GCC](https://gcc.gnu.org/wiki/avr-gcc)
+* [AVR-G++](https://linux.die.net/man/1/avr-g++)
+
+IMU Libraries
+* [Adafruit_BNO055](https://github.com/adafruit/Adafruit_BNO055)
+* [Adafruit_LSM9DS1](https://github.com/adafruit/Adafruit_LSM9DS1)
+* [Adafruit_FXOS8700](https://github.com/adafruit/Adafruit_FXOS8700)
+* [Adafruit_FXAS21002C](https://github.com/adafruit/Adafruit_FXAS21002C)
+* [Adafruit_AHRS](https://github.com/adafruit/Adafruit_AHRS)
+* [Adafruit_Sensor](https://github.com/adafruit/Adafruit_Sensor)
+
+Power Sensor Library
+* [Adafruit_INA219](https://github.com/adafruit/Adafruit_INA219)
+
+CAN Libraries
+* [libcanard](https://github.com/UAVCAN/libcanard)
+* [Universal Can Library](https://github.com/rennerm/avr-can-lib/tree/9c6bc9118de66d6edaf1b8539e2b9717ba26d123#universelle-can-blibiothek-avr-can-lib)
+
+### UAVCAN
 For our purposes, the `libcanard` library was split into three sub-libraries:
 
 1. `<canard>` - contains the basic C implementation of UAVCAN
