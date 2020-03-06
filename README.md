@@ -32,6 +32,26 @@ CAN Libraries
 * [libcanard](https://github.com/UAVCAN/libcanard)
 * [Universal Can Library](https://github.com/rennerm/avr-can-lib/tree/9c6bc9118de66d6edaf1b8539e2b9717ba26d123#universelle-can-blibiothek-avr-can-lib)
 
+### Installing
+
+1. Download the Arduino IDE.
+2. Replace the created `Arduino` folder with the one from this repository.
+   Alternatively copy the `Arduino\libraries` folder contents to your local `Arduino\libraries` and move any sketch folders to the `Arduino` folder.
+3. Use the Boards Manager to add the AST-CAN485 board to the IDE (follow the steps outlined in the [AST-CAN485 Hookup Guide](https://learn.sparkfun.com/tutorials/ast-can485-hookup-guide?_ga=2.6567157.631132834.1583434944-271346267.1574810854)
+
+### Compiling
+
+1. Select the AST-CAN485 board from the `Tools->Board:` menu.
+2. Either click the check mark button in the upper left hand corner of the IDE or select `Sketch->Verify/Compile`
+3. Read diagnostic information from the Arduino IDE for any warnings or errors.
+
+### Uploading
+
+1. Connect the AST-CAN485 to a computer through a [FTDI Adaptor](https://www.sparkfun.com/products/9716?_ga=2.13897968.631132834.1583434944-271346267.1574810854)
+2. Select the proper port from the `Tools->Port:` menu.
+3. Select "PROGRAMMER" from the `Tools-Programmer:` menu.
+4. select `Sketch->Upload Using Programmer` from the toolbar.
+
 ## Implementation
 For our purposes, the `libcanard` library was split into three sub-libraries:
 
