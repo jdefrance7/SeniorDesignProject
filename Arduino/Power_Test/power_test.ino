@@ -1,14 +1,14 @@
 #include <Arduino.h>
 #include <Adafruit_INA219.h>
 
-#define SERIAL_BAUDRATE 9600
+#define SERIAL_BAUDRATE   9600
 
-#define PRINT_DELAY_MS  250
+#define PRINT_DELAY_MS    250
 
-#define I2C_ADDRESS_1   0x40
-#define I2C_ADDRESS_2   0x41
-#define I2C_ADDRESS_3   0x44
-#define I2C_ADDRESS_4   0x45
+#define I2C_ADDRESS_1     0x40
+#define I2C_ADDRESS_2     0x41
+#define I2C_ADDRESS_3     0x44
+#define I2C_ADDRESS_4     0x45
 
 static Adafruit_INA219 sensors[4] =
 {
@@ -24,7 +24,7 @@ static float netpower[4];
 
 String line;
 
-setup()
+void setup()
 {
   Serial.begin(SERIAL_BAUDRATE);
   while(!Serial);
@@ -44,7 +44,7 @@ setup()
   Serial.print(line);
 }
 
-loop()
+void loop()
 {
   static long time = millis();
 
@@ -58,11 +58,11 @@ loop()
       currents[n] = sensors[n].getCurrent_mA();
       netpower[n] = sensors[n].getPower_mW();
 
-      line += String(voltages[n]);
+      line += String(voltages[n], 2);
       line += ",";
-      line += String(currents[n]);
+      line += String(currents[n], 2);
       line += ",";
-      line += String(netpower[n]);
+      line += String(netpower[n], 2);
 
       if(n != 3)
       {
