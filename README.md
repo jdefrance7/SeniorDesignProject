@@ -16,22 +16,22 @@ This project was created using the Arduino IDE for the AST-CAN485 development bo
 2. Replace the created `Arduino` folder with the one from this repository.
 
    * Alternatively copy the `Arduino\libraries` folder contents to your local `Arduino\libraries` and move any sketch folders to the `Arduino` folder.
-3. Use the Boards Manager to add the AST-CAN485 board to the Arduino IDE.
+3. Use the Arduino IDE Boards Manager to add the AST-CAN485 board to the Arduino IDE.
 
    * Follow the steps in the [AST-CAN485 Hookup Guide](https://learn.sparkfun.com/tutorials/ast-can485-hookup-guide?_ga=2.6567157.631132834.1583434944-271346267.1574810854) section 'Board Installation Using the Boards Manager'.
 
 ### Compiling
 
-1. Select the AST-CAN485 board from the `Tools->Board` menu in the toolbar.
-2. Either click the check mark button in the upper left hand corner of the IDE or select `Sketch->Verify/Compile` from the toolbar.
+1. Select the AST-CAN485 board from the `Tools->Board` menu in the Arduino IDE toolbar.
+2. Either click the check mark button in the upper left hand corner of the IDE or select `Sketch->Verify/Compile` from the Arduino IDE toolbar.
 3. Read diagnostic information from the Arduino IDE for any warnings or errors.
 
 ### Uploading
 
 1. Connect the AST-CAN485 to a computer through a [FTDI Adaptor](https://www.sparkfun.com/products/9716?_ga=2.13897968.631132834.1583434944-271346267.1574810854)
-2. Select the proper port from the `Tools->Port` menu in the toolbar.
-3. Select "PROGRAMMER NAME HERE" from the `Tools->Programmer` menu in the toolbar.
-4. select `Sketch->Upload Using Programmer` from the toolbar.
+2. Select the proper port from the `Tools->Port` menu in the Arduino IDE toolbar.
+3. Select "PROGRAMMER NAME HERE" from the `Tools->Programmer` menu in the Arduino IDE toolbar.
+4. Select `Sketch->Upload Using Programmer` from the Arduino IDE toolbar.
 
 ## Notes
 
