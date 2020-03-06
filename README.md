@@ -38,7 +38,7 @@ CAN Libraries
 2. Replace the created `Arduino` folder with the one from this repository.
    
    Alternatively copy the `Arduino\libraries` folder contents to your local `Arduino\libraries` and move any sketch folders to the `Arduino` folder.
-3. Use the Boards Manager to add the AST-CAN485 board to the IDE (follow the steps outlined in the [AST-CAN485 Hookup Guide](https://learn.sparkfun.com/tutorials/ast-can485-hookup-guide?_ga=2.6567157.631132834.1583434944-271346267.1574810854)
+3. Use the Boards Manager to add the AST-CAN485 board to the IDE (follow the steps outlined in the [AST-CAN485 Hookup Guide](https://learn.sparkfun.com/tutorials/ast-can485-hookup-guide?_ga=2.6567157.631132834.1583434944-271346267.1574810854) section 'Board Installation Using the Boards Manager')
 
 ### Compiling
 
