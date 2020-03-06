@@ -57,6 +57,8 @@ CAN Libraries
 * [libcanard](https://github.com/UAVCAN/libcanard)
 * [Universal Can Library](https://github.com/rennerm/avr-can-lib/tree/9c6bc9118de66d6edaf1b8539e2b9717ba26d123#universelle-can-blibiothek-avr-can-lib)
 
+---
+
 ### UAVCAN
 For our purposes, the `libcanard` library was split into three sub-libraries:
 
