@@ -1,8 +1,11 @@
-#include <imu.h>
+// Select IMU
+#include <bno055.h>
+// #include <lsm9ds1.h>
+// #include <nxp_fxos_fxas.h>
 
 #define SERIAL_BAUDRATE 9600
 
-#define PRINT_DELAY_MS  500
+#define PRINT_DELAY_MS  1000
 
 void printOrientation();
 void printQuaternion();

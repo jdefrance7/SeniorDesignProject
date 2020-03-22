@@ -6,15 +6,21 @@
  * Note! this file is in early development
  * (alpha) and is likely to change without notice.
  **********************************************************************************/
- 
+
 #ifndef _CAN_LIBRARY_H_
 #define _CAN_LIBRARY_H_
 
 #include <Arduino.h>
 
-extern "C"{
-	#include <can_lib.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <can_lib.h>
+
+#ifdef __cplusplus
 }
+#endif
 
 void canInit(long baud);
 void clearBuffer(uint8_t *Buffer);

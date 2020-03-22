@@ -73,6 +73,7 @@ void loop()
         line += "\n";
       }
     }
+    
     Serial.print(line);
 
     time = millis();
