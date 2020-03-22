@@ -1,4 +1,7 @@
-#include <imu.h>
+// Select IMU
+#include <bno055.h>
+// #include <lsm9ds1.h>
+// #include <nxp_fxos_fxas.h>
 
 #define SERIAL_BAUDRATE 9600
 

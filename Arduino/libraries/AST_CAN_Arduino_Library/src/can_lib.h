@@ -62,16 +62,16 @@ typedef enum {
   CMD_TX,
   CMD_TX_DATA,
   CMD_TX_REMOTE,
-  CMD_RX, 
-  CMD_RX_DATA, 
+  CMD_RX,
+  CMD_RX_DATA,
   CMD_RX_REMOTE,
   CMD_RX_MASKED,
   CMD_RX_DATA_MASKED,
-  CMD_RX_REMOTE_MASKED, 
-  CMD_REPLY,        
+  CMD_RX_REMOTE_MASKED,
+  CMD_REPLY,
   CMD_REPLY_MASKED,
   CMD_ABORT
-} can_cmd_t; 
+} can_cmd_t;
 
 // ----------
 // @brief This union defines a CAN identifier and allows to access it in mode
@@ -80,7 +80,7 @@ typedef union{
   U32 ext;
   U16 std;
   U8  tab[4];
-} can_id_t; 
+} can_id_t;
 
 // ----------
 // @brief This structure defines some specific information as RTR bit and
@@ -96,20 +96,20 @@ typedef struct{
 // 2) cmd   :  initialize by the application to select the operation.
 // 3) id    :  initialize by the application in transmission
 //             complete by the library in reception.
-// 4) dlc   :  initialize by the application to give the number of data to 
+// 4) dlc   :  initialize by the application to give the number of data to
 //             transmit complete by the library in reception.
 // 5) pt_data: pointer on the table which contains the data to send or
 //             received.
 // 6) status:  manage by the library.
 // 7) ctrl  :  field ide to signal a extended frame .
 typedef  struct{
-  U8         handle; 
-  can_cmd_t  cmd; 
+  U8         handle;
+  can_cmd_t  cmd;
   can_id_t   id;
-  U8         dlc;  
-  U8*        pt_data; 
-  U8         status; 
-  can_ctrl_t ctrl;   
+  U8         dlc;
+  U8*        pt_data;
+  U8         status;
+  can_ctrl_t ctrl;
 } st_cmd_t;
 
 
@@ -132,7 +132,7 @@ typedef  struct{
 //!
 //! @return Baudrate Status
 //!         ==0: research of bit timing configuration failed
-//!         ==1: baudrate performed 
+//!         ==1: baudrate performed
 //!
 extern U8 can_init(U8 mode,long baud);
 
@@ -161,8 +161,8 @@ extern U8 can_cmd (st_cmd_t *);
 //!
 //! This function allows to return if the command has been performed or not.
 //! In an reception case, all the CAN message is stored in the structure.
-//! This function also updates the CAN descriptor status (MOB_TX_COMPLETED,    
-//!  MOB_RX_COMPLETED, MOB_RX_COMPLETED_DLCW or MOB_???_ERROR).         
+//! This function also updates the CAN descriptor status (MOB_TX_COMPLETED,
+//!  MOB_RX_COMPLETED, MOB_RX_COMPLETED_DLCW or MOB_???_ERROR).
 //!
 //! @param  st_cmd_t* pointer on CAN descriptor structure.
 //!
@@ -171,7 +171,7 @@ extern U8 can_cmd (st_cmd_t *);
 //!         CAN_STATUS_ERROR         - Error in configuration or in the
 //!                                    CAN communication
 //!
-extern U8 can_get_status (st_cmd_t *); 
+extern U8 can_get_status (st_cmd_t *);
 
 //______________________________________________________________________________
 
