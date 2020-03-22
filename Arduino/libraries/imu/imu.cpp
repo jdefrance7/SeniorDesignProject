@@ -18,10 +18,10 @@ bool init_imu(void)
     return false;
   }
 
-  // Setup sensors references (void)
+  // Setup sensors references (return void)
   setup_sensors();
 
-  // Initialize filter (void)
+  // Initialize filter (return void)
   #if defined(SENSOR_LSM9DS1) | defined(SENSOR_NXP_FXOS_FXAS)
 
     filter.begin(FILTER_UPDATE_RATE_HZ);

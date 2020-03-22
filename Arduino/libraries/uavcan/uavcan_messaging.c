@@ -77,7 +77,7 @@ int16_t send_message()
     }
     else
     {
-      return 1;
+      return 1; // Timeout
     }
   }
   else
