@@ -20,13 +20,11 @@ extern "C" {
 
 //------------------------------------------------------------------------------
 
-// Return Values
-
-#define ENCODING_BUFFER_OVERFLOW -1
+// Functions return bit_offset index
 
 // --- OR ---
 
-// Functions return final bit_offset
+#define ENCODING_BUFFER_OVERFLOW -1
 
 //------------------------------------------------------------------------------
 

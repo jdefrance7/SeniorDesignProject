@@ -3,7 +3,7 @@
 
 #include <canard.h>
 
-// Select CAN Driver
+// Select CAN Driver (also in Sending & Receiving)
 // #include <canard_avr.h>
 #include <ASTCanLib.h>
 
@@ -31,8 +31,7 @@
 // Functions to read UAVCAN messages as known data type structs
 #include "uavcan_receiving_v0.h"
 
-// User Functions
-
+// Initialization Function
 int16_t uavcan_init(UavcanNode node, Canard can);
 
 #endif // UAVCAN_H

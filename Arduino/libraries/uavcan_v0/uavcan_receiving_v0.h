@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-// Select CAN Driver
+// Select CAN Driver (also in UAVCAN & Sending)
 #include <ASTCanLib.h>
 // #include <canard_avr.h>
 
