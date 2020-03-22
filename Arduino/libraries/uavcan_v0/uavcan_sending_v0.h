@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdint.h>
 
-// Choose CAN Driver
+// Choose CAN Driver (also in UAVCAN & Receiving)
 #include <ASTCanLib.h>
 // #include <canard_avr.h>
 

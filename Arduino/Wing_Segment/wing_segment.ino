@@ -9,8 +9,9 @@
 
 // UAVCAN Library
 #include <uavcan_v0.h>
+// #include <uavcan_v1.h> // not supported
 
-// CAN Information
+// CAN Driver Information
 //#define CAN_BITRATE BITRATE_125_KBPS // canard_avr
 #define CAN_BITRATE 500000 // ASTCanLib
 
@@ -104,7 +105,7 @@ void loop()
     #if defined(SERIAL_DEBUG)
     Serial.println("Updating IMU...");
     #endif
-    
+
     update_imu();
 
     #if defined(SERIAL_DEBUG)
@@ -133,7 +134,7 @@ void loop()
     Serial.print("  vendor_code = ");
     Serial.println(node.status.vendor_specific_status_code);
     #endif
-    
+
     send_node_status(&can.canard, node.status, CANARD_TRANSFER_PRIORITY_MEDIUM);
 
     #if defined(SERIAL_DEBUG)
@@ -193,7 +194,7 @@ void loop()
     uint16_t capacity = stats.capacity_blocks;   ///< Pool capacity in number of blocks
     uint16_t usage = stats.current_usage_blocks; ///< Number of blocks that are currently allocated by the library
     uint16_t peak = stats.peak_usage_blocks;     ///< Maximum number of blocks used since initialization
-    
+
     #if defined(SERIAL_DEBUG)
     Serial.println("Retreiving canard stats: ");
     Serial.print("  capacity = ");
