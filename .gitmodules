@@ -19,3 +19,6 @@
 [submodule "References/Adafruit_FXAS21002C"]
 	path = References/Adafruit_FXAS21002C
 	url = https://github.com/adafruit/Adafruit_FXAS21002C
+[submodule "References/Adafruit_Sensor_Calibration"]
+	path = References/Adafruit_Sensor_Calibration
+	url = https://github.com/adafruit/Adafruit_Sensor_Calibration

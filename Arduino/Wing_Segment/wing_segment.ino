@@ -2,18 +2,25 @@
 #define SERIAL_DEBUG // uncomment for debug information
 #define SERIAL_BAUDRATE 9600
 
-// Select IMU
+// Select IMU Sensor
 #include <bno055.h>
 // #include <lsm9ds1.h>
 // #include <nxp_fxos_fxas.h>
 
-// UAVCAN Library
-#include <uavcan_v0.h>
-// #include <uavcan_v1.h> // not supported
+// Select CAN Driver
+// #include <avr_can.h>
+#include <ast_can.h>
 
 // CAN Driver Information
-//#define CAN_BITRATE BITRATE_125_KBPS // canard_avr
-#define CAN_BITRATE 500000 // ASTCanLib
+//#define CAN_BITRATE BITRATE_125_KBPS  // AVR_CAN
+#define CAN_BITRATE 500000            // AST_CAN
+
+ // CAN Timeouts
+#define TRANSMIT_TIMEOUT 5
+
+// Select UAVCAN Version
+#include <uavcan_v0.h>
+// #include <uavcan_v1.h> // not currently supported
 
 // Node Information
 #define NODE_ID   22
@@ -51,47 +58,46 @@ void setup()
   // Setup CAN
   can.bitrate = CAN_BITRATE;
 
-  // Setup Node
+  // Setup UAVCAN Node
+  // Node Basics
   node.id = NODE_ID;
   memset(node.name, 0, sizeof(node.name));
   memcpy(node.name, NODE_NAME, sizeof(NODE_NAME));
-
-  // Setup Node Status
+  // Node Status
   node.status.uptime_sec = 0;
   node.status.health = HEALTH_OK;
   node.status.mode = MODE_INITIALIZATION;
   node.status.sub_mode = 0;
   node.status.vendor_specific_status_code = 0;
-
-  // Setup Node Hardware Version
+  // Node Hardware Version
   node.hardware.major = HARDWARE_VERSION_MAJOR;
   node.hardware.minor = HARDWARE_VERSION_MINOR;
   memset(node.hardware.unique_id, 0, sizeof(node.hardware.unique_id));
   memcpy(node.hardware.unique_id, HARDWARE_UNIQUE_ID, sizeof(HARDWARE_UNIQUE_ID));
   memset(node.hardware.certificate, 0, sizeof(node.hardware.certificate));
   memcpy(node.hardware.certificate, HARDWARE_CERTIFICATE, sizeof(HARDWARE_CERTIFICATE));
-
-  // Setup Node Software Version
+  // Node Software Version
   node.software.major = SOFTWARE_VERSION_MAJOR;
   node.software.minor = SOFTWARE_VERSION_MINOR;
   node.software.optional_field_flags = SOFTWARE_OPTIONAL_FIELD_FLAGS;
   node.software.vcs_commit = SOFTWARE_VCS_COMMIT;
   node.software.image_crc = SOFTWARE_IMAGE_CRC;
 
-  // Initialize UAVCAN
-  uavcan_init(node, can);
+  // Initialize CAN
+  init_can(can, node.id);
 
   // Initialize IMU
   init_imu();
 
-  // Initialization Complete!
-  node.status.mode = MODE_OPERATIONAL;
-
+  // Initialize Serial (debugging)
   #if defined(SERIAL_DEBUG)
   Serial.begin(SERIAL_BAUDRATE);
   while(!Serial);
   Serial.println("Initialization complete!");
   #endif
+
+  // Initialization Complete!
+  node.status.mode = MODE_OPERATIONAL;
 }
 
 void loop()
@@ -122,20 +128,32 @@ void loop()
   if((millis() - send_node_status_time) > SEND_NODE_STATUS_PERIOD_MS)
   {
     #if defined(SERIAL_DEBUG)
-    Serial.println("Node status: ");
-    Serial.print("  uptime_sec = ");
-    Serial.println(node.status.uptime_sec);
-    Serial.print("  health = ");
-    Serial.println(node.status.health);
-    Serial.print("  mode = ");
-    Serial.println(node.status.mode);
-    Serial.print("  sub_mode = ");
-    Serial.println(node.status.sub_mode);
-    Serial.print("  vendor_code = ");
-    Serial.println(node.status.vendor_specific_status_code);
+    Serial.println("NodeStatus: ");
+    Serial.print("  uptime_sec = ");  Serial.println(node.status.uptime_sec);
+    Serial.print("  health = ");      Serial.println(node.status.health);
+    Serial.print("  mode = ");        Serial.println(node.status.mode);
+    Serial.print("  sub_mode = ");    Serial.println(node.status.sub_mode);
+    Serial.print("  vendor_code = "); Serial.println(node.status.vendor_specific_status_code);
     #endif
 
-    send_node_status(&can.canard, node.status, CANARD_TRANSFER_PRIORITY_MEDIUM);
+    static uint8_t node_status_transfer_id = 0;
+
+    uint8_t buffer[(NODE_STATUS_DATA_TYPE_SIZE / 8)];
+    memset(buffer, 0, sizeof(buffer));
+
+    encode_node_status(buffer, sizeof(buffer), 0, node.status);
+
+    canardBroadcast(
+      &can.canard,
+      NODE_STATUS_DATA_TYPE_SIGNATURE,
+      NODE_STATUS_DATA_TYPE_ID,
+      &node_status_transfer_id,
+      CANARD_TRANSFER_PRIORITY_MEDIUM,
+      buffer,
+      sizeof(buffer)
+    );
+
+    transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
 
     #if defined(SERIAL_DEBUG)
     Serial.println("NodeStatus sent!");
@@ -154,26 +172,39 @@ void loop()
 
     camera.gimbal_id = node.id;
     camera.mode = CAMERA_GIMBAL_MODE_ORIENTATION_FIXED_FRAME;
-    camera.camera_orientation_in_body_frame_xyzw[ROLL_AXIS] = orientation(ROLL_AXIS);
-    camera.camera_orientation_in_body_frame_xyzw[PITCH_AXIS] = orientation(PITCH_AXIS);
-    camera.camera_orientation_in_body_frame_xyzw[YAW_AXIS] = orientation(YAW_AXIS);
-    camera.camera_orientation_in_body_frame_xyzw[3] = 0; // skip quaternion w-axis
+    camera.camera_orientation_in_body_frame_xyzw[X_AXIS] = quaternion(X_AXIS);
+    camera.camera_orientation_in_body_frame_xyzw[Y_AXIS] = quaternion(Y_AXIS);
+    camera.camera_orientation_in_body_frame_xyzw[Z_AXIS] = quaternion(Z_AXIS);
+    camera.camera_orientation_in_body_frame_xyzw[W_AXIS] = quaternion(W_AXIS);
 
     #if defined(SERIAL_DEBUG)
     Serial.println("CameraGimbalStatus:");
-    Serial.print("  gimbal_id = ");
-    Serial.println(camera.gimbal_id);
-    Serial.print("  mode = ");
-    Serial.println(camera.mode);
-    Serial.print("  roll = ");
-    Serial.println(camera.camera_orientation_in_body_frame_xyzw[ROLL_AXIS]);
-    Serial.print("  pitch = ");
-    Serial.println(camera.camera_orientation_in_body_frame_xyzw[PITCH_AXIS]);
-    Serial.print("  yaw = ");
-    Serial.println(camera.camera_orientation_in_body_frame_xyzw[YAW_AXIS]);
+    Serial.print("  id = ");    Serial.println(camera.gimbal_id);
+    Serial.print("  mode = ");  Serial.println(camera.mode);
+    Serial.print("  qX = ");    Serial.println(camera.camera_orientation_in_body_frame_xyzw[X_AXIS]);
+    Serial.print("  qY = ");    Serial.println(camera.camera_orientation_in_body_frame_xyzw[Y_AXIS]);
+    Serial.print("  qZ = ");    Serial.println(camera.camera_orientation_in_body_frame_xyzw[Z_AXIS]);
+    Serial.print("  qW = ");    Serial.println(camera.camera_orientation_in_body_frame_xyzw[W_AXIS]);
     #endif
 
-    send_camera_gimbal_status(&can.canard, camera, CANARD_TRANSFER_PRIORITY_MEDIUM);
+    static uint8_t camera_gimbal_status_transfer_id = 0;
+
+    uint8_t buffer[(CAMERA_GIMBAL_STATUS_DATA_TYPE_SIZE / 8)];
+    memset(buffer, 0, sizeof(buffer));
+
+    encode_camera_gimbal_status(buffer, sizeof(buffer), 0, camera);
+
+    canardBroadcast(
+      &can.canard,
+      CAMERA_GIMBAL_STATUS_DATA_TYPE_SIGNATURE,
+      CAMERA_GIMBAL_STATUS_DATA_TYPE_ID,
+      &camera_gimbal_status_transfer_id,
+      CANARD_TRANSFER_PRIORITY_MEDIUM,
+      buffer,
+      sizeof(buffer)
+    );
+
+    transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
 
     #if defined(SERIAL_DEBUG)
     Serial.println("CameraGimbmalStatus sent!");
@@ -196,13 +227,10 @@ void loop()
     uint16_t peak = stats.peak_usage_blocks;     ///< Maximum number of blocks used since initialization
 
     #if defined(SERIAL_DEBUG)
-    Serial.println("Retreiving canard stats: ");
-    Serial.print("  capacity = ");
-    Serial.println(capacity);
-    Serial.print("  usage = ");
-    Serial.println(usage);
-    Serial.print("  peak = ");
-    Serial.println(peak);
+    Serial.println("Canard memory stats: ");
+    Serial.print("  capacity = ");  Serial.println(capacity);
+    Serial.print("  usage = ");     Serial.println(usage);
+    Serial.print("  peak = ");      Serial.println(peak);
     #endif
 
     cleanup_uavcan_time = millis();

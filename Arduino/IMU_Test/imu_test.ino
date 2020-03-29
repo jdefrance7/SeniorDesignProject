@@ -7,6 +7,7 @@
 
 #define PRINT_DELAY_MS  1000
 
+// Print functions
 void printOrientation();
 void printQuaternion();
 void printAngularVelocity();
@@ -38,11 +39,18 @@ void loop()
   static long last_print = millis();
   if((millis()-last_print) > PRINT_DELAY_MS)
   {
+    // Select data for printing
+
     printOrientation();
+
     printQuaternion();
+
     printAngularVelocity();
+
     printLinearAcceleration();
+
     printMagneticField();
+
     printTemperature();
 
     last_print = millis();
@@ -52,65 +60,47 @@ void loop()
 void printOrientation()
 {
   Serial.println("\nORIENTATION")
-  Serial.print("Roll: ");
-  Serial.println(orientation(ROLL_AXIS);
-  Serial.print("Pitch: ");
-  Serial.println(orientation(PITCH_AXIS));
-  Serial.print("Yaw: ");
-  Serial.println(orientation(YAW_AXIS));
+  Serial.print("Roll: ");   Serial.println(orientation(ROLL_AXIS);
+  Serial.print("Pitch: ");  Serial.println(orientation(PITCH_AXIS));
+  Serial.print("Yaw: ");    Serial.println(orientation(YAW_AXIS));
 }
 
 void printQuaternion()
 {
   Serial.println("\nQUATERNION");
-  Serial.print("X: ");
-  Serial.println(quaternion(X_AXIS));
-  Serial.print("Y: ");
-  Serial.println(quaternion(Y_AXIS));
-  Serial.print("Z: ");
-  Serial.println(quaternion(Z_AXIS));
-  Serial.print("W: ");
-  Serial.println(quaternion(W_AXIS));
+  Serial.print("X: ");  Serial.println(quaternion(X_AXIS));
+  Serial.print("Y: ");  Serial.println(quaternion(Y_AXIS));
+  Serial.print("Z: ");  Serial.println(quaternion(Z_AXIS));
+  Serial.print("W: ");  Serial.println(quaternion(W_AXIS));
 }
 
 void printAngularVelocity()
 {
   Serial.println("\nANGULAR VELOCITY");
-  Serial.print("Roll: ");
-  Serial.println(angularVelocity(X_AXIS));
-  Serial.print("Pitch: ");
-  Serial.println(angularVelocity(Y_AXIS));
-  Serial.print("Yaw: ");
-  Serial.println(angularVelocity(Z_AXIS));
+  Serial.print("Roll: ");   Serial.println(angularVelocity(ROLL_AXIS));
+  Serial.print("Pitch: ");  Serial.println(angularVelocity(PITCH_AXIS));
+  Serial.print("Yaw: ");    Serial.println(angularVelocity(YAW_AXIS));
 }
 
 void printLinearAcceleration()
 {
   Serial.println("\nLINEAR ACCELERATION")
-  Serial.print("X: ");
-  Serial.println(linearAcceleration(X_AXIS));
-  Serial.print("Y: ");
-  Serial.println(linearAcceleration(Y_AXIS));
-  Serial.print("Z: ");
-  Serial.println(linearAcceleration(Z_AXIS));
+  Serial.print("X: ");  Serial.println(linearAcceleration(X_AXIS));
+  Serial.print("Y: ");  Serial.println(linearAcceleration(Y_AXIS));
+  Serial.print("Z: ");  Serial.println(linearAcceleration(Z_AXIS));
 }
 
 void printMagneticField()
 {
   Serial.println("\nMAGNETIC FIELD");
-  Serial.print("X: ");
-  Serial.println(magneticField(X_AXIS));
-  Serial.print("Y: ");
-  Serial.println(magneticField(Y_AXIS));
-  Serial.print("Z: ");
-  Serial.println(magneticField(Z_AXIS));
+  Serial.print("X: ");  Serial.println(magneticField(X_AXIS));
+  Serial.print("Y: ");  Serial.println(magneticField(Y_AXIS));
+  Serial.print("Z: ");  Serial.println(magneticField(Z_AXIS));
 }
 
 void printTemperature()
 {
   Serial.println("\nTEMPERATURE");
-  Serial.print("C: ");
-  Serial.println(temperature(TEMPERATURE_CELSIUS));
-  Serial.print("K: ");
-  Serial.println(temperature(TEMPERATURE_KELVIN));
+  Serial.print("C: ");  Serial.println(temperature(TEMPERATURE_CELSIUS));
+  Serial.print("K: ");  Serial.println(temperature(TEMPERATURE_KELVIN));
 }
