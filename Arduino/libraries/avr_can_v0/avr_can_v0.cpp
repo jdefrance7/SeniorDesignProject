@@ -1,4 +1,4 @@
-#include "ast_can.h"
+#include "avr_can_v0.h"
 
 int init_can(Canard can, uint8_t id)
 {
@@ -22,7 +22,16 @@ int init_can(Canard can, uint8_t id)
   canardSetLocalNodeID(&can.canard, id);
 
   // Init CAN module
-  canInit(can.bitrate);
+  if(canardAVRInit(can.bitrate) != 0)
+  {
+    return -1;
+  }
+
+  // Set CAN filters
+  if(canardAVRConfigureAcceptanceFilters(id) != 1)
+  {
+    return -1;
+  }
 
   // Initialization success
   return 0;
@@ -30,117 +39,47 @@ int init_can(Canard can, uint8_t id)
 
 int sendCanardCANFrame(CanardInstance* canard, CanardCANFrame* txf, unsigned int timeout_ms)
 {
-  // CAN message object
-  st_cmd_t txMsg;
+  // Send CAN frame
+  const int16_t tx_res = canardAVRTransmit(txf);
 
-  // Timeout counter
-  uint64_t timeout;
-
-  // Create transmit buffer
-  uint8_t txBuffer[8] = {};
-
-  // Clear transmit buffer
-  memset(txBuffer, 0, sizeof(txBuffer));
-
-  // Assign transmit buffer
-  txMsg.pt_data = &txBuffer[0];
-
-  // Write transmission data
-  memcpy(txBuffer, txf->data, txf->data_len);
-
-  // Identifier Extension Bit = 1 (CAN 2.0B)
-  txMsg.ctrl.ide = 1;
-
-  // Message ID
-  txMsg.id.ext   = txf->id & CANARD_CAN_EXT_ID_MASK;
-
-  // Data Lenght Code (DLC)
-  txMsg.dlc      = txf->data_len;
-
-  // Remote Transfer Request (RTR) = 0 (Message)
-  txMsg.ctrl.rtr = 0;
-
-  // Send transfer command to the CAN controller
-  txMsg.cmd = CMD_TX_DATA;
-
-  // Wait for the command to be accepted by the controller
-  timeout = millis();
-  while(can_cmd(&txMsg) != CAN_CMD_ACCEPTED)
+  // Error sending frame
+  if(tx_res < 0)
   {
-    if((millis() - timeout) > timeout_ms)
-    {
-      return -1;
-    }
+    canardPopTxQueue(canard);
+    return -1;
   }
-
-  // Wait for command to finish executing
-  timeout = millis();
-  while(can_get_status(&txMsg) == CAN_STATUS_NOT_COMPLETED)
+  // Frame sent successfully
+  else if (tx_res > 0)
   {
-    if((millis() - timeout) > timeout_ms)
-    {
-      return 1;
-    }
+    return 0;
   }
-
-  // Remove frame from Canard queue
-  canardPopTxQueue(canard);
-
-  // Return success
-  return 0;
+  // Timeout
+  else
+  {
+    return -1;
+  }
 }
 
 int readCanardCANFrame(CanardInstance* canard, CanardCANFrame* rxf, unsigned int timeout_ms)
 {
-  // CAN message object
-  st_cmd_t rxMsg;
+  // Read CAN frame
+  const int16_t rx_res = canardAVRReceive(rxf);
 
-  // Timeout counter
-  uint64_t timeout;
-
-  // Create receive buffer
-  uint8_t rxBuffer[8];
-
-  // Clear receive buffer
-  memset(rxBuffer, 0, sizeof(rxBuffer));
-
-  // Assign receive buffer
-  rxMsg.pt_data = &rxBuffer[0];
-
-  // Send transfer command to the CAN controller
-  rxMsg.cmd = CMD_RX_DATA;
-
-  // Wait for the command to be accepted by the controller
-  timeout = millis();
-  while(can_cmd(&rxMsg) != CAN_CMD_ACCEPTED)
+  // Error reading frame
+  if(rx_res < 0)
   {
-    if((millis() - timeout) > timeout_ms)
-    {
-      return -1;
-    }
+    return -1;
   }
-
-  // Wait for command to finish executing
-  timeout = millis();
-  while(can_get_status(&rxMsg) == CAN_STATUS_NOT_COMPLETED)
+  // Frame received
+  else if(rx_res > 0)
   {
-    if((millis() - timeout) > timeout_ms)
-    {
-      return 1;
-    }
+    return canardHandleRxFrame(canard, rxf, 1000*millis());
   }
-
-  // Get message ID
-  rxf->id = rxMsg.id.ext;
-
-  // Get message Data
-  memcpy(rxf->data, rxMsg.pt_data, rxMsg.dlc);
-
-  // Get message DLC
-  rxf->data_len = rxMsg.dlc;
-
-  // Process received message frame
-  return canardHandleRxFrame(canard, rxf, 1000*millis());
+  // Timeout
+  else
+  {
+    return 1;
+  }
 }
 
 int transmitCanardQueue(CanardInstance* canard, int timeout_ms)
@@ -149,7 +88,7 @@ int transmitCanardQueue(CanardInstance* canard, int timeout_ms)
   int reVal;
 
   // Iterate through Canard queue
-  for(CanardCANFrame* txf = NULL; (txf = canardPeekTxQueue(canard)) != NULL;)
+  for (const CanardCANFrame* txf = NULL; (txf = canardPeekTxQueue(canard)) != NULL;)
   {
     // Send CAN frame
     reVal = sendCanardCANFrame(canard, txf, timeout_ms);
@@ -157,7 +96,8 @@ int transmitCanardQueue(CanardInstance* canard, int timeout_ms)
     // Success
     if(reVal == 0)
     {
-      // continue
+      // Remove frame from Canard queue
+      canardPopTxQueue(canard);
     }
     // Timeout
     else if(reVal == 1)

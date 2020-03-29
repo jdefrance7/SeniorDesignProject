@@ -1,11 +1,17 @@
-#ifndef AST_CAN_H
-#define AST_CAN_H
+#ifndef AVR_CAN_VERSION
+#define AVR_CAN_VERSION 0
 
 #include <stdint.h> // primative data types
 
-#include <canard.h> // canard objects
+#include "canard_avr.h" // includes canard
 
-#include <ASTCanLib.h> // driver library
+#include "can_config.h" // can driver config
+
+#define CAN_CONFIG_LOADED // header file flag for can.h
+
+#include "can.h" // needed for bitrate
+
+#include <Arduino.h> // needed for millis()
 
 #define CANARD_MEMORY_POOL_SIZE 1024
 
@@ -28,7 +34,7 @@
 // Canard struct
 typedef struct
 {
-  long bitrate;
+  can_bitrate_t bitrate;
   CanardInstance canard;
   uint8_t canard_memory_pool[CANARD_MEMORY_POOL_SIZE];
 } Canard;
@@ -48,4 +54,4 @@ bool shouldAcceptTransfer(const CanardInstance* ins,
                                  CanardTransferType transfer_type,
                                  uint8_t source_node_id);
 
-#endif // AST_CAN_H
+#endif // AVR_CAN_VERSION

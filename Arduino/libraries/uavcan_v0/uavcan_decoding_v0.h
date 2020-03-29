@@ -2,14 +2,14 @@
 #define UAVCAN_DECODING_H
 
 /*
-    Support functions to handle decoding serialized bytes to UAVCAN data types.
+  Support functions to handle decoding serialized bytes to UAVCAN data types.
 */
 
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
 
-#include <canard.h>
+#include <libcanard_v0.h>
 
 #include "uavcan_dsdl_sizes_v0.h"
 #include "uavcan_data_types_v0.h"

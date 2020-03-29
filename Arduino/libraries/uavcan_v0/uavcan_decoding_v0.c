@@ -236,6 +236,11 @@ int32_t decode_get_node_info(
   {
     canardDecodeScalar(transfer, bit_offset, UINT8, UNSIGNED, &get_node_info->name[n]);
     bit_offset += UINT8;
+
+    if((char)get_node_info->name[n] == '\0')
+    {
+      break;
+    }
   }
 
   return (int32_t)bit_offset;
@@ -269,6 +274,11 @@ int32_t decode_get_data_type_info(
   {
     canardDecodeScalar(transfer, bit_offset, UINT8, UNSIGNED, &get_data_type_info->name[n]);
     bit_offset += UINT8;
+
+    if((char)get_data_type_info->name[n] == '\0')
+    {
+      break;
+    }
   }
 
   return (int32_t)bit_offset;
@@ -368,6 +378,11 @@ int32_t decode_hardware_version(
   {
     canardDecodeScalar(transfer, bit_offset, UINT8, UNSIGNED, &hardware_version->certificate[n]);
     bit_offset += UINT8;
+
+    if((char)hardware_version->certificate[n] == '\0')
+    {
+      break;
+    }
   }
 
   return (int32_t)bit_offset;
@@ -422,6 +437,11 @@ int32_t decode_key_value(
   {
     canardDecodeScalar(transfer, bit_offset, UINT8, UNSIGNED, &key_value->key[n]);
     bit_offset += UINT8;
+
+    if((char)key_value->key[n] == '\0')
+    {
+      break;
+    }
   }
 
   return (int32_t)bit_offset;
@@ -446,12 +466,22 @@ int32_t decode_log_message(
   {
     canardDecodeScalar(transfer, bit_offset, UINT8, UNSIGNED, &log_message->source[n]);
     bit_offset += UINT8;
+
+    if((char)log_message->source[n] == '\0')
+    {
+      break;
+    }
   }
 
   for(int n = 0; n < 90; n++)
   {
     canardDecodeScalar(transfer, bit_offset, UINT8, UNSIGNED, &log_message->text[n]);
     bit_offset += UINT8;
+
+    if((char)log_message->text[n] == '\0')
+    {
+      break;
+    }
   }
 
   return (int32_t)bit_offset;

@@ -8,19 +8,18 @@
 // #include <nxp_fxos_fxas.h>
 
 // Select CAN Driver
-// #include <avr_can.h>
-#include <ast_can.h>
+// #include <avr_can_v0.h>
+#include <ast_can_v0.h>
 
-// CAN Driver Information
+// UAVCAN Version
+#include <uavcan_v0.h>
+
+// CAN Bitrate
 //#define CAN_BITRATE BITRATE_125_KBPS  // AVR_CAN
 #define CAN_BITRATE 500000            // AST_CAN
 
- // CAN Timeouts
+// CAN Timeout
 #define TRANSMIT_TIMEOUT 5
-
-// Select UAVCAN Version
-#include <uavcan_v0.h>
-// #include <uavcan_v1.h> // not currently supported
 
 // Node Information
 #define NODE_ID   22
@@ -60,28 +59,36 @@ void setup()
 
   // Setup UAVCAN Node
   // Node Basics
-  node.id = NODE_ID;
-  memset(node.name, 0, sizeof(node.name));
-  memcpy(node.name, NODE_NAME, sizeof(NODE_NAME));
+  {
+    node.id = NODE_ID;
+    memset(node.name, 0, sizeof(node.name));
+    memcpy(node.name, NODE_NAME, sizeof(NODE_NAME));
+  }
   // Node Status
-  node.status.uptime_sec = 0;
-  node.status.health = HEALTH_OK;
-  node.status.mode = MODE_INITIALIZATION;
-  node.status.sub_mode = 0;
-  node.status.vendor_specific_status_code = 0;
+  {
+    node.status.uptime_sec = 0;
+    node.status.health = HEALTH_OK;
+    node.status.mode = MODE_INITIALIZATION;
+    node.status.sub_mode = 0;
+    node.status.vendor_specific_status_code = 0;
+  }
   // Node Hardware Version
-  node.hardware.major = HARDWARE_VERSION_MAJOR;
-  node.hardware.minor = HARDWARE_VERSION_MINOR;
-  memset(node.hardware.unique_id, 0, sizeof(node.hardware.unique_id));
-  memcpy(node.hardware.unique_id, HARDWARE_UNIQUE_ID, sizeof(HARDWARE_UNIQUE_ID));
-  memset(node.hardware.certificate, 0, sizeof(node.hardware.certificate));
-  memcpy(node.hardware.certificate, HARDWARE_CERTIFICATE, sizeof(HARDWARE_CERTIFICATE));
+  {
+    node.hardware.major = HARDWARE_VERSION_MAJOR;
+    node.hardware.minor = HARDWARE_VERSION_MINOR;
+    memset(node.hardware.unique_id, 0, sizeof(node.hardware.unique_id));
+    memcpy(node.hardware.unique_id, HARDWARE_UNIQUE_ID, sizeof(HARDWARE_UNIQUE_ID));
+    memset(node.hardware.certificate, 0, sizeof(node.hardware.certificate));
+    memcpy(node.hardware.certificate, HARDWARE_CERTIFICATE, sizeof(HARDWARE_CERTIFICATE));
+  }
   // Node Software Version
-  node.software.major = SOFTWARE_VERSION_MAJOR;
-  node.software.minor = SOFTWARE_VERSION_MINOR;
-  node.software.optional_field_flags = SOFTWARE_OPTIONAL_FIELD_FLAGS;
-  node.software.vcs_commit = SOFTWARE_VCS_COMMIT;
-  node.software.image_crc = SOFTWARE_IMAGE_CRC;
+  {
+    node.software.major = SOFTWARE_VERSION_MAJOR;
+    node.software.minor = SOFTWARE_VERSION_MINOR;
+    node.software.optional_field_flags = SOFTWARE_OPTIONAL_FIELD_FLAGS;
+    node.software.vcs_commit = SOFTWARE_VCS_COMMIT;
+    node.software.image_crc = SOFTWARE_IMAGE_CRC;    
+  }
 
   // Initialize CAN
   init_can(can, node.id);
@@ -127,6 +134,9 @@ void loop()
   static uint64_t send_node_status_time = millis();
   if((millis() - send_node_status_time) > SEND_NODE_STATUS_PERIOD_MS)
   {
+    // Update uptime
+    node.status.uptime_sec = 1000*millis();
+    
     #if defined(SERIAL_DEBUG)
     Serial.println("NodeStatus: ");
     Serial.print("  uptime_sec = ");  Serial.println(node.status.uptime_sec);
@@ -162,11 +172,69 @@ void loop()
     send_node_status_time = millis();
   }
 
-  /* Task: Send Orientation
+  /* Task: Send Orientation as LogMessage
 
   */
-  static uint64_t send_orientation_time = millis();
-  if((millis() - send_orientation_time) > SEND_ORIENTATION_PERIOD_MS)
+  static uint64_t send_log_message_time = millis();
+  if((millis() - send_log_message_time) > SEND_ORIENTATION_PERIOD_MS)
+  {
+    float quat[4];
+    quat[W_AXIS] = quaternion(W_AXIS);
+    quat[X_AXIS] = quaternion(X_AXIS);
+    quat[Y_AXIS] = quaternion(Y_AXIS);
+    quat[Z_AXIS] = quaternion(Z_AXIS);
+
+    String text = "";
+    text += String(quat[W_AXIS]); text += ",";
+    text += String(quat[X_AXIS]); text += ",";
+    text += String(quat[Y_AXIS]); text += ",";
+    text += String(quat[Z_AXIS]); text += "\n";
+
+    LogMessage message;
+    message.level = LEVEL_INFO;
+    memset(message.source, 0 , LOG_MESSAGE_SOURCE_SIZE);
+    memcpy(message.source, node.name, LOG_MESSAGE_TEXT_SIZE);
+    memset(message.text, 0, LOG_MESSAGE_TEXT_SIZE);
+    memcpy(message.text, text.c_str(), text.length());
+
+    #if defined(SERIAL_DEBUG)
+    Serial.println("LogMessage: ");
+    Serial.print("  level = ");   Serial.println(message.level);
+    Serial.print("  source = ");  Serial.println((char*)message.source);
+    Serial.print("  text = ");    Serial.println((char*)message.text);
+    #endif
+
+    static uint8_t log_message_transfer_id = 0;
+
+    uint8_t buffer[(LOG_MESSAGE_DATA_TYPE_SIZE / 8)];
+    memset(buffer, 0, sizeof(buffer));
+
+    encode_log_message(buffer, sizeof(buffer), 0, message);
+
+    canardBroadcast(
+      &can.canard,
+      LOG_MESSAGE_DATA_TYPE_SIGNATURE,
+      LOG_MESSAGE_DATA_TYPE_ID,
+      &log_message_transfer_id,
+      CANARD_TRANSFER_PRIORITY_MEDIUM,
+      buffer,
+      sizeof(buffer)
+    );
+
+    transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
+
+    #if defined(SERIAL_DEBUG)
+    Serial.println("LogMessage sent!");
+    #endif
+
+    send_log_message_time = millis();
+  }
+
+  /* Task: Send Orientation as CameraGimbalStatus
+
+  */
+  static uint64_t send_camera_gimbal_status = millis();
+  if((millis() - send_camera_gimbal_status) > SEND_ORIENTATION_PERIOD_MS)
   {
     CameraGimbalStatus camera;
 
@@ -210,7 +278,7 @@ void loop()
     Serial.println("CameraGimbmalStatus sent!");
     #endif
 
-    send_orientation_time = millis();
+    send_camera_gimbal_status = millis();
   }
 
   /* Task: Cleanup UAVCAN

@@ -8,10 +8,11 @@
 #ifndef CANARD_AVR_H
 #define CANARD_AVR_H
 
-#include <canard.h>
+#include <libcanard_v0.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 /**

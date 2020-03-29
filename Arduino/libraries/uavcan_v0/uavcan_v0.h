@@ -2,7 +2,7 @@
 #define UAVCAN_H
 
 // UAVCAN structure implementation in C
-#include <canard.h>
+#include <libcanard_v0.h>
 
 // DSDL primative data type sizes
 #include "uavcan_dsdl_sizes_v0.h"

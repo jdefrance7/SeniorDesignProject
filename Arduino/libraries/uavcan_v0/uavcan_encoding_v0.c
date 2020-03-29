@@ -81,7 +81,7 @@ int32_t encode_ahrs_solution(
     bit_offset += FLOAT16;
   }
 
-  canardEncodeScalar(buffer, bit_offset, VOID4, NULL);
+  canardEncodeScalar(buffer, bit_offset, VOID4, 0);
   bit_offset += VOID4;
 
   for(int n = 0; n < 9; n++)
@@ -96,7 +96,7 @@ int32_t encode_ahrs_solution(
     bit_offset += FLOAT16;
   }
 
-  canardEncodeScalar(buffer, bit_offset, VOID4, NULL);
+  canardEncodeScalar(buffer, bit_offset, VOID4, 0);
   bit_offset += VOID4;
 
   for(int n = 0; n < 9; n++)
@@ -287,6 +287,12 @@ int32_t encode_get_node_info(
   {
     canardEncodeScalar(buffer, bit_offset, UINT8, &get_node_info.name[n]);
     bit_offset += UINT8;
+
+    if((char)get_node_info.name[n] == '\0')
+    {
+      break;
+    }
+
   }
 
   return (int32_t)bit_offset;
@@ -326,6 +332,11 @@ int32_t encode_get_data_type_info(
   {
     canardEncodeScalar(buffer, bit_offset, UINT8, &get_data_type_info.name[n]);
     bit_offset += UINT8;
+
+    if((char)get_data_type_info.name[n] == '\0')
+    {
+      break;
+    }
   }
 
   return (int32_t)bit_offset;
@@ -449,6 +460,11 @@ int32_t encode_hardware_version(
   {
     canardEncodeScalar(buffer, bit_offset, UINT8, &hardware_version.certificate[n]);
     bit_offset =+ UINT8;
+
+    if((char)hardware_version.certificate[n] == '\0')
+    {
+      break;
+    }
   }
 
   return (int32_t)bit_offset;
@@ -512,6 +528,11 @@ int32_t encode_key_value(
   {
     canardEncodeScalar(buffer, bit_offset, UINT8, &key_value.key[n]);
     bit_offset += UINT8;
+
+    if((char)key_value.key[n] == '\0')
+    {
+      break;
+    }
   }
 
   return (int32_t)bit_offset;
@@ -542,12 +563,22 @@ int32_t encode_log_message(
   {
     canardEncodeScalar(buffer, bit_offset, UINT8, &log_message.source[n]);
     bit_offset += UINT8;
+
+    if((char)log_message.source[n] == '\0')
+    {
+      break;
+    }
   }
 
   for(int n = 0; n < 90; n++)
   {
     canardEncodeScalar(buffer, bit_offset, UINT8, &log_message.text[n]);
     bit_offset += UINT8;
+
+    if((char)log_message.text[n] == '\0')
+    {
+      break;
+    }
   }
 
   return (int32_t)bit_offset;
