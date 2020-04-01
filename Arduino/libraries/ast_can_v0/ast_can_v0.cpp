@@ -6,7 +6,8 @@ void printCanard(Canard can)
   Serial.print("  Bitrate: ");  Serial.println(can.bitrate);
   Serial.print("  ");           printCanardInstance(&can.canard);
   Serial.print("  Memory: ");   Serial.println(CANARD_MEMORY_POOL_SIZE);
-  Serial.print("  ");           printCanardPoolAllocatorStatistics(canardGetPoolAllocatorStatistics(&can.canard));
+  CanardPoolAllocatorStatistics stats = canardGetPoolAllocatorStatistics(&can.canard);
+  Serial.print("  ");           printCanardPoolAllocatorStatistics(&stats);
 }
 
 void printMsg(st_cmd_t msg)
@@ -55,7 +56,7 @@ int init_can(Canard can, uint8_t id)
   canInit(can.bitrate);
 
   // Initialization success
-  return AST_CAN_SUCCESS;
+  return CANARD_OK;
 }
 
 int sendCanardCANFrame(CanardInstance* canard, CanardCANFrame* txf, unsigned int timeout_ms)

@@ -43,6 +43,17 @@ typedef struct
 } Canard;
 
 /*
+  Print function for custom Canard struct
+*/
+void printCanard(Canard can);
+
+/*
+  Print function for ASTCanLib Messages
+*/
+void printMsg(st_cmd_t msg);
+
+
+/*
   Initialize the CAN module given Canard struct and Node ID.
 */
 int init_can(Canard can, uint8_t id);

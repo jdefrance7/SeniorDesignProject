@@ -14,25 +14,11 @@
 #include "canard.h"
 #include "canard_dsdl.h"
 
-//------------------------------------------------------------------------------
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-//------------------------------------------------------------------------------
-
 void printCanardFrame(CanardFrame* frame);
 
 void printCanardTransfer(CanardTransfer* transfer);
 
 void printCanardInstance(CanardInstance* ins);
-
-//------------------------------------------------------------------------------
-
-#ifdef __cplusplus
-}
-#endif
 
 //------------------------------------------------------------------------------
 

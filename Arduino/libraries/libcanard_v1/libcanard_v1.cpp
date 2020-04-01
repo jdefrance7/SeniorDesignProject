@@ -9,18 +9,13 @@ void printCanardFrame(CanardFrame* frame)
   Serial.print("  Extended ID: ");    Serial.println(frame->extended_can_id);
   Serial.print("  Payload Size: ");   Serial.println(frame->payload_size);
   Serial.print("  Payload: ");
+  byte payload[8];
+  memcpy(payload, frame->payload, frame->payload_size);
   for(int n = 0; n < frame->payload_size; n++)
   {
-    Serial.print((byte)frame->payload[n], HEX);
-
-    if(n == (frame->payload_size-1))
-    {
-        Serial.print("\n");
-        break;
-    }
-
-    Serial.print(",");
+    Serial.print(payload[n], HEX);
   }
+  Serial.print("\n");
 }
 
 void printCanardTransfer(CanardTransfer* transfer)
@@ -33,18 +28,14 @@ void printCanardTransfer(CanardTransfer* transfer)
   Serial.print("  Remote Node ID: ");   Serial.println(transfer->remote_node_id);
   Serial.print("  Tranfer ID: ");       Serial.println(transfer->transfer_id);
   Serial.print("  Payload Size: ");     Serial.println(transfer->payload_size);
+  Serial.print("  Payload: ");
+  byte payload[8];
+  memcpy(payload, transfer->payload, transfer->payload_size);
   for(int n = 0; n < transfer->payload_size; n++)
   {
-    Serial.print((byte)transfer->payload[n], HEX);
-
-    if(n == (transfer->payload_size-1))
-    {
-        Serial.print("\n");
-        break;
-    }
-
-    Serial.print(",");
+    Serial.print(payload[n], HEX);
   }
+  Serial.print("\n");
 }
 
 void printCanardInstance(CanardInstance* ins)

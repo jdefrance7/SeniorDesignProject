@@ -1,7 +1,5 @@
 #include "libcanard_v0.h"
 
-#include <Arduino.h>
-
 void printCanardFrame(CanardCANFrame* frame)
 {
   Serial.println("Canard Frame");
@@ -30,7 +28,7 @@ void printCanardInstance(CanardInstance* ins)
 void printCanardRxTransfer(CanardRxTransfer* rxt)
 {
   Serial.println("Canard Rx Transfer");
-  Serial.print("  Timestamp Usec: ");   Serial.println(rxt->timestamp_usec);
+  Serial.print("  Timestamp Usec: ");   Serial.println((long)rxt->timestamp_usec);
   Serial.print("  Payload Length: ");   Serial.println(rxt->payload_len);
   Serial.print("  Data Type ID: ");     Serial.println(rxt->data_type_id);
   Serial.print("  Transfer Type: ");    Serial.println(rxt->transfer_type);

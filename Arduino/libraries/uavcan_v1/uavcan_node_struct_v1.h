@@ -13,6 +13,8 @@
 
 #include "uavcan_data_types_v1.h"
 
+#include "libcanard_v1.h"
+
 //------------------------------------------------------------------------------
 
 #define UAVCAN_NODE_NAME_SIZE 80

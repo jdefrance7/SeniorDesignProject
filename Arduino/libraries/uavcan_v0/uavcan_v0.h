@@ -27,6 +27,9 @@
 // Functions to decode UAVCAN messages into data type structs
 #include "uavcan_decoding_v0.h"
 
+// Serial printing functions for debugging
+#include "uavcan_debugging_v0.h"
+
 //------------------------------------------------------------------------------
 
 #endif // UAVCAN_H

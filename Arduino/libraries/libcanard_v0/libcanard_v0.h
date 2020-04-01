@@ -14,11 +14,7 @@
 #include "canard.h"
 #include "canard_internals.h"
 
-//------------------------------------------------------------------------------
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <Arduino.h>
 
 //------------------------------------------------------------------------------
 
@@ -29,12 +25,6 @@ void printCanardInstance(CanardInstance* ins);
 void printCanardRxTransfer(CanardRxTransfer* rxt);
 
 void printCanardPoolAllocatorStatistics(CanardPoolAllocatorStatistics* stats);
-
-//------------------------------------------------------------------------------
-
-#ifdef __cplusplus
-}
-#endif
 
 //------------------------------------------------------------------------------
 

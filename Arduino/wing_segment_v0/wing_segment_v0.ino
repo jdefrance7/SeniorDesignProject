@@ -293,7 +293,7 @@ void loop()
     // Serial debugging
     #if defined(SERIAL_DEBUG)
     printCameraGimbalStatus(camera);
-    ##endif // SERIAL_DEBUG
+    #endif // SERIAL_DEBUG
 
     // Unique ID for camera gimbal status transfers
     static uint8_t camera_gimbal_status_transfer_id = 0;
@@ -355,7 +355,7 @@ void loop()
 
     // Serial debugging
     #if defined(SERIAL_DEBUG)
-    printCanardPoolAllocatorStatistics(stats);
+    printCanardPoolAllocatorStatistics(&stats);
     #endif // SERIAL_DEBUG
 
     // Update time reference

@@ -9,12 +9,7 @@
 
 #include "uavcan_data_types_v1.h"
 #include "uavcan_dsdl_sizes_v1.h"
-
-//------------------------------------------------------------------------------
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "uavcan_node_struct_v1.h"
 
 //------------------------------------------------------------------------------
 
@@ -28,12 +23,6 @@ void printSeverity(Severity severity);
 void printRecord(Record record);
 
 void printNode(UavcanNode node);
-
-//------------------------------------------------------------------------------
-
-#ifdef __cplusplus
-}
-#endif
 
 //------------------------------------------------------------------------------
 

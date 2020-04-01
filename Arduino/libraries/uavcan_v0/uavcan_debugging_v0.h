@@ -13,12 +13,6 @@
 
 //------------------------------------------------------------------------------
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-//------------------------------------------------------------------------------
-
 void printNodeStatus(NodeStatus status);
 void printHardwareVersion(HardwareVersion hardware);
 void printSoftwareVersion(SoftwareVersion software);
@@ -38,12 +32,6 @@ void printLogLevel(LogLevel level);
 void printLogMessage(LogMessage msg);
 
 void printNode(UavcanNode node);
-
-//------------------------------------------------------------------------------
-
-#ifdef __cplusplus
-}
-#endif
 
 //------------------------------------------------------------------------------
 
