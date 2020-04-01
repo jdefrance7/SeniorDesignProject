@@ -1,6 +1,8 @@
 #ifndef UAVCAN_DATA_TYPES
 #define UAVCAN_DATA_TYPES
 
+//------------------------------------------------------------------------------
+
 /*
   Declaration of UAVCAN data types implemented as C structs and primatives.
 
@@ -8,8 +10,12 @@
 
   Constants defined in a data type's DSDL are included.
 
-  ### Add more data tyes as necessary. Follow layout if possible. ###
+  Reference: https://uavcan.org/specification/UAVCAN_Specification_v1.0-alpha.pdf
+
+  '''Add more data tyes as necessary.'''
 */
+
+//------------------------------------------------------------------------------
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -169,5 +175,7 @@ typedef struct
   Severity severity;
   uint8_t text[RECORD_TEXT_SIZE];
 } Record;
+
+//------------------------------------------------------------------------------
 
 #endif // UAVCAN_DATA_TYPES

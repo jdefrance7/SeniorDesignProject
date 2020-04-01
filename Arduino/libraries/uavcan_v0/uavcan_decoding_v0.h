@@ -1,9 +1,13 @@
 #ifndef UAVCAN_DECODING_H
 #define UAVCAN_DECODING_H
 
+//------------------------------------------------------------------------------
+
 /*
   Support functions to handle decoding serialized bytes to UAVCAN data types.
 */
+
+//------------------------------------------------------------------------------
 
 #include <stdio.h>
 #include <string.h>
@@ -14,13 +18,17 @@
 #include "uavcan_dsdl_sizes_v0.h"
 #include "uavcan_data_types_v0.h"
 
+//------------------------------------------------------------------------------
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 //------------------------------------------------------------------------------
 
-// Return Values
+// Functions return new bit_offset
+
+// --- OR ---
 
 #define DECODING_BUFFER_OVERFLOW -1
 
@@ -39,7 +47,8 @@ extern "C" {
 // Full Name: uavcan.CoarseOrientation
 
 int32_t decode_coarse_orientation(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   CoarseOrientation* coarse_orientation
 );
@@ -51,7 +60,8 @@ int32_t decode_coarse_orientation(
 // Full Name: uavcan.Timestamp
 
 int32_t decode_timestamp(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   Timestamp* timestamp
 );
@@ -63,7 +73,8 @@ int32_t decode_timestamp(
 // Full name: uavcan.equipment.ahrs.Solution
 
 int32_t decode_ahrs_solution(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   AhrsSolution* ahrs_solution
 );
@@ -75,7 +86,8 @@ int32_t decode_ahrs_solution(
 // Full name: uavcan.equipment.camera_gimbal.Status
 
 int32_t decode_camera_gimbal_status(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   CameraGimbalStatus* camera_gimbal_status
 );
@@ -87,7 +99,8 @@ int32_t decode_camera_gimbal_status(
 // Full name: uavcan.equipment.camera_gimbal.Mode
 
 int32_t decode_camera_gimbal_mode(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   CameraGimbalMode* camera_gimbal_mode
 );
@@ -99,7 +112,8 @@ int32_t decode_camera_gimbal_mode(
 // Full name: uavcan.equipment.device.Temperature
 
 int32_t decode_device_temperature(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   DeviceTemperature* device_temperature
 );
@@ -111,7 +125,8 @@ int32_t decode_device_temperature(
 // Full name: uavcan.equipment.range_sensor.Measurement
 
 int32_t decode_range_sensor_measurement(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   RangeSensorMeasurement* range_sensor_measurement
 );
@@ -123,7 +138,8 @@ int32_t decode_range_sensor_measurement(
 // Full name: uavcan.protocol.GetNodeInfo
 
 int32_t decode_get_node_info(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   GetNodeInfo* get_node_info
 );
@@ -135,7 +151,8 @@ int32_t decode_get_node_info(
 // Full name: uavcan.protocol.GetDataTypeInfo
 
 int32_t decode_get_data_type_info(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   GetDataTypeInfo* get_data_type_info
 );
@@ -147,7 +164,8 @@ int32_t decode_get_data_type_info(
 // Full name: uavcan.protocol.NodeStatus
 
 int32_t decode_node_status(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   NodeStatus* node_status
 );
@@ -159,7 +177,8 @@ int32_t decode_node_status(
 // Full name: uavcan.protocol.RestartNode
 
 int32_t decode_restart_node(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   RestartNode* restart_node
 );
@@ -171,7 +190,8 @@ int32_t decode_restart_node(
 // Full name: uavcan.protocol.DataTypeKind
 
 int32_t decode_data_type_kind(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   DataTypeKind* data_type_kind
 );
@@ -183,7 +203,8 @@ int32_t decode_data_type_kind(
 // Full name: uavcan.protocol.HardwareVersion
 
 int32_t decode_hardware_version(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   HardwareVersion* hardware_version
 );
@@ -195,7 +216,8 @@ int32_t decode_hardware_version(
 // Full name: uavcan.protocol.SoftwareVersion
 
 int32_t decode_software_version(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   SoftwareVersion* software_version
 );
@@ -207,7 +229,8 @@ int32_t decode_software_version(
 // Full name: uavcan.protocol.debug.KeyValue
 
 int32_t decode_key_value(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   KeyValue* key_value
 );
@@ -219,7 +242,8 @@ int32_t decode_key_value(
 // Full name: uavcan.protocol.debug.LogMessage
 
 int32_t decode_log_message(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   LogMessage* log_message
 );
@@ -231,7 +255,8 @@ int32_t decode_log_message(
 // Full name: uavcan.protocol.debug.LogLevel
 
 int32_t decode_log_level(
-  const CanardRxTransfer* transfer,
+  uint8_t buffer[],
+  uint32_t buffer_size,
   uint32_t bit_offset,
   LogLevel* log_level
 );
@@ -241,5 +266,7 @@ int32_t decode_log_level(
 #ifdef __cplusplus
 }
 #endif
+
+//------------------------------------------------------------------------------
 
 #endif // UAVCAN_DECODING_H

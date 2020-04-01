@@ -231,7 +231,7 @@ int32_t encode_severity(
   canardDSDLSetUxx(buffer, bit_offset, (uint64_t)severity, UINT3);
   bit_offset += UINT3;
 
-  // void5
+  canardDSDLSetUxx(buffer, bit_offset, (uint64_t)0, VOID5);
   bit_offset += VOID5;
 
   return (int32_t)bit_offset;
@@ -250,6 +250,11 @@ int32_t encode_record(
   Record record
 )
 {
+  if((bit_offset + RECORD_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  {
+    return ENCODING_BUFFER_OVERFLOW;
+  }
+
   encode_synchronized_timestamp(buffer, buffer_size, bit_offset, record.timestamp);
   bit_offset += SYNCHRONIZED_TIMESTAMP_DATA_TYPE_SIZE;
 

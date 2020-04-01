@@ -5,7 +5,7 @@ int init_can(Canard can, uint8_t id)
   // Check node ID
   if(id == 0)
   {
-    return -1;
+    return ERR_INVALID_NODE_ID;
   }
 
   // Initialize canard instance
@@ -24,39 +24,39 @@ int init_can(Canard can, uint8_t id)
   // Init CAN module
   if(canardAVRInit(can.bitrate) != 0)
   {
-    return -1;
+    return ERR_CAN_MODULE_INIT;
   }
 
   // Set CAN filters
   if(canardAVRConfigureAcceptanceFilters(id) != 1)
   {
-    return -1;
+    return ERR_CAN_FILTER_INIT;
   }
 
   // Initialization success
-  return 0;
+  return CANARD_OK;
 }
 
 int sendCanardCANFrame(CanardInstance* canard, CanardCANFrame* txf, unsigned int timeout_ms)
 {
-  // Send CAN frame
+  // Send Canard CAN frame
   const int16_t tx_res = canardAVRTransmit(txf);
 
-  // Error sending frame
+  // Error
   if(tx_res < 0)
   {
     canardPopTxQueue(canard);
-    return -1;
+    return tx_res;
   }
-  // Frame sent successfully
+  // Success
   else if (tx_res > 0)
   {
-    return 0;
+    return CANARD_OK;
   }
   // Timeout
   else
   {
-    return -1;
+    return ERR_CANARD_AVR_TIMEOUT;
   }
 }
 
@@ -65,20 +65,36 @@ int readCanardCANFrame(CanardInstance* canard, CanardCANFrame* rxf, unsigned int
   // Read CAN frame
   const int16_t rx_res = canardAVRReceive(rxf);
 
-  // Error reading frame
+  // Error
   if(rx_res < 0)
   {
-    return -1;
+    return rx_res;
   }
-  // Frame received
+  // Success
   else if(rx_res > 0)
   {
     return canardHandleRxFrame(canard, rxf, 1000*millis());
+    /*
+      canardHandleRxFrame return values
+        CANARD_OK                                  0
+        CANARD_ERROR_INVALID_ARGUMENT              -2
+        CANARD_ERROR_OUT_OF_MEMORY                 -3
+        CANARD_ERROR_NODE_ID_NOT_SET               -4
+        CANARD_ERROR_INTERNAL                      -9
+        CANARD_ERROR_RX_INCOMPATIBLE_PACKET        -10
+        CANARD_ERROR_RX_WRONG_ADDRESS              -11
+        CANARD_ERROR_RX_NOT_WANTED                 -12
+        CANARD_ERROR_RX_MISSED_START               -13
+        CANARD_ERROR_RX_WRONG_TOGGLE               -14
+        CANARD_ERROR_RX_UNEXPECTED_TID             -15
+        CANARD_ERROR_RX_SHORT_FRAME                -16
+        CANARD_ERROR_RX_BAD_CRC                    -17
+    */
   }
   // Timeout
   else
   {
-    return 1;
+    return ERR_CANARD_AVR_TIMEOUT;
   }
 }
 
@@ -94,25 +110,25 @@ int transmitCanardQueue(CanardInstance* canard, int timeout_ms)
     reVal = sendCanardCANFrame(canard, txf, timeout_ms);
 
     // Success
-    if(reVal == 0)
+    if(reVal == CANARD_OK)
     {
       // Remove frame from Canard queue
       canardPopTxQueue(canard);
     }
     // Timeout
-    else if(reVal == 1)
+    else if(reVal == ERR_CANARD_AVR_TIMEOUT)
     {
-      return 1;
+      return ERR_CANARD_AVR_TIMEOUT;
     }
     // Error
     else
     {
-      return -1;
+      return reVal;
     }
   }
 
   // Return success
-  return 0;
+  return CANARD_OK;
 }
 
 /**

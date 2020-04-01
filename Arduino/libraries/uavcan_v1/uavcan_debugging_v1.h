@@ -1,18 +1,14 @@
-#ifndef LIBCANARD_VERSION
-#define LIBCANARD_VERSION 0
+#ifndef UAVCAN_DEBUGGING
+#define UAVCAN_DEBUGGING
 
 //------------------------------------------------------------------------------
 
-/*
-  Arduino style library to access Canard v0 (Legacy).
-
-  All files pulled from submodule.
-*/
+#include <Arduino.h>
 
 //------------------------------------------------------------------------------
 
-#include "canard.h"
-#include "canard_internals.h"
+#include "uavcan_data_types_v1.h"
+#include "uavcan_dsdl_sizes_v1.h"
 
 //------------------------------------------------------------------------------
 
@@ -22,13 +18,16 @@ extern "C" {
 
 //------------------------------------------------------------------------------
 
-void printCanardFrame(CanardCANFrame* frame);
+void printHeartbeat(Heartbeat heartbeat);
+void printSynchronizedTimestamp(SynchronizedTimestamp timestamp);
+void printQuaternion(Quaternion q);
+void printID(ID id);
+void printVersion(Version version);
+void printGetInfo(GetInfo info);
+void printSeverity(Severity severity);
+void printRecord(Record record);
 
-void printCanardInstance(CanardInstance* ins);
-
-void printCanardRxTransfer(CanardRxTransfer* rxt);
-
-void printCanardPoolAllocatorStatistics(CanardPoolAllocatorStatistics* stats);
+void printNode(UavcanNode node);
 
 //------------------------------------------------------------------------------
 
@@ -38,4 +37,4 @@ void printCanardPoolAllocatorStatistics(CanardPoolAllocatorStatistics* stats);
 
 //------------------------------------------------------------------------------
 
-#endif // LIBCANARD_VERSION
+#endif // UAVCAN_DEBUGGING

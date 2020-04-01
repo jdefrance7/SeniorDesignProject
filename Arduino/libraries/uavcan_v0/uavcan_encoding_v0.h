@@ -1,9 +1,13 @@
 #ifndef UAVCAN_ENCODING_H
 #define UAVCAN_ENCODING_H
 
+//------------------------------------------------------------------------------
+
 /*
   Support functions to handle encoding UAVCAN data types into serialized bytes.
 */
+
+//------------------------------------------------------------------------------
 
 #include <stdio.h>
 #include <string.h>
@@ -13,6 +17,8 @@
 
 #include "uavcan_dsdl_sizes_v0.h"
 #include "uavcan_data_types_v0.h"
+
+//------------------------------------------------------------------------------
 
 #ifdef __cplusplus
 extern "C" {
@@ -252,5 +258,7 @@ int32_t encode_log_level(
 #ifdef __cplusplus
 }
 #endif
+
+//------------------------------------------------------------------------------
 
 #endif // UAVCAN_ENCODING_H

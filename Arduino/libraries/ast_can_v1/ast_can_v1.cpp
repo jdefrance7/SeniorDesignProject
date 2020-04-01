@@ -1,11 +1,39 @@
 #include "ast_can_v1.h"
 
+void printCanard(Canard can)
+{
+  Serial.println("Can");
+  Serial.print("  Bitrate: ");  Serial.println(can.bitrate);
+  Serial.print("  ");           printCanardInstance(&can.canard);
+}
+
+void printMsg(st_cmd_t msg)
+{
+  Serial.println("CAN Message");
+  Serial.print("  ID: ");   Serial.println(msg.id.ext, HEX);
+  Serial.print("  IDE: ");  Serial.println(msg.ctrl.ide, BIN);
+  Serial.print("  RTR: ");  Serial.println(msg.ctrl.rtr, BIN);
+  Serial.print("  DLC: ");  Serial.println(msg.dlc);
+  Serial.print("  Data: ");
+  for(int n = 0; n < msg.dlc; n++)
+  {
+    Serial.print((byte)msg.pt_data[n], HEX);
+
+    if(n == (msg.dlc-1))
+    {
+      Serial.print("\n");
+    }
+
+    Serial.print(",");
+  }
+}
+
 int init_can(Canard can, uint8_t id)
 {
   // Check valid node ID
   if(id == 0)
   {
-    return -1;
+    return ERR_INVALID_NODE_ID;
   }
 
   // Initialize Canard instance
@@ -21,7 +49,7 @@ int init_can(Canard can, uint8_t id)
   canInit(can.bitrate);
 
   // Initialization success
-  return 0;
+  return CANARD_OK;
 }
 
 int sendCanardFrame(CanardInstance* canard, CanardFrame* txf, unsigned int timeout_ms)
@@ -65,7 +93,7 @@ int sendCanardFrame(CanardInstance* canard, CanardFrame* txf, unsigned int timeo
   {
     if((millis() - timeout) > timeout_ms)
     {
-      return -1;
+      return ERR_COMMAND_ACCEPT_TIMEOUT;
     }
   }
 
@@ -75,12 +103,12 @@ int sendCanardFrame(CanardInstance* canard, CanardFrame* txf, unsigned int timeo
   {
     if((millis() - timeout) > timeout_ms)
     {
-      return 1;
+      return ERR_COMMAND_EXECUTE_TIMEOUT;
     }
   }
 
   // Return success
-  return 0;
+  return CANARD_OK;
 }
 
 int readCanardFrame(CanardInstance* canard, CanardFrame* rxf, uint8_t transport_index, CanardTransfer* transfer, unsigned int timeout_ms)
@@ -109,7 +137,7 @@ int readCanardFrame(CanardInstance* canard, CanardFrame* rxf, uint8_t transport_
   {
     if((millis() - timeout) > timeout_ms)
     {
-      return -1;
+      return ERR_COMMAND_ACCEPT_TIMEOUT;
     }
   }
 
@@ -119,7 +147,7 @@ int readCanardFrame(CanardInstance* canard, CanardFrame* rxf, uint8_t transport_
   {
     if((millis() - timeout) > timeout_ms)
     {
-      return 1;
+      return ERR_COMMAND_EXECUTE_TIMEOUT;
     }
   }
 
@@ -134,6 +162,18 @@ int readCanardFrame(CanardInstance* canard, CanardFrame* rxf, uint8_t transport_
 
   // Process received message frame
   return canardRxAccept(canard, rxf, transport_index, transfer);
+  /*
+    canardRxAccept return values
+      TRANSFER_COMPLETE               (1)
+      INVALID_FRAME                   (0)
+      NO_SUBSCRIPTION                 (0)
+      TRANSFER_INCOMPLETE             (0)
+      INVALID_FRAME_SEQUENCE          (0)
+      DUPLICATE_FRAME                 (0)
+      ADDRESS_MISMATCH                (0)
+      CANARD_ERROR_INVALID_ARGUMENT   (-2)
+      CANARD_ERROR_OUT_OF_MEMORY      (-3)
+  */
 }
 
 int transmitCanardQueue(CanardInstance* canard, int timeout_ms)
@@ -148,23 +188,23 @@ int transmitCanardQueue(CanardInstance* canard, int timeout_ms)
     reVal = sendCanardFrame(canard, txf, timeout_ms);
 
     // Success
-    if(reVal == 0)
+    if(reVal == CANARD_OK)
     {
       // Remove frame from Canard queue
       canardTxPop(canard);
     }
     // Timeout
-    else if(reVal == 1)
+    else if(reVal == ERR_COMMAND_EXECUTE_TIMEOUT)
     {
-      return 1;
+      return ERR_COMMAND_EXECUTE_TIMEOUT;
     }
     // Error
     else
     {
-      return -1;
+      return reVal;
     }
   }
 
   // Return success
-  return 0;
+  return CANARD_OK;
 }

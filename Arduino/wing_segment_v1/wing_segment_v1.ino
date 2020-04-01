@@ -2,6 +2,9 @@
 #define SERIAL_DEBUG // uncomment for debug information
 #define SERIAL_BAUDRATE 9600
 
+// Core Arduino Library
+#include <Arduino.h>
+
 // Select IMU Sensor
 #include <bno055.h>
 // #include <lsm9ds1.h>
@@ -14,7 +17,7 @@
 #include <uavcan_v1.h>
 
 // CAN Bitrate
-#define CAN_BITRATE 500000            // AST_CAN
+#define CAN_BITRATE 500000
 
  // CAN Timeout
 #define TRANSMIT_TIMEOUT 5
@@ -84,7 +87,7 @@ void setup()
     memcpy(node.info.name, NODE_NAME, sizeof(NODE_NAME));
     node.info.software_image_crc = SOFTWARE_IMAGE_CRC;
     memset(node.info.certificate, 0, sizeof(node.info.certificate));
-    memcpy(node.info.certificate, HARDWARE_CERTIFICATE, sizeof(HARDWARE_CERTIFICATE));    
+    memcpy(node.info.certificate, HARDWARE_CERTIFICATE, sizeof(HARDWARE_CERTIFICATE));
   }
 
   // Initialize CAN
@@ -93,150 +96,215 @@ void setup()
   // Initialize IMU
   init_imu();
 
-  // Initialize Serial (debugging)
+  // Initialization Complete!
+  node.status.uptime = millis()/1000;
+  node.status.mode = MODE_OPERATIONAL;
+
+  // Serial debugging
   #if defined(SERIAL_DEBUG)
+
+  // Start Serial module
   Serial.begin(SERIAL_BAUDRATE);
   while(!Serial);
-  Serial.println("Initialization complete!");
-  #endif
 
-  // Initialization Complete!
-  node.status.mode = MODE_OPERATIONAL;
+  // Print initialization information
+  Serial.println("\nInitialization...");
+  printCanard(can);
+  printNode(node);
+  Serial.println("\nInitialization complete!");
+
+  #endif // SERIAL_DEBUG
 }
 
 void loop()
 {
-  /* Task: Update IMU
-
+  /*
+    Task: Update IMU
+    Note: IMU's running AHRS filters need to be updated for calculations.
   */
   static uint64_t update_imu_time = millis();
   if((millis() - update_imu_time) > UPDATE_IMU_PERIOD_MS)
   {
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
     Serial.println("Updating IMU...");
-    #endif
+    #endif // SERIAL_DEBUG
 
+    // Update IMU's filters
     update_imu();
 
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
     Serial.println("IMU updated!");
-    #endif
+    #endif // SERIAL_DEBUG
 
+    // Update time reference
     update_imu_time = millis();
   }
 
-  /* Task: Send Heartbeat
-
+  /*
+    Task: Send Heartbeat
   */
   static uint64_t heartbeat_time = millis();
   if((millis() - heartbeat_time) > SEND_HEARTBEAT_PERIOD_MS)
   {
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
-    Serial.println("NodeStatus: ");
-    Serial.print("  uptime_sec = ");  Serial.println(node.status.uptime);
-    Serial.print("  health = ");      Serial.println(node.status.health);
-    Serial.print("  mode = ");        Serial.println(node.status.mode);
-    Serial.print("  vendor_code = "); Serial.println(node.status.vendor_specific_status_code);
-    #endif
+    printHeartbeat(node.status);
+    #endif // SERIAL_DEBUG
 
+    // Unique ID for heartbeat transfers
     static uint8_t heartbeat_transfer_id = 0;
 
+    // Create data field buffer
     uint8_t buffer[(HEARTBEAT_DATA_TYPE_SIZE / 8)];
+
+    // Clear data field buffer
     memset(buffer, 0, sizeof(buffer));
 
+    // Encode data field buffer
     encode_heartbeat(buffer, sizeof(buffer), 0, node.status);
 
+    // Create Canard transfer
     CanardTransfer transfer;
+
+    // Set transfer timestamp
     transfer.timestamp_usec = 1000*millis();
+
+    // Set transfer priority
     transfer.priority = CanardPriorityNominal;
+
+    // Set transfer kind
     transfer.transfer_kind = CanardTransferKindMessage;
+
+    // Set data type id
     transfer.port_id = HEARTBEAT_DATA_TYPE_ID;
+
     // messages ignore transfer.remote_node_id
+
+    // Set transfer id
     transfer.transfer_id = heartbeat_transfer_id;
+
+    // Set transfer size
     transfer.payload_size = sizeof(buffer);
+
+    // Set transfer data
     transfer.payload = buffer;
 
+    // Format and push message frame(s) onto Canard queue
     canardTxPush(
       &can.canard,
       &transfer
     );
 
+    // Transmit all frames in Canard queue
     transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
 
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
-    Serial.println("NodeStatus sent!");
-    #endif
+    Serial.println("Heartbeat sent!");
+    #endif // SERIAL_DEBUG
 
+    // Update time reference
     heartbeat_time = millis();
   }
 
-  /* Task: Send Orientation as Record
-
+  /*
+    Task: Send Orientation as Record
   */
   static uint64_t send_orientation_time = millis();
   if((millis() - send_orientation_time) > SEND_ORIENTATION_PERIOD_MS)
   {
+    // Create and store quaternion unit values
     Quaternion quat;
     quat.wxyz[QW_INDEX] = quaternion(W_AXIS);
     quat.wxyz[QX_INDEX] = quaternion(X_AXIS);
     quat.wxyz[QY_INDEX] = quaternion(Y_AXIS);
     quat.wxyz[QZ_INDEX] = quaternion(Z_AXIS);
 
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
-    Serial.println("Quaternion:");
-    Serial.print("  qW = ");    Serial.println(quat.wxyz[QW_INDEX]);
-    Serial.print("  qX = ");    Serial.println(quat.wxyz[QX_INDEX]);
-    Serial.print("  qY = ");    Serial.println(quat.wxyz[QY_INDEX]);
-    Serial.print("  qZ = ");    Serial.println(quat.wxyz[QZ_INDEX]);
-    #endif
+    printQuaternion(quat);
+    #endif // SERIAL_DEBUG
 
+    // Format quaternion into comma separated list
     String text = "";
     text += String(quat.wxyz[QW_INDEX], 4); text += ",";
     text += String(quat.wxyz[QX_INDEX], 4); text += ",";
     text += String(quat.wxyz[QY_INDEX], 4); text += ",";
     text += String(quat.wxyz[QZ_INDEX], 4); text += "\n";
 
+    // Create Record data structure
     Record record;
+
+    // Set Record timestamp
     record.timestamp = 0;
+
+    // Set Record severity
     record.severity = INFO;
+
+    // Set Record text
     memset(record.text, 0, RECORD_TEXT_SIZE);
     memcpy(record.text, text.c_str(), text.length());
 
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
-    Serial.println("Record: ");
-    Serial.print("  timestamp = ");   Serial.println((unsigned long)record.timestamp);
-    Serial.print("  severity = ");    Serial.println(record.severity);
-    Serial.print("  text = ");        Serial.println((char*)record.text);
-    #endif
+    printRecord(record);
+    #endif // SERIAL_DEBUG
 
+    // Unique ID for Record transfers
     static uint8_t orientation_transfer_id = 0;
 
+    // Create data field buffer
     uint8_t buffer[(RECORD_DATA_TYPE_SIZE / 8)];
+
+    // Clear data field buffer
     memset(buffer, 0, sizeof(buffer));
 
+    // Encode data field buffer
     encode_record(buffer, sizeof(buffer), 0, record);
 
+    // Create Canard transfer
     CanardTransfer transfer;
+
+    // Set transfer timestamp
     transfer.timestamp_usec = 1000*millis();
+
+    // Set transfer priority
     transfer.priority = CanardPriorityNominal;
+
+    // Set transfer kind
     transfer.transfer_kind = CanardTransferKindMessage;
+
+    // Set transfer data type id
     transfer.port_id = RECORD_DATA_TYPE_ID;
+
     // messages ignore transfer.remote_node_id
+
+    // Set transfer id
     transfer.transfer_id = orientation_transfer_id;
+
+    // Set transfer size
     transfer.payload_size = sizeof(buffer);
+
+    // Set transfer data
     transfer.payload = buffer;
 
+    // Format and push message frame(s) onto Canard queue
     canardTxPush(
       &can.canard,
       &transfer
     );
 
+    // Transmit all frames in Canard queue
     transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
 
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
-    Serial.println("Quaternion sent!");
-    #endif
+    Serial.println("Record sent!");
+    #endif // SERIAL_DEBUG
 
+    // Update time reference
     send_orientation_time = millis();
   }
 }

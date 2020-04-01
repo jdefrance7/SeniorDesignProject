@@ -1,9 +1,13 @@
 #ifndef UAVCAN_DECODING_H
 #define UAVCAN_DECODING_H
 
+//------------------------------------------------------------------------------
+
 /*
   Support functions to handle decoding serialized bytes to UAVCAN data types.
 */
+
+//------------------------------------------------------------------------------
 
 #include <stdio.h>
 #include <string.h>
@@ -14,13 +18,15 @@
 #include "uavcan_dsdl_sizes_v1.h"
 #include "uavcan_data_types_v1.h"
 
+//------------------------------------------------------------------------------
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 //------------------------------------------------------------------------------
 
-// Functions return bit_offset index
+// Functions return new bit_offset
 
 // --- OR ---
 
@@ -135,5 +141,7 @@ int32_t decode_record(
 #ifdef __cplusplus
 }
 #endif
+
+//------------------------------------------------------------------------------
 
 #endif // UAVCAN_DECODING_H

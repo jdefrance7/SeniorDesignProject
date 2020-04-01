@@ -1,37 +1,40 @@
 #ifndef AVR_CAN_VERSION
 #define AVR_CAN_VERSION 0
 
+/*
+  CAN driver for the AST-CAN485 board using canard_avr and Libcanard v0.
+*/
+
 #include <stdint.h> // primative data types
 
 #include "canard_avr.h" // includes canard
 
 #include "can_config.h" // can driver config
 
-#define CAN_CONFIG_LOADED // header file flag for can.h
+#define CAN_CONFIG_LOADED // compiler file flag for can.h
 
 #include "can.h" // needed for bitrate
 
 #include <Arduino.h> // needed for millis()
 
+/*
+  Error values
+*/
+#define ERR_INVALID_NODE_ID          -1
+#define ERR_CAN_MODULE_INIT          -2
+#define ERR_CAN_FILTER_INIT          -3
+#define ERR_CANARD_AVR_TIMEOUT       1
+
+/*
+  Size of the Canard queue.
+
+  Should be increased if peak usage approaches 80%.
+*/
 #define CANARD_MEMORY_POOL_SIZE 1024
 
-/* NOTE: canardHandleRxFrame return values
-    CANARD_OK                                  0
-    CANARD_ERROR_INVALID_ARGUMENT              -2
-    CANARD_ERROR_OUT_OF_MEMORY                 -3
-    CANARD_ERROR_NODE_ID_NOT_SET               -4
-    CANARD_ERROR_INTERNAL                      -9
-    CANARD_ERROR_RX_INCOMPATIBLE_PACKET        -10
-    CANARD_ERROR_RX_WRONG_ADDRESS              -11
-    CANARD_ERROR_RX_NOT_WANTED                 -12
-    CANARD_ERROR_RX_MISSED_START               -13
-    CANARD_ERROR_RX_WRONG_TOGGLE               -14
-    CANARD_ERROR_RX_UNEXPECTED_TID             -15
-    CANARD_ERROR_RX_SHORT_FRAME                -16
-    CANARD_ERROR_RX_BAD_CRC                    -17
+/*
+  Custom Canard struct
 */
-
-// Canard struct
 typedef struct
 {
   can_bitrate_t bitrate;
@@ -39,15 +42,34 @@ typedef struct
   uint8_t canard_memory_pool[CANARD_MEMORY_POOL_SIZE];
 } Canard;
 
+/*
+  Initialize the CAN module given Canard struct and Node ID.
+*/
 int init_can(Canard can, uint8_t id);
 
+/*
+  Send a single Canard CAN Frame from the Canard queue.
+*/
 int sendCanardCANFrame(CanardInstance* canard, CanardCANFrame* txf, unsigned int timeout_ms);
 
+/*
+  Read a single Canard CAN Frame.
+*/
 int readCanardCANFrame(CanardInstance* canard, CanardCANFrame* rxf, unsigned int timeout_ms);
 
+/*
+  Transmit all Canard CAN Frames from the Canard queue.
+*/
 int transmitCanardQueue(CanardInstance* canard, int timeout_ms);
 
+/*
+  Callback used by Canard to handle responses to incomming Canard CAN Frames.
+*/
 void onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer);
+
+/*
+  Callback used by Canard to filter incomming Canard CAN Frames.
+*/
 bool shouldAcceptTransfer(const CanardInstance* ins,
                                  uint64_t* out_data_type_signature,
                                  uint16_t data_type_id,

@@ -1,6 +1,8 @@
 #ifndef UAVCAN_DATA_TYPES_H
 #define UAVCAN_DATA_TYPES_H
 
+//------------------------------------------------------------------------------
+
 /*
   Declaration of UAVCAN data types implemented as C structs and primatives.
 
@@ -8,8 +10,12 @@
 
   Constants defined in a data type's DSDL are included.
 
-  ### Add more data tyes as necessary. Follow layout if possible. ###
+  Reference: https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/
+
+  '''Add more data tyes as necessary.'''
 */
+
+//------------------------------------------------------------------------------
 
 #include <stdint.h>
 #include <stdbool.h>

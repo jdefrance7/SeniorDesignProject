@@ -2,6 +2,9 @@
 #define SERIAL_DEBUG // uncomment for debug information
 #define SERIAL_BAUDRATE 9600
 
+// Core Arduino Library
+#include <Arduino.h>
+
 // Select IMU Sensor
 #include <bno055.h>
 // #include <lsm9ds1.h>
@@ -87,7 +90,7 @@ void setup()
     node.software.minor = SOFTWARE_VERSION_MINOR;
     node.software.optional_field_flags = SOFTWARE_OPTIONAL_FIELD_FLAGS;
     node.software.vcs_commit = SOFTWARE_VCS_COMMIT;
-    node.software.image_crc = SOFTWARE_IMAGE_CRC;    
+    node.software.image_crc = SOFTWARE_IMAGE_CRC;
   }
 
   // Initialize CAN
@@ -96,63 +99,80 @@ void setup()
   // Initialize IMU
   init_imu();
 
-  // Initialize Serial (debugging)
-  #if defined(SERIAL_DEBUG)
-  Serial.begin(SERIAL_BAUDRATE);
-  while(!Serial);
-  Serial.println("Initialization complete!");
-  #endif
-
   // Initialization Complete!
   node.status.mode = MODE_OPERATIONAL;
+  node.status.uptime_sec = millis()/1000;
+
+  // Serial debugging
+  #if defined(SERIAL_DEBUG)
+
+  // Start Serial module
+  Serial.begin(SERIAL_BAUDRATE);
+  while(!Serial);
+
+  // Print initialization information
+  Serial.println("\nInitialization...");
+  printCanard(can);
+  printNode(node);
+  Serial.println("\nInitialization complete!");
+
+  #endif // SERIAL_DEBUG
 }
 
 void loop()
 {
-  /* Task: Update IMU
-
+  /*
+    Task: Update IMU
+    Note: IMU's running AHRS filters need to be updated for calculations.
   */
   static uint64_t update_imu_time = millis();
   if((millis() - update_imu_time) > UPDATE_IMU_PERIOD_MS)
   {
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
     Serial.println("Updating IMU...");
-    #endif
+    #endif // SERIAL_DEBUG
 
+    // Update the IMU's filters
     update_imu();
 
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
     Serial.println("IMU updated!");
-    #endif
+    #endif // SERIAL_DEBUG
 
+    // Update time reference
     update_imu_time = millis();
   }
 
-  /* Task: Send Node Status
-
+  /*
+    Task: Send Node Status
+    Note: This message must be sent at least once every second.
   */
   static uint64_t send_node_status_time = millis();
   if((millis() - send_node_status_time) > SEND_NODE_STATUS_PERIOD_MS)
   {
     // Update uptime
-    node.status.uptime_sec = 1000*millis();
-    
-    #if defined(SERIAL_DEBUG)
-    Serial.println("NodeStatus: ");
-    Serial.print("  uptime_sec = ");  Serial.println(node.status.uptime_sec);
-    Serial.print("  health = ");      Serial.println(node.status.health);
-    Serial.print("  mode = ");        Serial.println(node.status.mode);
-    Serial.print("  sub_mode = ");    Serial.println(node.status.sub_mode);
-    Serial.print("  vendor_code = "); Serial.println(node.status.vendor_specific_status_code);
-    #endif
+    node.status.uptime_sec = millis()/1000;
 
+    // Serial debugging
+    #if defined(SERIAL_DEBUG)
+    printNodeStatus(node.status);
+    #endif // SERIAL_DEBUG
+
+    // Unique ID for node status transfers
     static uint8_t node_status_transfer_id = 0;
 
+    // Create data field buffer
     uint8_t buffer[(NODE_STATUS_DATA_TYPE_SIZE / 8)];
+
+    // Clear data field buffer
     memset(buffer, 0, sizeof(buffer));
 
+    // Encode data field buffer
     encode_node_status(buffer, sizeof(buffer), 0, node.status);
 
+    // Format and push message frame(s) onto Canard queue
     canardBroadcast(
       &can.canard,
       NODE_STATUS_DATA_TYPE_SIGNATURE,
@@ -163,54 +183,70 @@ void loop()
       sizeof(buffer)
     );
 
+    // Transmit all frames in Canard queue
     transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
 
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
     Serial.println("NodeStatus sent!");
-    #endif
+    #endif // SERIAL_DEBUG
 
+    // Update time reference
     send_node_status_time = millis();
   }
 
-  /* Task: Send Orientation as LogMessage
-
+  /*
+    Task: Send Orientation as LogMessage
   */
   static uint64_t send_log_message_time = millis();
   if((millis() - send_log_message_time) > SEND_ORIENTATION_PERIOD_MS)
   {
+    // Store quaternion unit values
     float quat[4];
     quat[W_AXIS] = quaternion(W_AXIS);
     quat[X_AXIS] = quaternion(X_AXIS);
     quat[Y_AXIS] = quaternion(Y_AXIS);
     quat[Z_AXIS] = quaternion(Z_AXIS);
 
+    // Format quaternion into comma separated list
     String text = "";
     text += String(quat[W_AXIS]); text += ",";
     text += String(quat[X_AXIS]); text += ",";
     text += String(quat[Y_AXIS]); text += ",";
     text += String(quat[Z_AXIS]); text += "\n";
 
+    // Create LogMessage data structure
     LogMessage message;
+
+    // Set LogMessage level
     message.level = LEVEL_INFO;
+
+    // Set LogMessage source
     memset(message.source, 0 , LOG_MESSAGE_SOURCE_SIZE);
     memcpy(message.source, node.name, LOG_MESSAGE_TEXT_SIZE);
+
+    // Set LogMessage text
     memset(message.text, 0, LOG_MESSAGE_TEXT_SIZE);
     memcpy(message.text, text.c_str(), text.length());
 
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
-    Serial.println("LogMessage: ");
-    Serial.print("  level = ");   Serial.println(message.level);
-    Serial.print("  source = ");  Serial.println((char*)message.source);
-    Serial.print("  text = ");    Serial.println((char*)message.text);
-    #endif
+    printLogMessage(message);
+    #endif // SERIAL_DEBUG
 
+    // Unique ID for log message transfers
     static uint8_t log_message_transfer_id = 0;
 
+    // Create data field buffer
     uint8_t buffer[(LOG_MESSAGE_DATA_TYPE_SIZE / 8)];
+
+    // Clear data field buffer
     memset(buffer, 0, sizeof(buffer));
 
+    // Encode data field buffer
     encode_log_message(buffer, sizeof(buffer), 0, message);
 
+    // Format and push message frame(s) onto Canard queue
     canardBroadcast(
       &can.canard,
       LOG_MESSAGE_DATA_TYPE_SIGNATURE,
@@ -221,47 +257,57 @@ void loop()
       sizeof(buffer)
     );
 
+    // Transmit all frames in Canard queue
     transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
 
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
     Serial.println("LogMessage sent!");
-    #endif
+    #endif // SERIAL_DEBUG
 
+    // Update time reference
     send_log_message_time = millis();
   }
 
-  /* Task: Send Orientation as CameraGimbalStatus
-
+  /*
+    Task: Send Orientation as CameraGimbalStatus
   */
   static uint64_t send_camera_gimbal_status = millis();
   if((millis() - send_camera_gimbal_status) > SEND_ORIENTATION_PERIOD_MS)
   {
+    // Create CameraGimbalStatus data structure
     CameraGimbalStatus camera;
 
+    // Set CameraGimbalStatus gimbal_id
     camera.gimbal_id = node.id;
+
+    // Set CameraGimbalStatus mode
     camera.mode = CAMERA_GIMBAL_MODE_ORIENTATION_FIXED_FRAME;
+
+    // Set CameraGimbalStatus orientation
     camera.camera_orientation_in_body_frame_xyzw[X_AXIS] = quaternion(X_AXIS);
     camera.camera_orientation_in_body_frame_xyzw[Y_AXIS] = quaternion(Y_AXIS);
     camera.camera_orientation_in_body_frame_xyzw[Z_AXIS] = quaternion(Z_AXIS);
     camera.camera_orientation_in_body_frame_xyzw[W_AXIS] = quaternion(W_AXIS);
 
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
-    Serial.println("CameraGimbalStatus:");
-    Serial.print("  id = ");    Serial.println(camera.gimbal_id);
-    Serial.print("  mode = ");  Serial.println(camera.mode);
-    Serial.print("  qX = ");    Serial.println(camera.camera_orientation_in_body_frame_xyzw[X_AXIS]);
-    Serial.print("  qY = ");    Serial.println(camera.camera_orientation_in_body_frame_xyzw[Y_AXIS]);
-    Serial.print("  qZ = ");    Serial.println(camera.camera_orientation_in_body_frame_xyzw[Z_AXIS]);
-    Serial.print("  qW = ");    Serial.println(camera.camera_orientation_in_body_frame_xyzw[W_AXIS]);
-    #endif
+    printCameraGimbalStatus(camera);
+    ##endif // SERIAL_DEBUG
 
+    // Unique ID for camera gimbal status transfers
     static uint8_t camera_gimbal_status_transfer_id = 0;
 
+    // Create data field buffer
     uint8_t buffer[(CAMERA_GIMBAL_STATUS_DATA_TYPE_SIZE / 8)];
+
+    // Clear data field buffer
     memset(buffer, 0, sizeof(buffer));
 
+    // Encode data field buffer
     encode_camera_gimbal_status(buffer, sizeof(buffer), 0, camera);
 
+    // Format and push message frame(s) onto Canard queue
     canardBroadcast(
       &can.canard,
       CAMERA_GIMBAL_STATUS_DATA_TYPE_SIGNATURE,
@@ -272,35 +318,47 @@ void loop()
       sizeof(buffer)
     );
 
+    // Transmit all frames in Canard queue
     transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
 
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
     Serial.println("CameraGimbmalStatus sent!");
-    #endif
+    #endif // SERIAL_DEBUG
 
+    // Update time reference
     send_camera_gimbal_status = millis();
   }
 
-  /* Task: Cleanup UAVCAN
-
+  /*
+    Task: Cleanup UAVCAN
+    Note: should be done once about every second.
   */
   static uint64_t cleanup_uavcan_time = millis();
   if((millis() - cleanup_uavcan_time) > CLEANUP_UAVCAN_PERIOD_MS)
   {
+    // Removes stale transfers from Canard queue based on microsecond timestamp
     canardCleanupStaleTransfers(&can.canard, 1000*millis() /* usec */);
 
+    // Get Canard queue stats object
     CanardPoolAllocatorStatistics stats = canardGetPoolAllocatorStatistics(&can.canard);
-    uint16_t capacity = stats.capacity_blocks;   ///< Pool capacity in number of blocks
-    uint16_t usage = stats.current_usage_blocks; ///< Number of blocks that are currently allocated by the library
-    uint16_t peak = stats.peak_usage_blocks;     ///< Maximum number of blocks used since initialization
 
+    // Canard queue capacity in blocks
+    uint16_t capacity = stats.capacity_blocks;
+
+    // Number of blocks that are currently allocated
+    uint16_t usage = stats.current_usage_blocks;
+
+    // Maximum number of blocks used at one time since startup
+    uint16_t peak = stats.peak_usage_blocks;
+
+
+    // Serial debugging
     #if defined(SERIAL_DEBUG)
-    Serial.println("Canard memory stats: ");
-    Serial.print("  capacity = ");  Serial.println(capacity);
-    Serial.print("  usage = ");     Serial.println(usage);
-    Serial.print("  peak = ");      Serial.println(peak);
-    #endif
+    printCanardPoolAllocatorStatistics(stats);
+    #endif // SERIAL_DEBUG
 
+    // Update time reference
     cleanup_uavcan_time = millis();
   }
 }

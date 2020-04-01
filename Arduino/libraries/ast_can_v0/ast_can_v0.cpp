@@ -1,11 +1,41 @@
 #include "ast_can_v0.h"
 
+void printCanard(Canard can)
+{
+  Serial.println("Can");
+  Serial.print("  Bitrate: ");  Serial.println(can.bitrate);
+  Serial.print("  ");           printCanardInstance(&can.canard);
+  Serial.print("  Memory: ");   Serial.println(CANARD_MEMORY_POOL_SIZE);
+  Serial.print("  ");           printCanardPoolAllocatorStatistics(canardGetPoolAllocatorStatistics(&can.canard));
+}
+
+void printMsg(st_cmd_t msg)
+{
+  Serial.println("CAN Message");
+  Serial.print("  ID: ");   Serial.println(msg.id.ext, HEX);
+  Serial.print("  IDE: ");  Serial.println(msg.ctrl.ide, BIN);
+  Serial.print("  RTR: ");  Serial.println(msg.ctrl.rtr, BIN);
+  Serial.print("  DLC: ");  Serial.println(msg.dlc);
+  Serial.print("  Data: ");
+  for(int n = 0; n < msg.dlc; n++)
+  {
+    Serial.print((byte)msg.pt_data[n], HEX);
+
+    if(n == (msg.dlc-1))
+    {
+      Serial.print("\n");
+    }
+
+    Serial.print(",");
+  }
+}
+
 int init_can(Canard can, uint8_t id)
 {
-  // Check node ID
+  // Check valid node ID
   if(id == 0)
   {
-    return -1;
+    return ERR_INVALID_NODE_ID;
   }
 
   // Initialize canard instance
@@ -25,7 +55,7 @@ int init_can(Canard can, uint8_t id)
   canInit(can.bitrate);
 
   // Initialization success
-  return 0;
+  return AST_CAN_SUCCESS;
 }
 
 int sendCanardCANFrame(CanardInstance* canard, CanardCANFrame* txf, unsigned int timeout_ms)
@@ -36,22 +66,22 @@ int sendCanardCANFrame(CanardInstance* canard, CanardCANFrame* txf, unsigned int
   // Timeout counter
   uint64_t timeout;
 
-  // Create transmit buffer
+  // Create data field
   uint8_t txBuffer[8] = {};
 
-  // Clear transmit buffer
+  // Clear data field
   memset(txBuffer, 0, sizeof(txBuffer));
 
-  // Assign transmit buffer
+  // Assign data field
   txMsg.pt_data = &txBuffer[0];
 
-  // Write transmission data
+  // Write data field
   memcpy(txBuffer, txf->data, txf->data_len);
 
   // Identifier Extension Bit = 1 (CAN 2.0B)
   txMsg.ctrl.ide = 1;
 
-  // Message ID
+  // Extended Message ID
   txMsg.id.ext   = txf->id & CANARD_CAN_EXT_ID_MASK;
 
   // Data Lenght Code (DLC)
@@ -69,7 +99,7 @@ int sendCanardCANFrame(CanardInstance* canard, CanardCANFrame* txf, unsigned int
   {
     if((millis() - timeout) > timeout_ms)
     {
-      return -1;
+      return ERR_COMMAND_ACCEPT_TIMEOUT; // timed out
     }
   }
 
@@ -79,12 +109,12 @@ int sendCanardCANFrame(CanardInstance* canard, CanardCANFrame* txf, unsigned int
   {
     if((millis() - timeout) > timeout_ms)
     {
-      return 1;
+      return ERR_COMMAND_EXECUTE_TIMEOUT; // timed out
     }
   }
 
   // Return success
-  return 0;
+  return CANARD_OK;
 }
 
 int readCanardCANFrame(CanardInstance* canard, CanardCANFrame* rxf, unsigned int timeout_ms)
@@ -113,7 +143,7 @@ int readCanardCANFrame(CanardInstance* canard, CanardCANFrame* rxf, unsigned int
   {
     if((millis() - timeout) > timeout_ms)
     {
-      return -1;
+      return ERR_COMMAND_ACCEPT_TIMEOUT; // timed out
     }
   }
 
@@ -123,7 +153,7 @@ int readCanardCANFrame(CanardInstance* canard, CanardCANFrame* rxf, unsigned int
   {
     if((millis() - timeout) > timeout_ms)
     {
-      return 1;
+      return ERR_COMMAND_EXECUTE_TIMEOUT; // timed out
     }
   }
 
@@ -138,6 +168,22 @@ int readCanardCANFrame(CanardInstance* canard, CanardCANFrame* rxf, unsigned int
 
   // Process received message frame
   return canardHandleRxFrame(canard, rxf, 1000*millis());
+  /*
+      canardHandleRxFrame return values
+        CANARD_OK                                  0
+        CANARD_ERROR_INVALID_ARGUMENT              -2
+        CANARD_ERROR_OUT_OF_MEMORY                 -3
+        CANARD_ERROR_NODE_ID_NOT_SET               -4
+        CANARD_ERROR_INTERNAL                      -9
+        CANARD_ERROR_RX_INCOMPATIBLE_PACKET        -10
+        CANARD_ERROR_RX_WRONG_ADDRESS              -11
+        CANARD_ERROR_RX_NOT_WANTED                 -12
+        CANARD_ERROR_RX_MISSED_START               -13
+        CANARD_ERROR_RX_WRONG_TOGGLE               -14
+        CANARD_ERROR_RX_UNEXPECTED_TID             -15
+        CANARD_ERROR_RX_SHORT_FRAME                -16
+        CANARD_ERROR_RX_BAD_CRC                    -17
+  */
 }
 
 int transmitCanardQueue(CanardInstance* canard, int timeout_ms)
@@ -152,25 +198,25 @@ int transmitCanardQueue(CanardInstance* canard, int timeout_ms)
     reVal = sendCanardCANFrame(canard, txf, timeout_ms);
 
     // Success
-    if(reVal == 0)
+    if(reVal == CANARD_OK)
     {
       // Remove frame from Canard queue
       canardPopTxQueue(canard);
     }
     // Timeout
-    else if(reVal == 1)
+    else if(reVal == ERR_COMMAND_EXECUTE_TIMEOUT)
     {
-      return 1;
+      return ERR_COMMAND_EXECUTE_TIMEOUT;
     }
     // Error
     else
     {
-      return -1;
+      return reVal;
     }
   }
 
   // Return success
-  return 0;
+  return CANARD_OK;
 }
 
 /**
@@ -181,20 +227,28 @@ void onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer)
   if(transfer->transfer_type == CanardTransferTypeResponse)
   {
     // Add response handlers here
+
+    //...
   }
   else if(transfer->transfer_type == CanardTransferTypeRequest)
   {
     // Add request handlers here
 
-    // // Example Handler: Get Node Info
-    // if(transfer->data_type_id == GET_NODE_INFO_DATA_TYPE_ID)
-    // {
-    //   // send GET_NODE_INFO response
-    // }
+    //...
+
+    /*
+      // Example Handler: Get Node Info
+      if(transfer->data_type_id == GET_NODE_INFO_DATA_TYPE_ID)
+      {
+        // send GET_NODE_INFO response
+      }
+    */
   }
   else if(transfer->transfer_type == CanardTransferTypeBroadcast)
   {
     // Add braodcast handlers here
+
+    //...
   }
 }
 
@@ -219,22 +273,30 @@ bool shouldAcceptTransfer(const CanardInstance* ins,
 
   if(transfer_type == CanardTransferTypeResponse)
   {
-    // Add response callbacks here
+    // Add response handlers here
+
+    //...
   }
   else if(transfer_type == CanardTransferTypeRequest)
   {
-    // Add request callbacks here
+    // Add request handlers here
 
-    // // Example Handler: Node Info
-    // if(data_type_id == NODE_INFO_DATA_TYPE_ID)
-    // {
-    //   *out_data_type_signature = NODE_INFO_DATA_TYPE_SIGNATURE;
-    //   accept_transfer = true;
-    // }
+    //...
+
+    /*
+      // Example Handler: Node Info
+      if(data_type_id == NODE_INFO_DATA_TYPE_ID)
+      {
+        *out_data_type_signature = NODE_INFO_DATA_TYPE_SIGNATURE;
+        accept_transfer = true;
+      }
+    */
   }
   else if(transfer_type == CanardTransferTypeBroadcast)
   {
-    // Add broadcast callbacks here
+    // Add broadcast handlers here
+
+    //...
   }
 
   return accept_transfer;

@@ -1,6 +1,14 @@
 #ifndef UAVCAN_H
 #define UAVCAN_H
 
+//------------------------------------------------------------------------------
+
+/*
+  Support library for Libcanard v0 handling data type encoding/decoding.
+*/
+
+//------------------------------------------------------------------------------
+
 // UAVCAN structure implementation in C
 #include <libcanard_v0.h>
 
@@ -18,5 +26,7 @@
 
 // Functions to decode UAVCAN messages into data type structs
 #include "uavcan_decoding_v0.h"
+
+//------------------------------------------------------------------------------
 
 #endif // UAVCAN_H

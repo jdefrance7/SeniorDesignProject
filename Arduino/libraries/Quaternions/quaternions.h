@@ -1,8 +1,15 @@
 #ifndef QUATERNIONS_H
 #define QUATERNIONS_H
 
+/*
+  Quaternion angle cacluation functions.
+*/
+
 #include <Arduino.h>
 
+/*
+  Returns the angle between two quaternions passed by individual units.
+*/
 float angleBetweenQuaternions(
   float w1,
   float x1,
@@ -18,6 +25,11 @@ float angleBetweenQuaternions(
   return 2*acos(r);
 }
 
+/*
+  Returns the angle between two quaternions passed as arrays.
+
+  float Quaternion = {w, x, y ,z}
+*/
 float angleBetweenQuaternions(
   float q1[4],
   float q2[4],

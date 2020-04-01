@@ -18,6 +18,11 @@ int32_t decode_heartbeat(
     return DECODING_BUFFER_OVERFLOW;
   }
 
+  // Serial debugging
+  #if defined(SERIAL_DEBUG)
+
+  #endif // SERIAL_DEBUG
+
   heartbeat->uptime = canardDSDLGetU64(buffer, buffer_size, bit_offset, UINT56);
   bit_offset += UINT56;
 
@@ -27,7 +32,7 @@ int32_t decode_heartbeat(
   heartbeat->mode = canardDSDLGetU8(buffer, buffer_size, bit_offset, UINT3);
   bit_offset += UINT3;
 
-  heartbeat-> vendor_specific_status_code = canardDSDLGetU32(buffer, buffer_size, bit_offset, UINT19);
+  heartbeat->vendor_specific_status_code = canardDSDLGetU32(buffer, buffer_size, bit_offset, UINT19);
   bit_offset += UINT19;
 
   return (int32_t)bit_offset;
@@ -154,6 +159,11 @@ int32_t decode_get_info(
   GetInfo* get_info
 )
 {
+  if((bit_offset + GET_INFO_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  {
+    return DECODING_BUFFER_OVERFLOW;
+  }
+
   decode_version(buffer, buffer_size, bit_offset, &(get_info->protocol_version));
   bit_offset += VERSION_DATA_TYPE_SIZE;
 
@@ -177,7 +187,7 @@ int32_t decode_get_info(
     get_info->name[n] = canardDSDLGetU8(buffer, buffer_size, bit_offset, UINT8);
     bit_offset += UINT8;
 
-    if(get_info->name[n] == NULL)
+    if((char)get_info->name[n] == '\0')
     {
       break;
     }
@@ -191,7 +201,7 @@ int32_t decode_get_info(
     get_info->certificate[n] = canardDSDLGetU8(buffer, buffer_size, bit_offset, UINT8);
     bit_offset += UINT8;
 
-    if(get_info->certificate[n] == NULL)
+    if((char)get_info->certificate[n] == '\0')
     {
       break;
     }
@@ -256,7 +266,7 @@ int32_t decode_record(
     record->text[n] = canardDSDLGetU8(buffer, buffer_size, bit_offset, UINT8);
     bit_offset += UINT8;
 
-    if(record->text[n] == NULL)
+    if((char)record->text[n] == '\0')
     {
       break;
     }

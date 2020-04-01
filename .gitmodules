@@ -22,9 +22,3 @@
 [submodule "References/Adafruit_Sensor_Calibration"]
 	path = References/Adafruit_Sensor_Calibration
 	url = https://github.com/adafruit/Adafruit_Sensor_Calibration
-[submodule "Arduino/libraries/canard_v0/libcanard"]
-	path = Arduino/libraries/canard_v0/libcanard
-	url = https://github.com/UAVCAN/libcanard/
-[submodule "Arduino/libraries/canard_v1/libcanard"]
-	path = Arduino/libraries/canard_v1/libcanard
-	url = https://github.com/UAVCAN/libcanard/
