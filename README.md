@@ -15,22 +15,23 @@ This project was created using the Arduino IDE for the AST-CAN485 development bo
 1. Download the Arduino IDE.
 2. Replace the created `Arduino` folder with the one from this repository.
 
-   * Alternatively copy the `Arduino\libraries` folder contents to your local `Arduino\libraries` and move any sketch folders to the `Arduino` folder.
+   * Alternatively copy the `Arduino\libraries` folder contents to your local `Arduino\libraries` and move desired project sketch folders to the `Arduino` folder.
 3. Use the Arduino IDE Boards Manager to add the AST-CAN485 board to the Arduino IDE.
 
    * Follow the steps in the [AST-CAN485 Hookup Guide](https://learn.sparkfun.com/tutorials/ast-can485-hookup-guide?_ga=2.6567157.631132834.1583434944-271346267.1574810854) section 'Board Installation Using the Boards Manager'.
 
 ### Compiling
 
-1. Select the AST-CAN485 board from the `Tools->Board` menu in the Arduino IDE toolbar.
-2. Either click the check mark button in the upper left hand corner of the IDE or select `Sketch->Verify/Compile` from the Arduino IDE toolbar.
-3. Read diagnostic information from the Arduino IDE for any warnings or errors.
+1. Open the desired project sketch in the Arduino IDE.
+2. Select the AST-CAN485 board from the `Tools->Board` menu in the Arduino IDE toolbar.
+3. Either click the check mark button in the upper left hand corner of the IDE or select `Sketch->Verify/Compile` from the Arduino IDE toolbar.
+4. Read diagnostic information from the Arduino IDE for any warnings or errors.
 
 ### Uploading
 
 1. Connect the AST-CAN485 to a computer through a [FTDI Adaptor](https://www.sparkfun.com/products/9716?_ga=2.13897968.631132834.1583434944-271346267.1574810854)
 2. Select the proper port from the `Tools->Port` menu in the Arduino IDE toolbar.
-3. Select "PROGRAMMER NAME HERE" from the `Tools->Programmer` menu in the Arduino IDE toolbar.
+3. Select "Parallel Programmer" from the `Tools->Programmer` menu in the Arduino IDE toolbar.
 4. Select `Sketch->Upload Using Programmer` from the Arduino IDE toolbar.
 
 ## Notes
@@ -56,6 +57,7 @@ Power Sensor Library
 CAN Libraries
 * [libcanard](https://github.com/UAVCAN/libcanard)
 * [Universal Can Library](https://github.com/rennerm/avr-can-lib/tree/9c6bc9118de66d6edaf1b8539e2b9717ba26d123#universelle-can-blibiothek-avr-can-lib)
+* [Canard AVR](https://github.com/UAVCAN/libcanard/tree/legacy-v0/drivers/avr)
 * [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h)
 
 ---
