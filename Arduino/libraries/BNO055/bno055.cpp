@@ -9,19 +9,19 @@ bool init_imu(void)
   // Init sensor (Success = true, Failure = false)
   if(!bno.begin())
   {
-    return false;
+    return ERR_SENSOR_FAILURE;
   }
 
   /* Use external crystal for better accuracy */
   bno.setExtCrystalUse(true);
 
-  return true;
+  return IMU_SUCCESS;
 }
 
 // Update Function
 int16_t update_imu(void)
 {
-  return 0;
+  return IMU_SUCCESS;
 }
 
 // Data Aquisition

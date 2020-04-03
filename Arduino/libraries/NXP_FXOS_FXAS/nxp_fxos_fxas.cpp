@@ -58,17 +58,17 @@ bool init_imu(void)
   // Retreive callibration data (Success = true, Failure = false)
   if(!cal.begin())
   {
-    return false;
+    return ERR_CALIBRATION_BEGIN;
   }
   if (!cal.loadCalibration())
   {
-    return false;
+    return ERR_CALIBRATION_LOAD;
   }
 
   // Init sensors (Success = true, Failure = false)
   if(!init_sensors())
   {
-    return false;
+    return ERR_SENSOR_FAILURE;
   }
 
   // Setup sensors references (return void)
@@ -80,7 +80,7 @@ bool init_imu(void)
   // Init I2C (void)
   Wire.setClock(400000); // 400KHz
 
-  return true;
+  return IMU_SUCCESS;
 }
 
 // Update Function
@@ -114,7 +114,7 @@ int16_t update_imu(void)
     msec = millis();
   }
 
-  return 0;
+  return IMU_SUCCESS;
 }
 
 // Data Aquisition

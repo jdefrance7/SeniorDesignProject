@@ -16,10 +16,10 @@
 extern Adafruit_BNO055 bno;
 
 // Initialization Function
-bool init_imu(void);
+int init_imu(void);
 
 // Update Function
-int16_t update_imu(void);
+int update_imu(void);
 
 // Data Aquisition
 float orientation(uint8_t rotational_axis);

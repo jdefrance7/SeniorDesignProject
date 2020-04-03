@@ -5,6 +5,9 @@
 // Core Arduino Library
 #include <Arduino.h>
 
+// Custom LED Library
+#include <led.h>
+
 // Select IMU Sensor
 #include <bno055.h>
 // #include <lsm9ds1.h>
@@ -15,6 +18,9 @@
 
 // UAVCAN Version
 #include <uavcan_v1.h>
+
+// LED Toggle Rate (ms)
+#define LED_TOGGLE 300
 
 // CAN Bitrate
 #define CAN_BITRATE 500000
@@ -55,10 +61,20 @@ UavcanNode node;
 // Canard Can Instance
 Canard can;
 
+// Builtin LED
+LED led;
+
+// Return value for error handling
+inf reVal;
+
 void setup()
 {
+  // Init LED
+  led = LED();
+
   // Setup CAN
   can.bitrate = CAN_BITRATE;
+  can.canard.mtu_bytes = CANARD_MTU_CAN_CLASSIC;
 
   // Setup UAVCAN Node
   // Node ID
@@ -91,10 +107,18 @@ void setup()
   }
 
   // Initialize CAN
-  init_can(can, node.id);
+  while(init_can(can, node.id) != 0)
+  {
+    led.toggle(LED_TOGGLE);
+  }
+  led.off()
 
   // Initialize IMU
-  init_imu();
+  while(init_imu() != 0)
+  {
+    led.toggle(LED_TOGGLE);
+  }
+  led.off();
 
   // Initialization Complete!
   node.status.uptime = millis()/1000;
@@ -105,10 +129,14 @@ void setup()
 
   // Start Serial module
   Serial.begin(SERIAL_BAUDRATE);
-  while(!Serial);
+  while(!Serial)
+  {
+    led.toggle(LED_TOGGLE);
+  }
+  led.off();
 
   // Print initialization information
-  Serial.println("\nInitialization...");
+  Serial.println("\nWing Segment Config\n");
   printCanard(can);
   printNode(node);
   Serial.println("\nInitialization complete!");
@@ -125,18 +153,28 @@ void loop()
   static uint64_t update_imu_time = millis();
   if((millis() - update_imu_time) > UPDATE_IMU_PERIOD_MS)
   {
-    // Serial debugging
-    #if defined(SERIAL_DEBUG)
-    Serial.println("Updating IMU...");
-    #endif // SERIAL_DEBUG
-
     // Update IMU's filters
-    update_imu();
+    reVal = update_imu();
 
-    // Serial debugging
-    #if defined(SERIAL_DEBUG)
-    Serial.println("IMU updated!");
-    #endif // SERIAL_DEBUG
+    if(reVal < 0)
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.print("ERROR: Failed to update IMU, reVal = ");
+      Serial.println(reVal);
+      #endif // SERIAL_DEBUG
+
+      led.toggle(LED_TOGGLE);
+    }
+    else
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.println("IMU update successful!");
+      #endif // SERIAL_DEBUG
+
+      led.off();
+    }
 
     // Update time reference
     update_imu_time = millis();
@@ -163,7 +201,38 @@ void loop()
     memset(buffer, 0, sizeof(buffer));
 
     // Encode data field buffer
-    encode_heartbeat(buffer, sizeof(buffer), 0, node.status);
+    reVal = encode_heartbeat(buffer, sizeof(buffer), 0, node.status)
+
+    if(reVal < 0)
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.print("ERROR: Failed to encode Heartbeat, reVal = "); Serial.println(reVal);
+      #endif // SERIAL_DEBUG
+
+      led.toggle(LED_TOGGLE);
+    }
+    else
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.print("Heartbeat Encoded Buffer: ");
+      for(unsigned int n = 0; n < sizeof(buffer); n++)
+      {
+        Serial.print(buffer[n], HEX);
+        if(n == (sizeof(buffer)-1))
+        {
+          Serial.print("\n");
+          break;
+        }
+        Serial.print(",");
+      }
+      Serial.print("Heartbeat Encoded Bits: "); Serial.print(reVal);
+      Serial.println("Heartbeat encoding successful!");
+      #endif // SERIAL_DEBUG
+
+      led.off();
+    }
 
     // Create Canard transfer
     CanardTransfer transfer;
@@ -192,18 +261,52 @@ void loop()
     transfer.payload = buffer;
 
     // Format and push message frame(s) onto Canard queue
-    canardTxPush(
+    reVal = canardTxPush(
       &can.canard,
       &transfer
     );
 
-    // Transmit all frames in Canard queue
-    transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
+    if(reVal < 0)
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.print("ERROR: Failed to queue Heartbeat, reVal = "); Serial.println(reVal);
+      #endif // SERIAL_DEBUG
 
-    // Serial debugging
-    #if defined(SERIAL_DEBUG)
-    Serial.println("Heartbeat sent!");
-    #endif // SERIAL_DEBUG
+      led.toggle(LED_TOGGLE);
+    }
+    else
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.print("Heartbeat ");
+      printCanardTransfer(&transfer);
+      #endif // SERIAL_DEBUG
+
+      led.off();
+    }
+
+    // Transmit all frames in Canard queue
+    reVal = transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
+
+    if(reVal < 0)
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.print("ERROR: Failed to transmit Heartbeat, reVal = "); Serial.println(reVal);
+      #endif // SERIAL_DEBUG
+
+      led.toggle(LED_TOGGLE);
+    }
+    else
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.println("Heartbeat transmission successful!");
+      #endif // SERIAL_DEBUG
+
+      led.off();
+    }
 
     // Update time reference
     heartbeat_time = millis();
@@ -234,6 +337,12 @@ void loop()
     text += String(quat.wxyz[QY_INDEX], 4); text += ",";
     text += String(quat.wxyz[QZ_INDEX], 4); text += "\n";
 
+    // Serial debugging
+    #if defined(SERIAL_DEBUG)
+    Serial.print("Quaternion Text: ");
+    Serial.println(text);
+    #endif // SERIAL_DEBUG
+
     // Create Record data structure
     Record record;
 
@@ -262,7 +371,38 @@ void loop()
     memset(buffer, 0, sizeof(buffer));
 
     // Encode data field buffer
-    encode_record(buffer, sizeof(buffer), 0, record);
+    reVal = encode_record(buffer, sizeof(buffer), 0, record);
+
+    if(reVal < 0)
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.print("ERROR: Failed to encode Record, reVal = "); Serial.println(reVal);
+      #endif // SERIAL_DEBUG
+
+      led.toggle(LED_TOGGLE);
+    }
+    else
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.print("Record Encoded Buffer: ");
+      for(unsigned int n = 0; n < sizeof(buffer); n++)
+      {
+        Serial.print(buffer[n], HEX);
+        if(n == (sizeof(buffer)-1))
+        {
+          Serial.print("\n");
+          break;
+        }
+        Serial.print(",");
+      }
+      Serial.print("Record Encoded Bits: "); Serial.println(reVal);
+      Serial.println("Record encoding successful!");
+      #endif // SERIAL_DEBUG
+
+      led.off();
+    }
 
     // Create Canard transfer
     CanardTransfer transfer;
@@ -291,18 +431,52 @@ void loop()
     transfer.payload = buffer;
 
     // Format and push message frame(s) onto Canard queue
-    canardTxPush(
+    reVal = canardTxPush(
       &can.canard,
       &transfer
     );
 
-    // Transmit all frames in Canard queue
-    transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
+    if(reVal < 0)
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.print("ERROR: Failed to queue Record, reVal = "); Serial.println(reVal);
+      #endif // SERIAL_DEBUG
 
-    // Serial debugging
-    #if defined(SERIAL_DEBUG)
-    Serial.println("Record sent!");
-    #endif // SERIAL_DEBUG
+      led.toggle(LED_TOGGLE);
+    }
+    else
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.print("Record ");
+      printCanardTransfer(&transer);
+      #endif // SERIAL_DEBUG
+
+      led.off();
+    }
+
+    // Transmit all frames in Canard queue
+    reVal = transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
+
+    if(r < 0)
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.print("ERROR: Failed to transmit Record, reVal = "); Serial.println(reVal);
+      #endif // SERIAL_DEBUG
+
+      led.toggle(LED_TOGGLE);
+    }
+    else
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.println("Record transmission successful!");
+      #endif // SERIAL_DEBUG
+
+      led.off();
+    }
 
     // Update time reference
     send_orientation_time = millis();

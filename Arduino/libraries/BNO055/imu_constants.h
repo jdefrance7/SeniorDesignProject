@@ -16,4 +16,10 @@
 #define TEMPERATURE_CELSIUS   0
 #define TEMPERATURE_KELVIN    1
 
+// Return Values
+#define IMU_SUCCESS             0
+#define ERR_SENSOR_FAILURE      -1
+#define ERR_CALIBRATION_BEGIN   -2
+#define ERR_CALIBRATION_LOAD    -3
+
 #endif // IMU_CONSTANTS_H
