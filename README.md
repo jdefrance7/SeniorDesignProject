@@ -62,7 +62,7 @@ CAN Libraries
 ### UAVCAN
 Both UAVCAN v0 (legacy) and UAVCAN v1 (current) have been implemented in separate projects.
     
-See [UAVCAN/libcanard](https://github.com/UAVCAN/libcanard) for more details on how the UAVCAN versions are implemented.
+See [UAVCAN/libcanard](https://github.com/UAVCAN/libcanard) and [UAVCAN/libcanard-legacy-v0](https://github.com/UAVCAN/libcanard/tree/legacy-v0) for more details on how the UAVCAN versions are implemented.
 
 ## Authors
 Joe DeFrance, Alex Mootz, Andrew Schweyen, George Sahyoun, Luke Timper, Nathan Raab
