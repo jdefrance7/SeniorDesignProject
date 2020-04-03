@@ -46,7 +46,7 @@ Power Sensor Library: [Adafruit_INA219](https://github.com/adafruit/Adafruit_INA
 CAN Libraries: [Universal Can Library](https://github.com/rennerm/avr-can-lib/tree/9c6bc9118de66d6edaf1b8539e2b9717ba26d123#universelle-can-blibiothek-avr-can-lib), [Canard AVR](https://github.com/UAVCAN/libcanard/tree/legacy-v0/drivers/avr), [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h)
 
 ### UAVCAN
-Both [UAVCAN v0](https://github.com/UAVCAN/libcanard) (legacy) and [UAVCAN v1](https://github.com/UAVCAN/libcanard/tree/legacy-v0) have been implemented in separate projects.
+Both [UAVCAN v0](https://github.com/UAVCAN/libcanard) (legacy) and [UAVCAN v1](https://github.com/UAVCAN/libcanard/tree/legacy-v0) have been implemented in separate projects. See their documentation on implementation specifics.
 
 ## Acknowledgements
 We would like to thank Professor Nikolaos Papanikolopoulos, Travis Hanson, and all of the team members in the Solar UAV lab at the University of Minnesota - Twin Cities for allowing us to work on this amazing project with them.
