@@ -10,19 +10,19 @@
 
 * Callibration
 
-  * Used to callibrate magnetometers of LSM9DS1 and FXOS_FXAS.
+  * Callibrate magnetometers of LSM9DS1 and FXOS_FXAS.
 
 * Callibration Test
 
-  * Used to test callibration of magnetometers of LSM9DS1 and FXOS_FXAS.
+  * Test callibration of magnetometers of LSM9DS1 and FXOS_FXAS.
 
 * IMU Test
 
-  * Used to test data aquisition for different IMU data types.
+  * Test data aquisition for different IMU data types.
 
 * Power Test
 
-  * Used to test the power draw of up to four different power lines.
+  * Test the power draw of up to four different power lines.
 
 * CAN Receiver Test
 
