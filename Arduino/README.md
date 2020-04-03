@@ -1,33 +1,33 @@
 # Arduino Project Sketches
 
-## Wing Segment v0
+* Wing Segment v0
 
-Wing segment node using UAVCAN v0.
+  * Wing segment node using UAVCAN v0.
 
-## Wing Segment v1
+* Wing Segment v1
 
-Wing segment node using UAVCAN v1.
+  * Wing segment node using UAVCAN v1.
 
-## Callibration
+* Callibration
 
-Used to callibrate magnetometers of LSM9DS1 and FXOS_FXAS.
+  * Used to callibrate magnetometers of LSM9DS1 and FXOS_FXAS.
 
-## Callibration Test
+* Callibration Test
 
-Used to test callibration of magnetometers of LSM9DS1 and FXOS_FXAS.
+  * Used to test callibration of magnetometers of LSM9DS1 and FXOS_FXAS.
 
-## IMU Test
+* IMU Test
 
-Used to test data aquisition for different IMU data types.
+  * Used to test data aquisition for different IMU data types.
 
-## Power Test
+* Power Test
 
-Used to test the power draw of up to four different power lines.
+  * Used to test the power draw of up to four different power lines.
 
-## CAN Receiver Test
+* CAN Receiver Test
 
-Tests the receiving operation of the AST-CAN485 CAN transceiver.
+  * Tests the receiving operation of the AST-CAN485 CAN transceiver.
 
-## CAN Transmitter Test
+* CAN Transmitter Test
 
-Tests the transmitting operation of the AST-CAN485 CAN transceiver.
+  * Tests the transmitting operation of the AST-CAN485 CAN transceiver.
