@@ -14,19 +14,19 @@ A simple LED class for hardware debugging.
 
 ### BNO055
 
-Provides standardized functions for interfacing with the BNO055 IMU.
+Provides standardized IMU functions for interfacing with the BNO055.
 
 ---
 
 ### LSM9DS1
 
-Provides standardized functions for interfacing with the LSM9DS1 IMU.
+Provides standardized IMU functions for interfacing with the LSM9DS1.
 
 ---
 
 ### NXP_FXOS_FXAS
 
-Provides standardized functions for interfacing with the NXP_FXOS_FXAS IMU.
+Provides standardized IMU functions for interfacing with the NXP_FXOS_FXAS.
 
 ---
 
