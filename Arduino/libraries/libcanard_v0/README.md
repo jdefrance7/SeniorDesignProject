@@ -12,4 +12,4 @@ Also includes Serial debugging print statements.
 
 `void printCanardRxTransfer(...)` -- prints details about a received Canard transfer
 
-`void printCanardPoolAllocatorStatistics(...)` - prints details about the Canard memory pool
+`void printCanardPoolAllocatorStatistics(...)` - prints details about a Canard memory pool
