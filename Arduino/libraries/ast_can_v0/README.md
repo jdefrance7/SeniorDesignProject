@@ -14,7 +14,7 @@ CAN driver using ASTCanLib for UAVCAN v0 (legacy).
 
 ## Functions
 
-`int init_can(can, id)` - initializes the AST-CAN485 CAN module and Canard instance
+`int init_can(...)` - initializes the AST-CAN485 CAN module and Canard instance
 
 `sendCanardCANFrame(...)` - sends a single CanardCANFrame from the Canard queue
 
