@@ -38,7 +38,7 @@ If you do not have the AVR-GCC compiler, please follow this link on how to insta
 ## Notes
 
 ### Dependencies
-A specific compiler set and multiple third-party libraries were used and adapted to fit this project's needs.
+Multiple third-party libraries were used and adapted to fit this project's needs. They are already included in the `Arduino\libraries` folder, though their references are included below.
 
 IMU Libraries: [Adafruit_BNO055](https://github.com/adafruit/Adafruit_BNO055), [Adafruit_LSM9DS1](https://github.com/adafruit/Adafruit_LSM9DS1), [Adafruit_FXOS8700](https://github.com/adafruit/Adafruit_FXOS8700), [Adafruit_FXAS21002C](https://github.com/adafruit/Adafruit_FXAS21002C), [Adafruit_AHRS](https://github.com/adafruit/Adafruit_AHRS), [Adafruit_Sensor](https://github.com/adafruit/Adafruit_Sensor)
 
