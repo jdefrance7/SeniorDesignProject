@@ -4,20 +4,38 @@
 #include <Arduino.h>
 
 #define DEFAULT_PIN   13
-#define DEFAULT_RATE 500
 
 class LED
 {
 public:
+  
+  // Default constructor, sets pin to DEFAULT_PIN
   LED();
+  
+  // Constructor with pin declaration
   LED(int pin);
+  
+  // Set LED pin
   void setPin(int pin);
+  
+  // Turn LED on
   void on();
+  
+  // Turn LED off
   void off();
+  
+  // Toggle LED state
   void toggle();
+  
+  // Toggle LED state if elapsed time since last call is greater than rate (ms)
   void toggle(long rate);
+  
 private:
+  
+  // LED pin
   int _pin;
+  
+  // LED state
   bool _state;
 };
 
