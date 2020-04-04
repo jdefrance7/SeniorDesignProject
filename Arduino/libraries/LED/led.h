@@ -5,6 +5,7 @@
 
 #define DEFAULT_PIN   13
 
+// Basic LED class for hardware debugging
 class LED
 {
 public:
