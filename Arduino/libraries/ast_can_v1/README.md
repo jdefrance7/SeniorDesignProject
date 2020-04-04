@@ -1,6 +1,6 @@
 # AST_CAN_v1
 
-CAN driver using ASTCanLib for UAVCAN v1.
+CAN driver interface for the AST-CAN485 using [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h) for [UAVCAN v1](https://uavcan.org/).
 
 ## Defines
 
