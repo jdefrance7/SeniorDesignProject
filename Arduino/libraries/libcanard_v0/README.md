@@ -1,4 +1,4 @@
-# Libcanard (v0)
+# Libcanard (Version 0)
 
 Libcanard v0 source code files (legacy).
 
