@@ -4,6 +4,8 @@ Multiple third-party libraries were implemented in various degrees throughout th
 
 A number of custom libraries were written to interface between these libraries and are described below.
 
+Please read the documentation of each library to gain a better understanding of its implementation.
+
 ---
 
 ### LED
@@ -75,9 +77,3 @@ UAVCAN data type encoding, decoding, and debugging (legacy).
 ### UAVCAN_v1
 
 UAVCAN data type encoding, decoding, and debugging.
-
----
-
-## Note
-
-Please read the documentation of each library to gain a better understanding of its implementation.
