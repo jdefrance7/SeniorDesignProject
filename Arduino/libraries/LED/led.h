@@ -12,7 +12,6 @@ public:
   LED();
   LED(int pin);
   void setPin(int pin);
-  void setRate(long rate);
   void on();
   void off();
   void toggle();
