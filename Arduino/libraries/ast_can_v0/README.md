@@ -1,6 +1,6 @@
 # AST_CAN_v0
 
-CAN driver using ASTCanLib for UAVCAN v0 (legacy).
+CAN driver using [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h) for [UAVCAN v0](https://legacy.uavcan.org/) (legacy).
 
 ## Defines
 
