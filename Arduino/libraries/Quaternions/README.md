@@ -4,7 +4,7 @@ Provides example functions for computing the angles between quaternions.
 
 ## Computation
 
-The angle between two unit quaternions is defined as `\mathrm{t} = 2 * acos(Q1*inv(Q2))`
+The angle between two unit quaternions is defined as `angle = 2 * acos(Q1*inv(Q2))`
 
 ## Functions
 
