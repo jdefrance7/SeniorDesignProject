@@ -16,25 +16,25 @@ A simple LED class for hardware debugging.
 
 ### BNO055
 
-Provides standardized IMU functions for interfacing with the BNO055.
+Provides standardized IMU functions for interfacing with the [BNO055](https://www.adafruit.com/product/2472).
 
 ---
 
 ### LSM9DS1
 
-Provides standardized IMU functions for interfacing with the LSM9DS1.
+Provides standardized IMU functions for interfacing with the [LSM9DS1](https://www.adafruit.com/product/3387).
 
 ---
 
 ### NXP_FXOS_FXAS
 
-Provides standardized IMU functions for interfacing with the NXP_FXOS_FXAS.
+Provides standardized IMU functions for interfacing with the [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463).
 
 ---
 
 ### Quaternions
 
-Provides example functions for computing the angles between quaternions.
+Provides example functions for computing the [angle between two quaternions](https://math.stackexchange.com/questions/167827/compute-angle-between-quaternions-in-matlab).
 
 ---
 
@@ -58,22 +58,22 @@ CAN driver interface for the AST-CAN485 using [Canard AVR](https://github.com/UA
 
 ### Libcanard_v0
 
-Libcanard source files and Serial debugging print statements (legacy).
+[Libcanard](https://github.com/UAVCAN/libcanard/tree/legacy-v0) source files and Serial debugging print statements (legacy).
 
 ---
 
 ### Libcanard_v1
 
-Libcanard source files and Serial debugging print statements.
+[Libcanard](https://github.com/UAVCAN/libcanard/tree/master) source files and Serial debugging print statements.
 
 ---
 
 ### UAVCAN_v0
 
-UAVCAN data type encoding, decoding, and debugging (legacy).
+[UAVCAN v0](https://legacy.uavcan.org/) data type encoding, decoding, and debugging (legacy).
 
 ---
 
 ### UAVCAN_v1
 
-UAVCAN data type encoding, decoding, and debugging.
+[UAVCAN v1](https://uavcan.org/) data type encoding, decoding, and debugging.
