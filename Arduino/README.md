@@ -1,5 +1,9 @@
 # Arduino Project Sketches
 
+#### Libraries
+
+Contains the source code of libraries used in sketches.
+
 #### Wing Segment v0
 
 Wing segment node using UAVCAN v0.
