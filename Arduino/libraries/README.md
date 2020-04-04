@@ -58,13 +58,13 @@ CAN driver interface for the AST-CAN485 using [Canard AVR](https://github.com/UA
 
 ### Libcanard_v0
 
-[Libcanard](https://github.com/UAVCAN/libcanard/tree/legacy-v0) source files and Serial debugging print statements (legacy).
+[Libcanard v0](https://github.com/UAVCAN/libcanard/tree/legacy-v0) source files and Serial debugging print statements (legacy).
 
 ---
 
 ### Libcanard_v1
 
-[Libcanard](https://github.com/UAVCAN/libcanard/tree/master) source files and Serial debugging print statements.
+[Libcanard v1](https://github.com/UAVCAN/libcanard/tree/master) source files and Serial debugging print statements.
 
 ---
 
