@@ -8,7 +8,7 @@ A simple LED class for hardware debugging.
 
 ## Functions
 
-`LED()` - default constructor, sets LED pin to DEFAULT_PIN
+`LED()` - default constructor, sets LED pin to `DEFAULT_PIN`
 
 `LED(pin)` - secondary constructor, sets LED pin to `pin`
 
