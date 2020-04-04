@@ -8,13 +8,13 @@ Please note that the `libraries` folder is not itself a project sketch but rathe
 
 ### Wing Segment v0
 
-Wing segment node using UAVCAN v0.
+Wing segment node using UAVCAN v0 (main project).
 
 ---
 
 ### Wing Segment v1
 
-Wing segment node using UAVCAN v1.
+Wing segment node using UAVCAN v1 (main project).
 
 ---
 
@@ -32,13 +32,13 @@ Test callibration of magnetometers of LSM9DS1 and FXOS_FXAS.
 
 ### IMU Test
 
-Test data aquisition for different IMU data types.
+Test data aquisition for different IMU data types using the BNO055, LSM9DS1, or NXP_FXOS_FXAS.
 
 ---
 
 ### Power Test
 
-Test the power draw of up to four different power lines.
+Test the power draw of up to four different power lines using the Adafruit INA219.
 
 ---
 
