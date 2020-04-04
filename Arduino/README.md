@@ -20,13 +20,13 @@ Wing segment node using UAVCAN v1 (main project).
 
 ### Callibration
 
-Callibrate magnetometers of LSM9DS1 and FXOS_FXAS.
+Callibrate magnetometers of LSM9DS1 and FXOS_FXAS (courtesy of Adafruit).
 
 ---
 
 ### Callibration Test
 
-Test callibration of magnetometers of LSM9DS1 and FXOS_FXAS.
+Test callibration of magnetometers of LSM9DS1 and FXOS_FXAS (courtesy of Adafruit).
 
 ---
 
@@ -44,12 +44,12 @@ Test the power draw of up to four different power lines using the Adafruit INA21
 
 ### CAN Receiver Test
 
-Tests the receiving operation of the AST-CAN485 CAN transceiver.
+Tests the receiving operation of the AST-CAN485 CAN transceiver (courtesy of Atlantis Specialist Technologies).
 
 ---
 
 ### CAN Transmitter Test
 
-Tests the transmitting operation of the AST-CAN485 CAN transceiver.
+Tests the transmitting operation of the AST-CAN485 CAN transceiver (courtesy of Atlantis Specialist Technologies).
 
 ---
