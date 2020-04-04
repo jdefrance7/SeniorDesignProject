@@ -33,6 +33,7 @@ If you do not have the AVR compiler set, please install the compilers first ([AV
 2. Select the proper port from the `Tools->Port` menu in the Arduino IDE toolbar.
 3. Select "Parallel Programmer" from the `Tools->Programmer` menu in the Arduino IDE toolbar.
 4. Select `Sketch->Upload Using Programmer` from the Arduino IDE toolbar.
+5. Wait for the upload to complete and read diagnostic info in the Arduino IDE console.
 
 ## Notes
 
