@@ -10,6 +10,8 @@ Provides standardized IMU functions for interfacing with the BNO055.
 
 `TEMPERATURE_CELSIUS`, `TEMPERATURE_KELVIN` - temperature scale designators
 
+`IMU_SUCCESS`, `ERR_SENSOR_FAILURE`, `ERR_CALLIBRATION_BEGIN`, `ERR_CALLIBRATION_LOAD` - return values for initialization and update functions
+
 ## Functions
 
 `int init_imu()` - initializes the BNO055, returns 0 for success or negative error code
