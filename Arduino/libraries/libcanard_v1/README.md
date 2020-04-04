@@ -5,7 +5,8 @@ Contains libcanard source code files
  * `canard.c`
  * `canard_dsdl.h`
  * `canard_dsdl.c`
- Pulled from [UAVCAN/libcanard](https://github.com/UAVCAN/libcanard/tree/master/libcanard).
+ 
+Pulled from [UAVCAN/libcanard](https://github.com/UAVCAN/libcanard/tree/master/libcanard).
 
 Also provides custom Serial debugging print statements for Canard objects.
 
