@@ -26,4 +26,4 @@ Sends orientation data onto the CAN bus in two ways:
 
 ## Task 4 - Check Memory Pool
 
-Checks the memory usage statistics of the Canard memory pool. Mainly for debugging.
+Checks the memory usage statistics of the Canard memory pool. Debugging.
