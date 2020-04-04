@@ -2,7 +2,9 @@
 
 Libcanard v1 source code files.
 
-Also includes Serial debugging print statements.
+Files `canard.h`, `canard.c`, `canard_dsdl.h`, and `canard_dsdl.c` pulled from [Libcanard](https://github.com/UAVCAN/libcanard/tree/master/libcanard).
+
+Also provides custom Serial debugging print statements for Canard objects.
 
 ## Serial Debugging
 
