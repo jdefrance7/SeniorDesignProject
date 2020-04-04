@@ -8,48 +8,48 @@ Please note that the `libraries` folder is not itself a project sketch but rathe
 
 ### Wing Segment v0
 
-Wing segment node using UAVCAN v0 (main project).
+Wing segment node using [UAVCAN v0](https://legacy.uavcan.org/) (main project).
 
 ---
 
 ### Wing Segment v1
 
-Wing segment node using UAVCAN v1 (main project).
+Wing segment node using [UAVCAN v1](https://uavcan.org/) (main project).
 
 ---
 
 ### Callibration
 
-Callibrate magnetometers of LSM9DS1 and FXOS_FXAS (courtesy of Adafruit).
+Callibrate magnetometers of [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) (courtesy of Adafruit).
 
 ---
 
 ### Callibration Test
 
-Test callibration of magnetometers of LSM9DS1 and FXOS_FXAS (courtesy of Adafruit).
+Test callibration of magnetometers of [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) (courtesy of Adafruit).
 
 ---
 
 ### IMU Test
 
-Test data aquisition for different IMU data types using the BNO055, LSM9DS1, or NXP_FXOS_FXAS.
+Test data aquisition for different IMU data types using the [BNO055](https://www.adafruit.com/product/2472), [LSM9DS1](https://www.adafruit.com/product/3387), or [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463).
 
 ---
 
 ### Power Test
 
-Test the power draw of up to four different power lines using the Adafruit INA219.
+Test the power draw of up to four different power lines using the [Adafruit_INA219](https://www.adafruit.com/product/904).
 
 ---
 
 ### CAN Receiver Test
 
-Tests the receiving operation of the AST-CAN485 CAN transceiver (courtesy of Atlantis Specialist Technologies).
+Tests the receiving operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver (courtesy of Atlantis Specialist Technologies).
 
 ---
 
 ### CAN Transmitter Test
 
-Tests the transmitting operation of the AST-CAN485 CAN transceiver (courtesy of Atlantis Specialist Technologies).
+Tests the transmitting operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver (courtesy of Atlantis Specialist Technologies).
 
 ---
