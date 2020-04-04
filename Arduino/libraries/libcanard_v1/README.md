@@ -1,6 +1,6 @@
 # Libcanard (Version 1)
 
-Contains libcanard source code files 
+Contains libcanard source code files:
  * `canard.h`
  * `canard.c`
  * `canard_dsdl.h`
