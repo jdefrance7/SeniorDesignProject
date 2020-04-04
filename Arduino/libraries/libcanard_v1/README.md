@@ -1,6 +1,6 @@
 # Libcanard (Version 1)
 
-Libcanard v1 source code files.
+Contains libcanard source code files.
 
 Files `canard.h`, `canard.c`, `canard_dsdl.h`, and `canard_dsdl.c` pulled from [UAVCAN/libcanard](https://github.com/UAVCAN/libcanard/tree/master/libcanard).
 
