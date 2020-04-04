@@ -4,7 +4,8 @@ Electrical Engineering Senior Design Project at the University of Minnesota - Tw
 The purpose of this project is to read IMU sensor data from individual UAV wing segments and send it to a Pixhawk PX4 flight controller over CAN for the purpose of obtaining real-time wing segment orientation.
 
 ## Authors
-Joe DeFrance, Alex Mootz, Andrew Schweyen, George Sahyoun, Luke Timper, Nathan Raab
+Primary: Joe DeFrance
+Secondary: Alex Mootz, Andrew Schweyen, George Sahyoun, Luke Timper, Nathan Raab
 
 ## Getting Started
 This project was created using the [Arduino IDE](https://www.arduino.cc/en/main/software) for the [AST-CAN485](https://www.sparkfun.com/products/14483) board. 
