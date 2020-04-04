@@ -16,9 +16,9 @@ Provides standardized IMU functions for interfacing with the BNO055.
 
 `int update_imu()` - updates the BNO055, always returns 0 for success
 
-`float orientation(rotational_axis)` - returns Euler angle orientation along `rotational_axis`
+`float orientation(rotational_axis)` - returns Euler Angle Orientation along `rotational_axis`
 
-`float quaternion(linear_axis)` - returns unit Quaternion value along `linear_axis`
+`float quaternion(linear_axis)` - returns Unit Quaternion Value along `linear_axis`
 
 `float angularVelocity(rotational_axis)` - returns Angular Velocity along `rotational_axis`
 
