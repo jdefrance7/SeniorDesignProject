@@ -18,14 +18,14 @@ Provides standardized IMU functions for interfacing with the NXP_FXOS_FXAS.
 
 `int update_imu()` - updates the BNO055, returns `IMU_SUCCESS` or negative error code
 
-`float orientation(rotational_axis)` - returns Euler Angle Orientation along `rotational_axis`
+`float orientation(rotational_axis)` - returns Euler Angle Orientation along `rotational_axis` designator
 
-`float quaternion(linear_axis)` - returns Unit Quaternion Value along `linear_axis`
+`float quaternion(linear_axis)` - returns Unit Quaternion Value along `linear_axis` designator
 
-`float angularVelocity(rotational_axis)` - returns Angular Velocity along `rotational_axis`
+`float angularVelocity(rotational_axis)` - returns Angular Velocity along `rotational_axis` designator
 
-`float linearAcceleration(linear_axis)` - returns Linear Acceleration along `linear_axis`
+`float linearAcceleration(linear_axis)` - returns Linear Acceleration along `linear_axis` designator
 
-`float magneticField(linear_axis)` - returns Magnetic Field Magnitude along `linear_axis`
+`float magneticField(linear_axis)` - returns Magnetic Field Magnitude along `linear_axis` designator
 
-`float temperature(temperature_scale)` - returns Temperature according to `temperature_scale`
+`float temperature(temperature_scale)` - returns Temperature according to `temperature_scale` designator
