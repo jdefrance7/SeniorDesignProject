@@ -1,8 +1,6 @@
 # AVR_CAN_v0
 
-CAN driver using Canard AVR for UAVCAN v0.
-
-Includes source files pulled from [UAVCAN/libcanard/drivers/avr](https://github.com/UAVCAN/libcanard/tree/legacy-v0/drivers/avr) (legacy).
+CAN driver interface for the AST-CAN485 using [Canard AVR](https://github.com/UAVCAN/libcanard/tree/legacy-v0/drivers/avr) for [UAVCAN v0](https://legacy.uavcan.org/).
 
 ## Defines
 
