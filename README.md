@@ -54,4 +54,4 @@ Both [UAVCAN v0](https://github.com/UAVCAN/libcanard) (legacy) and [UAVCAN v1](h
 ## Acknowledgements
 We would like to thank Professor Nikolaos Papanikolopoulos, Travis Hanson, and all of the team members in the Solar UAV lab at the University of Minnesota - Twin Cities for allowing us to work on this amazing project with them.
 
-We would also like to acknowledge Professor Paul Imbertson for his time and effort as the Senior Design Faculty Mentor.
+We would also like to acknowledge Professor Paul Imbertson for his time and effort as our Senior Design Faculty Mentor.
