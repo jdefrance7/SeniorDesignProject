@@ -14,7 +14,7 @@ Information regarding data type size, id, and signature is also included.
 
 Constants defined in a data type's DSDL are included.
 
-Reference: [Specification 7. List of Standard Data Types](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/)
+Reference: [UAVCAN Specification 7. List of Standard Data Types](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/)
 
 ## Encoding
 
