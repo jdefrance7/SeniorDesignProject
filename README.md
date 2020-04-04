@@ -25,7 +25,7 @@ If you do not have the AVR-GCC compiler, please follow this link on how to insta
 
 1. Open the desired project sketch in the Arduino IDE.
 2. Select the AST-CAN485 board from the `Tools->Board` menu in the Arduino IDE toolbar.
-3. Either click the check mark button in the upper left hand corner of the IDE or select `Sketch->Verify/Compile` from the Arduino IDE toolbar.
+3. Either click the check mark button in the upper left hand corner of the Arduino IDE or select `Sketch->Verify/Compile` from the Arduino IDE toolbar.
 
 ### Uploading
 
