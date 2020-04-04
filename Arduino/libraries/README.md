@@ -56,7 +56,7 @@ CAN driver using Canard AVR for UAVCAN (legacy).
 
 ### Libcanard_v0
 
-Libcanard source files (legacy) and Serial debugging print statements.
+Libcanard source files and Serial debugging print statements (legacy).
 
 ---
 
