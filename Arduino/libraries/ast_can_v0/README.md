@@ -1,0 +1,33 @@
+# AST_CAN_v0
+
+CAN driver using ASTCanLib for UAVCAN v0 (legacy).
+
+## Defines
+
+`ERR_INVALID_NODE_ID`, `ERR_COMMAND_ACCEPT_TIMEOUT`, `ERR_COMMAND_EXECUTE` - error code return values
+
+`CANARD_MEMORY_POOL_SIZE` - size of memory to be allocated for Canard message queue (see [canard.h](https://github.com/UAVCAN/libcanard/blob/legacy-v0/canard.h) for details)
+
+## Structures
+
+`Canard` - custom struct containing CAN bitrate, Canard instance, and Canard memory pool
+
+## Functions
+
+`int init_can(can, id)` - initializes the AST-CAN485 CAN module and Canard instance
+
+`sendCanardCANFrame(canard, txf, timeout_ms)` - sends a single CanardCANFrame from the Canard queue
+
+`readCanardCANFrame(canard, rxf, timeout_ms)` - reads a single CanardCANFrame from the Canard queue
+
+`transmitCanardQueue(canard, timeout_ms)` - transmitts all CanardCANFrames from the Canard queue
+
+`void printCanard(can)` - Serial debugging print of custom `Canard` structure
+
+`void printMsg(msg)` - Serial debugging print of ASTCanLib st_cmd_t CAN message structure
+
+## Internals
+
+`onTransferReceived(...)` - used by Canard instance to process incomming transfer frames
+
+`shouldAcceptTransfer(...)` - used by Canard instance to filter incomming transfer frames
