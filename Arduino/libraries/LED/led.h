@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 
+// LED pin used by default constructor
 #define DEFAULT_PIN   13
 
 // Basic LED class for hardware debugging
