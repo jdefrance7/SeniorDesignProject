@@ -38,43 +38,43 @@ Provides example functions for computing the angles between quaternions.
 
 ### AST_CAN_v0
 
-CAN driver using ASTCanLib for UAVCAN v0 (legacy).
+CAN driver using ASTCanLib for UAVCAN (legacy).
 
 ---
 
 ### AST_CAN_v1
 
-CAN driver using ASTCanLib for UAVCAN v1.
+CAN driver using ASTCanLib for UAVCAN.
 
 ---
 
 ### AVR_CAN_v0
 
-CAN driver using Canard AVR for UAVCAN v0.
+CAN driver using Canard AVR for UAVCAN (legacy).
 
 ---
 
 ### Libcanard_v0
 
-Libcanard v0 source code files (legacy).
+Libcanard source files (legacy) and Serial debugging print statements.
 
 ---
 
 ### Libcanard_v1
 
-Libcanard v1 source code files.
+Libcanard source files and Serial debugging print statements.
 
 ---
 
 ### UAVCAN_v0
 
-UAVCAN v0 data type encoding, decoding, and debugging (legacy).
+UAVCAN data type encoding, decoding, and debugging (legacy).
 
 ---
 
 ### UAVCAN_v1
 
-UAVCAN v1 data type encoding, decoding, and debugging.
+UAVCAN data type encoding, decoding, and debugging.
 
 ---
 
