@@ -14,13 +14,13 @@ CAN driver using ASTCanLib for UAVCAN v0 (legacy).
 
 ## Functions
 
-`int init_can(...)` - initializes the AST-CAN485 CAN module and Canard instance
+`int init_can(...)` - initializes the AST-CAN485 CAN module and Canard instance, returns value for error checking
 
-`sendCanardCANFrame(...)` - sends a single CanardCANFrame from the Canard queue
+`int sendCanardCANFrame(...)` - sends a single CanardCANFrame from the Canard queue, returns value for error checking
 
-`readCanardCANFrame(...)` - reads a single CanardCANFrame from the Canard queue
+`int readCanardCANFrame(...)` - reads a single CanardCANFrame from the Canard queue, returns value for error checking
 
-`transmitCanardQueue(...)` - transmitts all CanardCANFrames from the Canard queue
+`int transmitCanardQueue(...)` - transmitts all CanardCANFrames from the Canard queue, returns value for error checking
 
 `void printCanard(...)` - Serial debugging print of custom `Canard` structure
 
