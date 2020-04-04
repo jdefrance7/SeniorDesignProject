@@ -38,7 +38,7 @@ Provides example functions for computing the angles between quaternions.
 
 ### AST_CAN_v0
 
-CAN driver using ASTCanLib for UAVCAN v0.
+CAN driver using ASTCanLib for UAVCAN v0 (legacy).
 
 ---
 
