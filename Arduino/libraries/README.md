@@ -40,19 +40,19 @@ Provides example functions for computing the [angle between two quaternions](htt
 
 ### AST_CAN_v0
 
-CAN driver interface for the AST-CAN485 using [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h) for [UAVCAN v0](https://legacy.uavcan.org/) (legacy).
+CAN driver interface for the [AST-CAN485](https://www.sparkfun.com/products/14483) using [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h) for [UAVCAN v0](https://legacy.uavcan.org/) (legacy).
 
 ---
 
 ### AST_CAN_v1
 
-CAN driver interface for the AST-CAN485 using [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h) for [UAVCAN v1](https://uavcan.org/).
+CAN driver interface for the [AST-CAN485](https://www.sparkfun.com/products/14483) using [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h) for [UAVCAN v1](https://uavcan.org/).
 
 ---
 
 ### AVR_CAN_v0
 
-CAN driver interface for the AST-CAN485 using [Canard AVR](https://github.com/UAVCAN/libcanard/tree/legacy-v0/drivers/avr) for [UAVCAN v0](https://legacy.uavcan.org/).
+CAN driver interface for the [AST-CAN485](https://www.sparkfun.com/products/14483) using [Canard AVR](https://github.com/UAVCAN/libcanard/tree/legacy-v0/drivers/avr) for [UAVCAN v0](https://legacy.uavcan.org/).
 
 ---
 
