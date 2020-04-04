@@ -4,7 +4,7 @@ CAN driver using ASTCanLib for UAVCAN v1.
 
 ## Defines
 
-`CANARD_OK` - legacy return value
+`CANARD_OK` - legacy Libcanard success return value
 
 `ERR_INVALID_NODE_ID`, `ERR_COMMAND_ACCEPT_TIMEOUT`, `ERR_COMMAND_EXECUTE` - error code return values
 
