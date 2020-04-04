@@ -14,9 +14,9 @@ Provides standardized IMU functions for interfacing with the BNO055.
 
 ## Functions
 
-`int init_imu()` - initializes the BNO055, returns 0 for success or negative error code
+`int init_imu()` - initializes the BNO055, returns `IMU_SUCCESS` or negative error code
 
-`int update_imu()` - updates the BNO055, always returns 0 for success
+`int update_imu()` - updates the BNO055, always returns `IMU_SUCCESS` since updating is not required for the BNO055
 
 `float orientation(rotational_axis)` - returns Euler Angle Orientation along `rotational_axis`
 
