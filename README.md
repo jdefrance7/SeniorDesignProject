@@ -1,7 +1,7 @@
 # Senior Design Project
 Electrical Engineering Senior Design Project at the University of Minnesota - Twin Cities, Spring 2020
 
-The purpose of this project is to read IMU sensor data from individual UAV wing segments and send it to a Pixhawk PX4 flight controller over CAN for the purpose of obtaining wing segment orientation to be used for control calculations and diagnotstics.
+The purpose of this project is to read IMU sensor data from individual UAV wing segments and send it to a Pixhawk PX4 flight controller over CAN for the purpose of obtaining real-time wing segment orientation.
 
 ## Authors
 Joe DeFrance, Alex Mootz, Andrew Schweyen, George Sahyoun, Luke Timper, Nathan Raab
