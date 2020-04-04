@@ -52,7 +52,7 @@ CAN driver interface for the AST-CAN485 using [ASTCanLib](https://github.com/Atl
 
 ### AVR_CAN_v0
 
-CAN driver using for the AST-CAN485 using Canard AVR and UAVCAN (legacy).
+CAN driver interface for the AST-CAN485 using [Canard AVR](https://github.com/UAVCAN/libcanard/tree/legacy-v0/drivers/avr) for [UAVCAN v0](https://legacy.uavcan.org/).
 
 ---
 
