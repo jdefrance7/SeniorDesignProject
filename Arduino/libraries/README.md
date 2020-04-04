@@ -40,13 +40,13 @@ Provides example functions for computing the angles between quaternions.
 
 ### AST_CAN_v0
 
-CAN driver for the AST-CAN485 using ASTCanLib and UAVCAN (legacy).
+CAN driver interface for the AST-CAN485 using [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h) for [UAVCAN v0](https://legacy.uavcan.org/) (legacy).
 
 ---
 
 ### AST_CAN_v1
 
-CAN driver for the AST-CAN485 using ASTCanLib and UAVCAN.
+CAN driver interface for the AST-CAN485 using [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h) for [UAVCAN v1](https://uavcan.org/).
 
 ---
 
