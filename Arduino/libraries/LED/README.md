@@ -1,6 +1,6 @@
 # LED
 
-Provides a simple interface with connected LEDs for hardware debugging.
+A simple LED class for hardware debugging.
 
 ## Functions
 
