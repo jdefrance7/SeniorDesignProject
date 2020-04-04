@@ -21,7 +21,7 @@ This project was created using the [Arduino IDE](https://www.arduino.cc/en/main/
 
 ### Compiling
 
-If you do not have the AVR compiler set, please install the compilers first - [AVR-GCC](https://github.com/osx-cross/homebrew-avr).
+If you do not have the AVR-GCC compiler, please follow this link on how to install it: [AVR-GCC download](https://github.com/osx-cross/homebrew-avr)
 
 1. Open the desired project sketch in the Arduino IDE.
 2. Select the AST-CAN485 board from the `Tools->Board` menu in the Arduino IDE toolbar.
