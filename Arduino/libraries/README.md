@@ -52,7 +52,7 @@ CAN driver interface for the [AST-CAN485](https://www.sparkfun.com/products/1448
 
 ### AVR_CAN_v0
 
-CAN driver interface for the [AST-CAN485](https://www.sparkfun.com/products/14483) using [Canard AVR](https://github.com/UAVCAN/libcanard/tree/legacy-v0/drivers/avr) and [UAVCAN v0](https://legacy.uavcan.org/).
+CAN driver interface for the [AST-CAN485](https://www.sparkfun.com/products/14483) using [Canard AVR](https://github.com/UAVCAN/libcanard/tree/legacy-v0/drivers/avr) and [UAVCAN v0](https://legacy.uavcan.org/) (legacy).
 
 ---
 
