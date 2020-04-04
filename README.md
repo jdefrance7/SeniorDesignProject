@@ -13,7 +13,7 @@ This project was created using the [Arduino IDE](https://www.arduino.cc/en/main/
 
 ### Installing
 
-1. Download the Arduino IDE.
+1. Download the [Arduino IDE](https://www.arduino.cc/en/main/software).
 2. Replace the created `Arduino` folder with the one from this repository.
 
    * Alternatively copy the `Arduino\libraries` folder contents to your local `Arduino\libraries` and move desired project sketch folders to the `Arduino` folder.
