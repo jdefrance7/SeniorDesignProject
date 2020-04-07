@@ -21,8 +21,10 @@ Sends a [Heartbeat](https://uavcan.org/specification/UAVCAN_Specification_v1.0-a
 # Abstract node status information.
 #
 
+# The publication period shall not exceed this limit.
 uint16 MAX_PUBLICATION_PERIOD = 1 # [second]
 
+# If the last message from the node was received more than this amount of time ago, it should be considered offline.
 uint16 OFFLINE_TIMEOUT = 3 # [second]
 
 #
@@ -33,23 +35,21 @@ uint32 uptime # [second]
 #
 # Abstract node health information. 
 #
-truncated uint2 health
-
 uint2 HEALTH_NOMINAL = 0
 uint2 HEALTH_ADVISORY = 1
 uint2 HEALTH_CAUTION = 2
 uint2 HEALTH_WARNING = 3
+truncated uint2 health
 
 #
 # The current operating mode.
 #
-truncated uint3 mode
-
 uint3 MODE_OPERATIONAL = 0
 uint3 MODE_INITIALIZATION = 1
 uint3 MODE_MAINTENANCE = 2
 uint3 MODE_SOFTWARE_UPDATE = 3
 uint3 MODE_OFFLINE = 7
+truncated uint3 mode
 
 #
 # Optional, vendor-specific node status code.
