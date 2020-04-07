@@ -20,12 +20,9 @@ Sends a [Node Status](https://legacy.uavcan.org/Specification/7._List_of_standar
 #
 # Abstract node status information.
 #
-# Any UAVCAN node is required to publish this message periodically.
-#
 
 #
 # Publication period may vary within these limits.
-# It is NOT recommended to change it at run time.
 #
 uint16 MAX_BROADCASTING_PERIOD_MS = 1000
 uint16 MIN_BROADCASTING_PERIOD_MS = 2
@@ -37,7 +34,6 @@ uint16 OFFLINE_TIMEOUT_MS = 3000
 
 #
 # Uptime counter should never overflow.
-# Other nodes may detect that a remote node has restarted when this value goes backwards.
 #
 uint32 uptime_sec
 
@@ -52,12 +48,6 @@ uint2 health
 
 #
 # Current mode.
-#
-# Mode OFFLINE can be actually reported by the node to explicitly inform other network
-# participants that the sending node is about to shutdown. In this case other nodes will not
-# have to wait OFFLINE_TIMEOUT_MS before they detect that the node is no longer available.
-#
-# Reserved values can be used in future revisions of the specification.
 #
 uint3 MODE_OPERATIONAL      = 0         # Node is performing its main functions.
 uint3 MODE_INITIALIZATION   = 1         # Node is initializing; this mode is entered immediately after startup.
@@ -107,7 +97,6 @@ Sends orientation data onto the CAN bus in two ways:
 
     #
     # Camera axis orientation in body frame (not in fixed frame).
-    # Please refer to the UAVCAN coordinate frame conventions.
     #
     float16[4] camera_orientation_in_body_frame_xyzw
     float16[<=9] camera_orientation_in_body_frame_covariance   # +inf for non-existent axes
