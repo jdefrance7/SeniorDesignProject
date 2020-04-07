@@ -21,10 +21,14 @@ Sends a [Heartbeat](https://uavcan.org/specification/UAVCAN_Specification_v1.0-a
 # Abstract node status information.
 #
 
+#
 # The publication period shall not exceed this limit.
+#
 uint16 MAX_PUBLICATION_PERIOD = 1 # [second]
 
+#
 # If the last message from the node was received more than this amount of time ago, it should be considered offline.
+#
 uint16 OFFLINE_TIMEOUT = 3 # [second]
 
 #
