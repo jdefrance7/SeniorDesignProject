@@ -16,6 +16,8 @@ Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS, ignored by
 
 Sends a [Heartbeat](https://uavcan.org/specification/UAVCAN_Specification_v1.0-alpha.pdf) message onto the CAN bus. Required by every UAVCAN node at least once every second.
 
+### Heartbeat
+
 ```
 #
 # Abstract node status information.
@@ -65,6 +67,8 @@ truncated uint19 vendor_specific_status_code
 ## Task 3 - Send Orientation
 
 Sends a [Record](https://uavcan.org/specification/UAVCAN_Specification_v1.0-alpha.pdf) message onto the CAN bus with orientation data encoded as ASCII text.
+
+### Record
 
 ```
 #
