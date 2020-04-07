@@ -4,6 +4,12 @@ Implements a UAVCAN node for the purpose of sending IMU data of wing segment ori
 
 Uses a sequential task structure with separate execution periods for each task.
 
+    Task 0 - Setup
+    Task 1 - Update IMU
+    Task 2 - Send Node Status
+    Task 3 - Send Orientation
+    Task 4 - Check Memory Pool
+
 ## Task 0 - Setup
 
 Initializes all modules according to configuration values set in the source file. 
