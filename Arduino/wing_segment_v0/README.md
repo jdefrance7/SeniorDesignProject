@@ -110,4 +110,14 @@ Sends orientation data onto the CAN bus in two ways:
 
 ## Task 4 - Check Memory Pool
 
-Checks the memory usage statistics of the Canard memory pool. Debugging.
+Checks the memory usage statistics of the Canard memory pool. Used for debugging and development purposes.
+
+### Canard Pool Allocator Statistics
+```
+typedef struct
+{
+    uint16_t capacity_blocks;               ///< Pool capacity in number of blocks
+    uint16_t current_usage_blocks;          ///< Number of blocks that are currently allocated by the library
+    uint16_t peak_usage_blocks;             ///< Maximum number of blocks used since initialization
+} CanardPoolAllocatorStatistics;
+```
