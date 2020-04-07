@@ -6,7 +6,9 @@ Uses a sequential task structure with separate execution periods for each task.
 
 ## Task 0 - Setup
 
-Initializes all modules according to configuration values set in the source file. Called once upon powering the module.
+Initializes all modules according to configuration values set in the source file. 
+
+Called once upon powering the module.
 
 ## Task 1 - Update IMU
 
@@ -16,7 +18,9 @@ Must be done at a freqency of `FILTER_UPDATE_RATE_HZ` defined internally by the 
 
 ## Task 2 - Send Heartbeat
 
-Sends a [Heartbeat](https://uavcan.org/specification/UAVCAN_Specification_v1.0-alpha.pdf) message onto the CAN bus. Required by every UAVCAN node at least once every second.
+Sends a [Heartbeat](https://uavcan.org/specification/UAVCAN_Specification_v1.0-alpha.pdf) message onto the CAN bus. 
+
+Required by every UAVCAN node at least once every second.
 
 ### Heartbeat
 
