@@ -6,15 +6,21 @@ Uses a sequential task structure with separate execution periods for each task.
 
 ## Task 0 - Setup
 
-Initializes all modules according to configuration values set in the source file. Called once upon powering the module.
+Initializes all modules according to configuration values set in the source file. 
+
+Called once upon powering the module.
 
 ## Task 1 - Update IMU
 
-Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS, ignored by the BNO055. Must be done at a freqency of `FILTER_UPDATE_RATE_HZ` defined internally by the IMU used.
+Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS, ignored by the BNO055. 
+
+Must be done at a freqency of `FILTER_UPDATE_RATE_HZ` defined internally by the IMU used.
 
 ## Task 2 - Send Node Status
 
-Sends a [Node Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/) message onto the CAN bus. Required by every UAVCAN node at least once every second.
+Sends a [Node Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/) message onto the CAN bus. 
+
+Required by every UAVCAN node at least once every second.
 
 ### Node Status
 
@@ -110,7 +116,9 @@ Sends orientation data onto the CAN bus in two ways:
 
 ## Task 4 - Check Memory Pool
 
-Checks the memory usage statistics of the Canard memory pool. Used for debugging and development purposes.
+Checks the memory usage statistics of the Canard memory pool. 
+
+Used for debugging and development purposes.
 
 ### Canard Pool Allocator Statistics
 ```
