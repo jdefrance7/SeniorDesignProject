@@ -32,7 +32,7 @@ Test callibration of magnetometers of [LSM9DS1](https://www.adafruit.com/product
 
 ### IMU Test
 
-Test data aquisition for different IMU data types using the [BNO055](https://www.adafruit.com/product/2472), [LSM9DS1](https://www.adafruit.com/product/3387), or [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463).
+Test data aquisition for different IMU data types using the [BNO055](https://www.adafruit.com/product/2472), [LSM9DS1](https://www.adafruit.com/product/3387), or [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) (development).
 
 ---
 
