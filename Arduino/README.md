@@ -38,7 +38,7 @@ Test data aquisition for different IMU data types using the [BNO055](https://www
 
 ### Power Test
 
-Test the power draw of up to four different power lines using the [Adafruit_INA219](https://www.adafruit.com/product/904).
+Test the power draw of up to four different power lines using the [Adafruit_INA219](https://www.adafruit.com/product/904) (development).
 
 ---
 
