@@ -16,6 +16,8 @@ Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS, ignored by
 
 Sends a [Node Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/) message onto the CAN bus. Required by every UAVCAN node at least once every second.
 
+### Node Status
+
 ```
 #
 # Abstract node status information.
@@ -73,6 +75,8 @@ Sends orientation data onto the CAN bus in two ways:
 
 1. Sends a [Log Message](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/) message onto the CAN bus with orientation data encoded as ASCII text.
 
+    ### Log Message
+    
     ```
     #
     # Generic log message.
@@ -85,6 +89,8 @@ Sends orientation data onto the CAN bus in two ways:
     ```
 
 2. Sends a [Camera Gimbal Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/) message onto the CAN bus with orientation data included as an internal variable.
+
+    ### Gimbal Status
 
     ```
     #
