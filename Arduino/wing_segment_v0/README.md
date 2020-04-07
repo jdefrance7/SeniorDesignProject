@@ -15,6 +15,7 @@ Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS, ignored by
 ## Task 2 - Send Node Status
 
 Sends a Node Status message onto the CAN bus. Required by every UAVCAN node at least once every second.
+
     ```
     #
     # Abstract node status information.
@@ -94,6 +95,7 @@ Sends orientation data onto the CAN bus in two ways:
     ```
 
 2. Sends a Camera Gimbal Status message onto the CAN bus with orientation data included as an internal variable.
+
     ```
     #
     # Generic gimbal status.
