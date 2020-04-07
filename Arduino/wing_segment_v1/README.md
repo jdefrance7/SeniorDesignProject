@@ -10,7 +10,9 @@ Initializes all modules according to configuration values set in the source file
 
 ## Task 1 - Update IMU
 
-Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS, ignored by the BNO055. Must be done at a freqency of `FILTER_UPDATE_RATE_HZ` defined internally by the IMU used.
+Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS, ignored by the BNO055. 
+
+Must be done at a freqency of `FILTER_UPDATE_RATE_HZ` defined internally by the IMU used.
 
 ## Task 2 - Send Heartbeat
 
