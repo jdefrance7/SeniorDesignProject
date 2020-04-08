@@ -2,9 +2,9 @@
 
 void printCanardFrame(CanardCANFrame* frame)
 {
-  Serial.println("Canard Frame");
+  Serial.println("\nCanard Frame");
   Serial.print("  ID: ");           Serial.println(frame->id);
-  Serial.print("  Data Length: ");  Serial.println(frame->data_len);
+  Serial.print("  Length: ");  Serial.println(frame->data_len);
   Serial.print("  Data: ");
   for(int n = 0; n < frame->data_len; n++)
   {
@@ -21,13 +21,13 @@ void printCanardFrame(CanardCANFrame* frame)
 
 void printCanardInstance(CanardInstance* ins)
 {
-  Serial.println("Canard Instance");
+  Serial.println("\nCanard Instance");
   Serial.print("  Node ID: "); Serial.println(ins->node_id);
 }
 
 void printCanardRxTransfer(CanardRxTransfer* rxt)
 {
-  Serial.println("Canard Rx Transfer");
+  Serial.println("\nCanard Rx Transfer");
   Serial.print("  Timestamp Usec: ");   Serial.println((long)rxt->timestamp_usec);
   Serial.print("  Payload Length: ");   Serial.println(rxt->payload_len);
   Serial.print("  Data Type ID: ");     Serial.println(rxt->data_type_id);
@@ -39,7 +39,7 @@ void printCanardRxTransfer(CanardRxTransfer* rxt)
 
 void printCanardPoolAllocatorStatistics(CanardPoolAllocatorStatistics* stats)
 {
-  Serial.println("Canard Pool Allocator Stats");
+  Serial.println("\nCanard Pool Allocator Stats");
   Serial.print("  Capacity: ");       Serial.println(stats->capacity_blocks);
   Serial.print("  Current Usage: ");  Serial.println(stats->current_usage_blocks);
   Serial.print("  Peak Usage: ");     Serial.println(stats->peak_usage_blocks);

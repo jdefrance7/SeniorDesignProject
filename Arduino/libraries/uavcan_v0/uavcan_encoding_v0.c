@@ -13,7 +13,7 @@ int32_t encode_coarse_orientation(
   CoarseOrientation coarse_orientation
 )
 {
-  if((bit_offset + COARSE_ORIENTATION_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + COARSE_ORIENTATION_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -43,7 +43,7 @@ int32_t encode_timestamp(
   Timestamp timestamp
 )
 {
-  if((bit_offset + TIMESTAMP_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + TIMESTAMP_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -67,7 +67,7 @@ int32_t encode_ahrs_solution(
   AhrsSolution ahrs_solution
 )
 {
-  if((bit_offset + AHRS_SOLUTION_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + AHRS_SOLUTION_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -133,7 +133,7 @@ int32_t encode_camera_gimbal_status(
   CameraGimbalStatus camera_gimbal_status
 )
 {
-  if((bit_offset + CAMERA_GIMBAL_STATUS_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + CAMERA_GIMBAL_STATUS_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -172,7 +172,7 @@ int32_t encode_camera_gimbal_mode(
   CameraGimbalMode camera_gimbal_mode
 )
 {
-  if((bit_offset + CAMERA_GIMBAL_MODE_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + CAMERA_GIMBAL_MODE_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -196,7 +196,7 @@ int32_t encode_device_temperature(
   DeviceTemperature device_temperature
 )
 {
-  if((bit_offset + DEVICE_TEMPERATURE_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + DEVICE_TEMPERATURE_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -227,7 +227,7 @@ int32_t encode_range_sensor_measurement(
   RangeSensorMeasurement range_sensor_measurement
 )
 {
-  if((bit_offset + RANGE_SENSOR_MEASUREMENT_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + RANGE_SENSOR_MEASUREMENT_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -269,7 +269,7 @@ int32_t encode_get_node_info(
   GetNodeInfo get_node_info
 )
 {
-  if((bit_offset + GET_NODE_INFO_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + GET_NODE_INFO_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -311,7 +311,7 @@ int32_t encode_get_data_type_info(
   GetDataTypeInfo get_data_type_info
 )
 {
-  if((bit_offset + GET_DATA_TYPE_INFO_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + GET_DATA_TYPE_INFO_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -355,7 +355,7 @@ int32_t encode_node_status(
   NodeStatus node_status
 )
 {
-  if((bit_offset + NODE_STATUS_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + NODE_STATUS_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -391,7 +391,7 @@ int32_t encode_restart_node(
   RestartNode restart_node
 )
 {
-  if((bit_offset + RESTART_NODE_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + RESTART_NODE_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -415,7 +415,7 @@ int32_t encode_data_type_kind(
   DataTypeKind data_type_kind
 )
 {
-  if((bit_offset + DATA_TYPE_KIND_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + DATA_TYPE_KIND_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -439,7 +439,7 @@ int32_t encode_hardware_version(
   HardwareVersion hardware_version
 )
 {
-  if((bit_offset + HARDWARE_VERSION_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + HARDWARE_VERSION_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -483,7 +483,7 @@ int32_t encode_software_version(
   SoftwareVersion software_version
 )
 {
-  if((bit_offset + SOFTWARE_VERSION_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + SOFTWARE_VERSION_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -516,7 +516,7 @@ int32_t encode_key_value(
   KeyValue key_value
 )
 {
-  if((bit_offset + KEY_VALUE_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + KEY_VALUE_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -551,9 +551,9 @@ int32_t encode_log_message(
   LogMessage log_message
 )
 {
-  if((bit_offset + LOG_MESSAGE_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + LOG_MESSAGE_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
-    return ENCODING_BUFFER_OVERFLOW;
+    // return ENCODING_BUFFER_OVERFLOW;
   }
 
   encode_log_level(buffer, buffer_size,  bit_offset, log_message.level);
@@ -597,7 +597,7 @@ int32_t encode_log_level(
   LogLevel log_level
 )
 {
-  if((bit_offset + LOG_LEVEL_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + LOG_LEVEL_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }

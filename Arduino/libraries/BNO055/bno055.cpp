@@ -4,7 +4,7 @@
 Adafruit_BNO055 bno = Adafruit_BNO055();
 
 // Initialization Function
-bool init_imu(void)
+int init_imu(void)
 {
   // Init sensor (Success = true, Failure = false)
   if(!bno.begin())

@@ -28,7 +28,7 @@ void LED::off()
 }
 void LED::toggle()
 {
-  _state = !state;
+  _state = !_state;
   digitalWrite(_pin, _state);
 }
 

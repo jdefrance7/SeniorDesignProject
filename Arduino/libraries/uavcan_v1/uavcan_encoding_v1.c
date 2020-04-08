@@ -13,7 +13,7 @@ int32_t encode_heartbeat(
   Heartbeat heartbeat
 )
 {
-  if((bit_offset + HEARTBEAT_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + HEARTBEAT_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -46,7 +46,7 @@ int32_t encode_synchronized_timestamp(
   SynchronizedTimestamp timestamp
 )
 {
-  if((bit_offset + SYNCHRONIZED_TIMESTAMP_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + SYNCHRONIZED_TIMESTAMP_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -70,7 +70,7 @@ int32_t encode_quaternion(
   Quaternion quaternion
 )
 {
-  if((bit_offset + QUATERNION_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + QUATERNION_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -103,7 +103,7 @@ int32_t encode_id(
   ID id
 )
 {
-  if((bit_offset + ID_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + ID_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -127,7 +127,7 @@ int32_t encode_version(
   Version version
 )
 {
-  if((bit_offset + VERSION_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + VERSION_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -154,7 +154,7 @@ int32_t encode_get_info(
   GetInfo get_info
 )
 {
-  if((bit_offset + GET_INFO_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + GET_INFO_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -223,7 +223,7 @@ int32_t encode_severity(
   Severity severity
 )
 {
-  if((bit_offset + SEVERITY_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + SEVERITY_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }
@@ -250,7 +250,7 @@ int32_t encode_record(
   Record record
 )
 {
-  if((bit_offset + RECORD_DATA_TYPE_SIZE) >= (buffer_size * 8))
+  if((bit_offset + RECORD_DATA_TYPE_SIZE) > (buffer_size * 8))
   {
     return ENCODING_BUFFER_OVERFLOW;
   }

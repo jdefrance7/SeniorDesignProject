@@ -1,28 +1,28 @@
 #include "ast_can_v0.h"
 
-void printCanard(Canard can)
+void printCanard(Canard* can)
 {
-  Serial.println("Can");
-  Serial.print("  Bitrate: ");  Serial.println(can.bitrate);
-  Serial.print("  ");           printCanardInstance(&can.canard);
+  Serial.println("\nCan");
+  Serial.print("  Bitrate: ");  Serial.println(can->bitrate);
+  printCanardInstance(&(can->canard));
   Serial.print("  Memory: ");   Serial.println(CANARD_MEMORY_POOL_SIZE);
-  CanardPoolAllocatorStatistics stats = canardGetPoolAllocatorStatistics(&can.canard);
-  Serial.print("  ");           printCanardPoolAllocatorStatistics(&stats);
+  CanardPoolAllocatorStatistics stats = canardGetPoolAllocatorStatistics(&(can->canard));
+  printCanardPoolAllocatorStatistics(&stats);
 }
 
-void printMsg(st_cmd_t msg)
+void printMsg(st_cmd_t* msg)
 {
-  Serial.println("CAN Message");
-  Serial.print("  ID: ");   Serial.println(msg.id.ext, HEX);
-  Serial.print("  IDE: ");  Serial.println(msg.ctrl.ide, BIN);
-  Serial.print("  RTR: ");  Serial.println(msg.ctrl.rtr, BIN);
-  Serial.print("  DLC: ");  Serial.println(msg.dlc);
+  Serial.println("\nASTCanLib Message");
+  Serial.print("  ID: ");   Serial.println(msg->id.ext, HEX);
+  Serial.print("  IDE: ");  Serial.println(msg->ctrl.ide, BIN);
+  Serial.print("  RTR: ");  Serial.println(msg->ctrl.rtr, BIN);
+  Serial.print("  DLC: ");  Serial.println(msg->dlc);
   Serial.print("  Data: ");
-  for(int n = 0; n < msg.dlc; n++)
+  for(int n = 0; n < msg->dlc; n++)
   {
-    Serial.print((byte)msg.pt_data[n], HEX);
+    Serial.print((byte)msg->pt_data[n], HEX);
 
-    if(n == (msg.dlc-1))
+    if(n == (msg->dlc-1))
     {
       Serial.print("\n");
     }
@@ -31,7 +31,7 @@ void printMsg(st_cmd_t msg)
   }
 }
 
-int init_can(Canard can, uint8_t id)
+int init_can(Canard* can, uint8_t id)
 {
   // Check valid node ID
   if(id == 0)
@@ -41,19 +41,19 @@ int init_can(Canard can, uint8_t id)
 
   // Initialize canard instance
   canardInit(
-    &can.canard,
-    can.canard_memory_pool,
-    sizeof(can.canard_memory_pool),
+    &(can->canard),
+    &(can->canard_memory_pool),
+    sizeof(can->canard_memory_pool),
     onTransferReceived,
     shouldAcceptTransfer,
     NULL
   );
 
   // Set canard ID
-  canardSetLocalNodeID(&can.canard, id);
+  canardSetLocalNodeID(&(can->canard), id);
 
   // Init CAN module
-  canInit(can.bitrate);
+  canInit(can->bitrate);
 
   // Initialization success
   return CANARD_OK;
@@ -95,24 +95,27 @@ int sendCanardCANFrame(CanardInstance* canard, CanardCANFrame* txf, unsigned int
   txMsg.cmd = CMD_TX_DATA;
 
   // Wait for the command to be accepted by the controller
-  timeout = millis();
-  while(can_cmd(&txMsg) != CAN_CMD_ACCEPTED)
-  {
-    if((millis() - timeout) > timeout_ms)
-    {
-      return ERR_COMMAND_ACCEPT_TIMEOUT; // timed out
-    }
-  }
+  // timeout = millis();
+  // while(can_cmd(&txMsg) != CAN_CMD_ACCEPTED)
+  // {
+  //   if((millis() - timeout) > timeout_ms)
+  //   {
+  //     return ERR_COMMAND_ACCEPT_TIMEOUT; // timed out
+  //   }
+  // }
 
   // Wait for command to finish executing
-  timeout = millis();
-  while(can_get_status(&txMsg) == CAN_STATUS_NOT_COMPLETED)
-  {
-    if((millis() - timeout) > timeout_ms)
-    {
-      return ERR_COMMAND_EXECUTE_TIMEOUT; // timed out
-    }
-  }
+  // timeout = millis();
+  // while(can_get_status(&txMsg) == CAN_STATUS_NOT_COMPLETED)
+  // {
+  //   if((millis() - timeout) > timeout_ms)
+  //   {
+  //     return ERR_COMMAND_EXECUTE_TIMEOUT; // timed out
+  //   }
+  // }
+
+  while(can_cmd(&txMsg) != CAN_CMD_ACCEPTED);
+  while(can_get_status(&txMsg) == CAN_STATUS_NOT_COMPLETED);
 
   // Return success
   return CANARD_OK;
@@ -187,7 +190,7 @@ int readCanardCANFrame(CanardInstance* canard, CanardCANFrame* rxf, unsigned int
   */
 }
 
-int transmitCanardQueue(CanardInstance* canard, int timeout_ms)
+int transmitCanardQueue(CanardInstance* canard, unsigned int delay_ms, unsigned int timeout_ms)
 {
   // Return value from send frame
   int reVal;
@@ -197,6 +200,8 @@ int transmitCanardQueue(CanardInstance* canard, int timeout_ms)
   {
     // Send CAN frame
     reVal = sendCanardCANFrame(canard, txf, timeout_ms);
+
+    delay(delay_ms);
 
     // Success
     if(reVal == CANARD_OK)

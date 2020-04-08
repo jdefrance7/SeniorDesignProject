@@ -52,7 +52,7 @@ void setup_sensors(void) {
 }
 
 // Initialization Function
-bool init_imu(void)
+int init_imu(void)
 {
   // Retreive callibration data (Success = true, Failure = false)
   if(!cal.begin())

@@ -1,6 +1,6 @@
 // Serial Debugging
-#define SERIAL_DEBUG // uncomment for debug information
-#define SERIAL_BAUDRATE 9600
+//#define SERIAL_DEBUG // uncomment for debug information
+#define SERIAL_BAUDRATE 115200
 
 // Core Arduino Library
 #include <Arduino.h>
@@ -29,6 +29,9 @@
 
 // CAN Timeout
 #define TRANSMIT_TIMEOUT 5
+
+// CAN Delay
+#define TRANSMIT_DELAY 1
 
 // Node Information
 #define NODE_ID   22
@@ -109,7 +112,8 @@ void setup()
   }
 
   // Initialize CAN
-  while(init_can(can, node.id) != 0)
+  init_can(&can, node.id);
+  while(can.canard.node_id == 0)
   {
     led.toggle(LED_TOGGLE);
   }
@@ -139,9 +143,13 @@ void setup()
 
   // Print initialization information
   Serial.println("\nWing Segment Config\n");
-  printCanard(can);
-  printNode(node);
+  delay(250);
+  printCanard(&can);
+  delay(250);
+  printNode(&node);
+  delay(250);
   Serial.println("\nInitialization complete!");
+  delay(250);
 
   #endif // SERIAL_DEBUG
 }
@@ -193,7 +201,7 @@ void loop()
 
     // Serial debugging
     #if defined(SERIAL_DEBUG)
-    printNodeStatus(node.status);
+    printNodeStatus(&node.status);
     #endif // SERIAL_DEBUG
 
     // Unique ID for node status transfers
@@ -263,6 +271,8 @@ void loop()
     {
       // Serial debugging
       #if defined(SERIAL_DEBUG)
+      CanardCANFrame* txf = canardPeekTxQueue(&can.canard);
+      printCanardFrame(txf);
       Serial.println("Node Status queueing successful!");
       #endif // SERIAL_DEBUG
 
@@ -270,7 +280,7 @@ void loop()
     }
 
     // Transmit all frames in Canard queue
-    reVal = transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
+    reVal = transmitCanardQueue(&can.canard, TRANSMIT_DELAY, TRANSMIT_TIMEOUT);
 
     if(reVal < 0)
     {
@@ -336,7 +346,7 @@ void loop()
 
     // Serial debugging
     #if defined(SERIAL_DEBUG)
-    printLogMessage(message);
+    printLogMessage(&message);
     #endif // SERIAL_DEBUG
 
     // Unique ID for log message transfers
@@ -380,6 +390,8 @@ void loop()
       #endif // SERIAL_DEBUG
     }
 
+    uint16_t payload_len = (reVal + 7) / 8;
+
     // Format and push message frame(s) onto Canard queue
     reVal = canardBroadcast(
       &can.canard,
@@ -388,7 +400,7 @@ void loop()
       &log_message_transfer_id,
       CANARD_TRANSFER_PRIORITY_MEDIUM,
       buffer,
-      sizeof(buffer)
+      payload_len
     );
 
     if(reVal < 0)
@@ -411,7 +423,7 @@ void loop()
     }
 
     // Transmit all frames in Canard queue
-    reVal = transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
+    reVal = transmitCanardQueue(&can.canard, TRANSMIT_DELAY, TRANSMIT_TIMEOUT);
 
     if(reVal < 0)
     {
@@ -459,7 +471,7 @@ void loop()
 
     // Serial debugging
     #if defined(SERIAL_DEBUG)
-    printCameraGimbalStatus(camera);
+    printCameraGimbalStatus(&camera);
     #endif // SERIAL_DEBUG
 
     // Unique ID for camera gimbal status transfers
@@ -502,6 +514,8 @@ void loop()
       #endif // SERIAL_DEBUG
     }
 
+    uint16_t payload_len = (uint16_t)reVal;
+
     // Format and push message frame(s) onto Canard queue
     reVal = canardBroadcast(
       &can.canard,
@@ -510,7 +524,7 @@ void loop()
       &camera_gimbal_status_transfer_id,
       CANARD_TRANSFER_PRIORITY_MEDIUM,
       buffer,
-      sizeof(buffer)
+      payload_len
     );
 
     if(reVal < 0)
@@ -533,7 +547,7 @@ void loop()
     }
 
     // Transmit all frames in Canard queue
-    reVal = transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
+    reVal = transmitCanardQueue(&can.canard, TRANSMIT_DELAY, TRANSMIT_TIMEOUT);
 
     if(reVal < 0)
     {
@@ -562,30 +576,21 @@ void loop()
     Task: Cleanup UAVCAN
     Note: should be done once about every second.
   */
-  static uint64_t cleanup_uavcan_time = millis();
-  if((millis() - cleanup_uavcan_time) > CLEANUP_UAVCAN_PERIOD_MS)
-  {
-    // Removes stale transfers from Canard queue based on microsecond timestamp
-    canardCleanupStaleTransfers(&can.canard, 1000*millis() /* usec */);
-
-    // Get Canard queue stats object
-    CanardPoolAllocatorStatistics stats = canardGetPoolAllocatorStatistics(&can.canard);
-
-    // // Canard queue capacity in blocks
-    // uint16_t capacity = stats.capacity_blocks;
-    //
-    // // Number of blocks that are currently allocated
-    // uint16_t usage = stats.current_usage_blocks;
-    //
-    // // Maximum number of blocks used at one time since startup
-    // uint16_t peak = stats.peak_usage_blocks;
-
-    // Serial debugging
-    #if defined(SERIAL_DEBUG)
-    printCanardPoolAllocatorStatistics(&stats);
-    #endif // SERIAL_DEBUG
-
-    // Update time reference
-    cleanup_uavcan_time = millis();
-  }
+  // static uint64_t cleanup_uavcan_time = millis();
+  // if((millis() - cleanup_uavcan_time) > CLEANUP_UAVCAN_PERIOD_MS)
+  // {
+  //   // Removes stale transfers from Canard queue based on microsecond timestamp
+  //   canardCleanupStaleTransfers(&can.canard, 1000*millis() /* usec */);
+  //
+  //   // Get Canard queue stats object
+  //   CanardPoolAllocatorStatistics stats = canardGetPoolAllocatorStatistics(&can.canard);
+  //
+  //   // Serial debugging
+  //   #if defined(SERIAL_DEBUG)
+  //   printCanardPoolAllocatorStatistics(&stats);
+  //   #endif // SERIAL_DEBUG
+  //
+  //   // Update time reference
+  //   cleanup_uavcan_time = millis();
+  // }
 }

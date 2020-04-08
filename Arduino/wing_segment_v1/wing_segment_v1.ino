@@ -1,6 +1,6 @@
 // Serial Debugging
 #define SERIAL_DEBUG // uncomment for debug information
-#define SERIAL_BAUDRATE 9600
+#define SERIAL_BAUDRATE 115200
 
 // Core Arduino Library
 #include <Arduino.h>
@@ -27,6 +27,9 @@
 
  // CAN Timeout
 #define TRANSMIT_TIMEOUT 5
+
+// CAN Delay
+#define TRANSMIT_DELAY 1
 
 // Node Information
 #define NODE_ID   22
@@ -65,7 +68,7 @@ Canard can;
 LED led;
 
 // Return value for error handling
-inf reVal;
+int reVal;
 
 void setup()
 {
@@ -111,7 +114,7 @@ void setup()
   {
     led.toggle(LED_TOGGLE);
   }
-  led.off()
+  led.off();
 
   // Initialize IMU
   while(init_imu() != 0)
@@ -137,8 +140,9 @@ void setup()
 
   // Print initialization information
   Serial.println("\nWing Segment Config\n");
-  printCanard(can);
-  printNode(node);
+  printCanard(&can);
+  delay(250);
+  printNode(&node);
   Serial.println("\nInitialization complete!");
 
   #endif // SERIAL_DEBUG
@@ -188,7 +192,7 @@ void loop()
   {
     // Serial debugging
     #if defined(SERIAL_DEBUG)
-    printHeartbeat(node.status);
+    printHeartbeat(&node.status);
     #endif // SERIAL_DEBUG
 
     // Unique ID for heartbeat transfers
@@ -201,7 +205,7 @@ void loop()
     memset(buffer, 0, sizeof(buffer));
 
     // Encode data field buffer
-    reVal = encode_heartbeat(buffer, sizeof(buffer), 0, node.status)
+    reVal = encode_heartbeat(buffer, sizeof(buffer), 0, node.status);
 
     if(reVal < 0)
     {
@@ -287,7 +291,7 @@ void loop()
     }
 
     // Transmit all frames in Canard queue
-    reVal = transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
+    reVal = transmitCanardQueue(&can.canard, TRANSMIT_DELAY, TRANSMIT_TIMEOUT);
 
     if(reVal < 0)
     {
@@ -327,7 +331,7 @@ void loop()
 
     // Serial debugging
     #if defined(SERIAL_DEBUG)
-    printQuaternion(quat);
+    printQuaternion(&quat);
     #endif // SERIAL_DEBUG
 
     // Format quaternion into comma separated list
@@ -358,7 +362,7 @@ void loop()
 
     // Serial debugging
     #if defined(SERIAL_DEBUG)
-    printRecord(record);
+    printRecord(&record);
     #endif // SERIAL_DEBUG
 
     // Unique ID for Record transfers
@@ -450,16 +454,16 @@ void loop()
       // Serial debugging
       #if defined(SERIAL_DEBUG)
       Serial.print("Record ");
-      printCanardTransfer(&transer);
+      printCanardTransfer(&transfer);
       #endif // SERIAL_DEBUG
 
       led.off();
     }
 
     // Transmit all frames in Canard queue
-    reVal = transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT);
+    reVal = transmitCanardQueue(&can.canard, TRANSMIT_DELAY, TRANSMIT_TIMEOUT);
 
-    if(r < 0)
+    if(reVal < 0)
     {
       // Serial debugging
       #if defined(SERIAL_DEBUG)

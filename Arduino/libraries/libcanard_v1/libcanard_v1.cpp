@@ -4,7 +4,7 @@
 
 void printCanardFrame(CanardFrame* frame)
 {
-  Serial.println("Canard Frame");
+  Serial.println("\nCanard Frame");
   Serial.print("  Timestamp Usec: "); Serial.println((long)frame->timestamp_usec);
   Serial.print("  Extended ID: ");    Serial.println(frame->extended_can_id);
   Serial.print("  Payload Size: ");   Serial.println(frame->payload_size);
@@ -20,7 +20,7 @@ void printCanardFrame(CanardFrame* frame)
 
 void printCanardTransfer(CanardTransfer* transfer)
 {
-  Serial.println("Canard Transfer");
+  Serial.println("\nCanard Transfer");
   Serial.print("  Timestamp Usec: ");   Serial.println((long)transfer->timestamp_usec);
   Serial.print("  Priority: ");         Serial.println(transfer->priority);
   Serial.print("  Kind: ");             Serial.println(transfer->transfer_kind);
@@ -40,7 +40,7 @@ void printCanardTransfer(CanardTransfer* transfer)
 
 void printCanardInstance(CanardInstance* ins)
 {
-  Serial.println("Canard Instance");
+  Serial.println("\nCanard Instance");
   Serial.print("  MTU Bytes: ");      Serial.println(ins->mtu_bytes);
   Serial.print("  Node ID: ");        Serial.println(ins->node_id);
 }

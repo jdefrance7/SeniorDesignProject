@@ -13,25 +13,24 @@
 
 //------------------------------------------------------------------------------
 
-void printNodeStatus(NodeStatus status);
-void printHardwareVersion(HardwareVersion hardware);
-void printSoftwareVersion(SoftwareVersion software);
-void printCoarseOrientation(CoarseOrientation coarse);
-void printTimestamp(Timestamp timestamp);
-void printAhrsSolution(AhrsSolution solution);
-void printCameraGimbalMode(CameraGimbalMode mode);
-void printCameraGimbalStatus(CameraGimbalStatus status);
-void printDeviceTemperature(DeviceTemperature temp);
-void printRangeSensorMeasurement(RangeSensorMeasurement measurement);
-void printGetInfo(GetNodeInfo info);
-void printDataTypeKind(DataTypeKind kind);
-void printGetDataTypeInfo(GetDataTypeInfo info);
-void printRestartNode(RestartNode restart);
-void printKeyValue(KeyValue items);
-void printLogLevel(LogLevel level);
-void printLogMessage(LogMessage msg);
-
-void printNode(UavcanNode node);
+void printNodeStatus(NodeStatus* status);
+void printHardwareVersion(HardwareVersion* hardware);
+void printSoftwareVersion(SoftwareVersion* software);
+void printCoarseOrientation(CoarseOrientation* coarse);
+void printTimestamp(Timestamp* timestamp);
+void printAhrsSolution(AhrsSolution** solution);
+void printCameraGimbalMode(CameraGimbalMode* mode);
+void printCameraGimbalStatus(CameraGimbalStatus* status);
+void printDeviceTemperature(DeviceTemperature* temp);
+void printRangeSensorMeasurement(RangeSensorMeasurement* measurement);
+void printGetInfo(GetNodeInfo* info);
+void printDataTypeKind(DataTypeKind* kind);
+void printGetDataTypeInfo(GetDataTypeInfo* info);
+void printRestartNode(RestartNode* restart);
+void printKeyValue(KeyValue* items);
+void printLogLevel(LogLevel* level);
+void printLogMessage(LogMessage* msg);
+void printNode(UavcanNode* node);
 
 //------------------------------------------------------------------------------
 

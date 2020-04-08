@@ -1,25 +1,25 @@
 #include "ast_can_v1.h"
 
-void printCanard(Canard can)
+void printCanard(Canard* can)
 {
-  Serial.println("Can");
-  Serial.print("  Bitrate: ");  Serial.println(can.bitrate);
-  Serial.print("  ");           printCanardInstance(&can.canard);
+  Serial.println("\nCan");
+  Serial.print("  Bitrate: ");  Serial.println(can->bitrate);
+  printCanardInstance(&(can->canard));
 }
 
-void printMsg(st_cmd_t msg)
+void printMsg(st_cmd_t* msg)
 {
-  Serial.println("CAN Message");
-  Serial.print("  ID: ");   Serial.println(msg.id.ext, HEX);
-  Serial.print("  IDE: ");  Serial.println(msg.ctrl.ide, BIN);
-  Serial.print("  RTR: ");  Serial.println(msg.ctrl.rtr, BIN);
-  Serial.print("  DLC: ");  Serial.println(msg.dlc);
+  Serial.println("\nASTCanLib Message");
+  Serial.print("  ID: ");   Serial.println(msg->id.ext, HEX);
+  Serial.print("  IDE: ");  Serial.println(msg->ctrl.ide, BIN);
+  Serial.print("  RTR: ");  Serial.println(msg->ctrl.rtr, BIN);
+  Serial.print("  DLC: ");  Serial.println(msg->dlc);
   Serial.print("  Data: ");
-  for(int n = 0; n < msg.dlc; n++)
+  for(int n = 0; n < msg->dlc; n++)
   {
-    Serial.print((byte)msg.pt_data[n], HEX);
+    Serial.print((byte)msg->pt_data[n], HEX);
 
-    if(n == (msg.dlc-1))
+    if(n == (msg->dlc-1))
     {
       Serial.print("\n");
     }
@@ -52,7 +52,7 @@ int init_can(Canard can, uint8_t id)
   return CANARD_OK;
 }
 
-int sendCanardFrame(CanardInstance* canard, CanardFrame* txf, unsigned int timeout_ms)
+int sendCanardFrame(CanardInstance* canard, CanardFrame* txf, unsigned int delay_ms, unsigned int timeout_ms)
 {
   // CAN message object
   st_cmd_t txMsg;
@@ -107,11 +107,13 @@ int sendCanardFrame(CanardInstance* canard, CanardFrame* txf, unsigned int timeo
     }
   }
 
+  delay(delay_ms);
+
   // Return success
   return CANARD_OK;
 }
 
-int readCanardFrame(CanardInstance* canard, CanardFrame* rxf, uint8_t transport_index, CanardTransfer* transfer, unsigned int timeout_ms)
+int readCanardFrame(CanardInstance* canard, CanardFrame* rxf, uint8_t transport_index, CanardTransfer* transfer, unsigned int delay_ms, unsigned int timeout_ms)
 {
   // CAN message object
   st_cmd_t rxMsg;
@@ -176,7 +178,7 @@ int readCanardFrame(CanardInstance* canard, CanardFrame* rxf, uint8_t transport_
   */
 }
 
-int transmitCanardQueue(CanardInstance* canard, int timeout_ms)
+int transmitCanardQueue(CanardInstance* canard, unsigned int delay_ms, unsigned int timeout_ms)
 {
   // Return value from send frame
   int reVal;
@@ -185,7 +187,7 @@ int transmitCanardQueue(CanardInstance* canard, int timeout_ms)
   for(CanardFrame* txf = NULL; (txf = canardTxPeek(canard)) != NULL;)
   {
     // Send CAN frame
-    reVal = sendCanardFrame(canard, txf, timeout_ms);
+    reVal = sendCanardFrame(canard, txf, delay_ms, timeout_ms);
 
     // Success
     if(reVal == CANARD_OK)

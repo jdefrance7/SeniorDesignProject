@@ -45,12 +45,12 @@ typedef struct
 /*
   Print function for custom Canard struct
 */
-void printCanard(Canard can);
+void printCanard(Canard* can);
 
 /*
   Print function for ASTCanLib Messages
 */
-void printMsg(st_cmd_t msg);
+void printMsg(st_cmd_t* msg);
 
 
 /*
@@ -61,16 +61,16 @@ int init_can(Canard can, uint8_t id);
 /*
   Send a single Canard CAN Frame from the Canard queue.
 */
-int sendCanardFrame(CanardInstance* canard, CanardFrame* txf, unsigned int timeout_ms);
+int sendCanardFrame(CanardInstance* canard, CanardFrame* txf, unsigned int delay_ms, unsigned int timeout_ms);
 
 /*
   Read a single Canard CAN Frame.
 */
-int readCanardFrame(CanardInstance* canard, CanardFrame* rxf, uint8_t transport_index, CanardTransfer* transfer, unsigned int timeout_ms);
+int readCanardFrame(CanardInstance* canard, CanardFrame* rxf, uint8_t transport_index, CanardTransfer* transfer, unsigned int delay_ms, unsigned int timeout_ms);
 
 /*
   Transmit all Canard CAN Frames from the Canard queue.
 */
-int transmitCanardQueue(CanardInstance* canard, int timeout_ms);
+int transmitCanardQueue(CanardInstance* canard, unsigned int delay_ms, unsigned int timeout_ms);
 
 #endif // AST_CAN_VERSION

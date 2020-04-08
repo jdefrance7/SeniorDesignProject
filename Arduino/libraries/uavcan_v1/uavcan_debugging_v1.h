@@ -13,16 +13,15 @@
 
 //------------------------------------------------------------------------------
 
-void printHeartbeat(Heartbeat heartbeat);
-void printSynchronizedTimestamp(SynchronizedTimestamp timestamp);
-void printQuaternion(Quaternion q);
-void printID(ID id);
-void printVersion(Version version);
-void printGetInfo(GetInfo info);
-void printSeverity(Severity severity);
-void printRecord(Record record);
-
-void printNode(UavcanNode node);
+void printHeartbeat(Heartbeat* heartbeat);
+void printSynchronizedTimestamp(SynchronizedTimestamp* timestamp);
+void printQuaternion(Quaternion* q);
+void printID(ID* id);
+void printVersion(Version* version);
+void printGetInfo(GetInfo* info);
+void printSeverity(Severity* severity);
+void printRecord(Record* record);
+void printNode(UavcanNode* node);
 
 //------------------------------------------------------------------------------
 
