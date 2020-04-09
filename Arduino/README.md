@@ -36,7 +36,7 @@ Tests the power draw of up to four different power lines using the [Adafruit_INA
 
 Tests the transmitting and receiving operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver 
 
-Code courtesy of [Atlantis Specialist Technologies](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library).
+Code courtesy of [Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/examples](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library).
 
 ---
 
