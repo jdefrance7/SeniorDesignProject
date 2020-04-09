@@ -114,16 +114,16 @@ void loop() {
 
 
   // Print received data to the terminal (slow)
-  serialPrintData(&Msg);
+//  serialPrintData(&Msg);
 
   // Process UAVCAN transfer (fast)
   processMessage(&Msg);
 
   // Print Canard Stats (fast)
-  printCanardStats();
+//  printCanardStats();
 
-  // Print Milliseconds since last call (fast)
-  printTimePeriod();
+  // Print Milliseconds since last CAN message (fast)
+//  printTimePeriod();
 }
 
 void printTimePeriod()

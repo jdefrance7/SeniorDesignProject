@@ -143,7 +143,7 @@ void setup()
   led.off();
 
   // Print Wing Segment Config
-  Serial.println("\nWing Segment Config\n");
+  Serial.println("\nWing Segment Config");
   printCanard(&can);
   printNode(&node);
 
@@ -244,7 +244,7 @@ void loop()
       // Serial debugging
       #if defined(SERIAL_DEBUG)
       Serial.print("\nNode Status - Buffer: ");
-      for(unsigned int n = 0; n < sizeof(buffer); n++)
+      for(unsigned int n = 0; n < (reVal+7)/8; n++)
       {
         Serial.print(buffer[n], HEX);
         if(n == (sizeof(buffer)-1))
@@ -254,7 +254,6 @@ void loop()
         }
         Serial.print(",");
       }
-      Serial.print("\nNode Status - Bits: "); Serial.println(reVal);
       #endif // SERIAL_DEBUG
 
       led.off();
@@ -397,7 +396,7 @@ void loop()
       // Serial debugging
       #if defined(SERIAL_DEBUG)
       Serial.print("\nLog Message - Buffer: ");
-      for(unsigned int n = 0; n < sizeof(buffer); n++)
+      for(unsigned int n = 0; n < (reVal+7)/8; n++)
       {
         Serial.print(buffer[n], HEX);
         if(n == (sizeof(buffer)-1))
@@ -407,7 +406,6 @@ void loop()
         }
         Serial.print(",");
       }
-      Serial.print("\nLog Message - Bits: "); Serial.println(reVal);
       #endif // SERIAL_DEBUG
 
       led.off();
@@ -530,7 +528,7 @@ void loop()
       // Serial debugging
       #if defined(SERIAL_DEBUG)
       Serial.print("\nCamera Gimbal Status - Buffer: ");
-      for(unsigned int n = 0; n < sizeof(buffer); n++)
+      for(unsigned int n = 0; n < (reVal+7)/8; n++)
       {
         Serial.print(buffer[n], HEX);
         if(n == (sizeof(buffer)-1))
@@ -540,7 +538,6 @@ void loop()
         }
         Serial.print(",");
       }
-      Serial.print("\nCamera Gimbal Status - Bits: "); Serial.println(reVal);
       #endif // SERIAL_DEBUG
 
       led.off();
@@ -681,7 +678,7 @@ void loop()
         // Serial debugging
         #if defined(SERIAL_DEBUG)
         Serial.print("\nKey Value - Buffer: ");
-        for(unsigned int n = 0; n < sizeof(buffer); n++)
+        for(unsigned int n = 0; n < (reVal+7)/8; n++)
         {
           Serial.print(buffer[n], HEX);
           if(n == (sizeof(buffer)-1))
@@ -691,7 +688,6 @@ void loop()
           }
           Serial.print(",");
         }
-        Serial.print("\nKey Value - Bits: "); Serial.println(reVal);
         #endif // SERIAL_DEBUG
 
         led.off();
