@@ -154,3 +154,7 @@ typedef struct
     uint16_t peak_usage_blocks;             ///< Maximum number of blocks used since initialization
 } CanardPoolAllocatorStatistics;
 ```
+
+## Test Setup
+
+![Image](Wing-Segment-v0-Test.png)
