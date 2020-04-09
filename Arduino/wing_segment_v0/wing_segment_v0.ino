@@ -654,7 +654,7 @@ void loop()
       }
 
       // Serial debugging
-      #if defined(SERIAL_DEBUG);
+      #if defined(SERIAL_DEBUG)
       printKeyValue(&pair);
       #endif
 
