@@ -2,6 +2,11 @@
 #define SERIAL_DEBUG
 #define SERIAL_BAUDRATE 115200
 
+// Select Orientation Message Type
+//#define SEND_ORIENTATION_AS_LOG_MESSAGE
+#define SEND_ORIENTATION_AS_CAMERA_GIMBAL_STATUS
+//#define SEND_ORIENTATION_AS_KEY_VALUE
+
 // Core Arduino Library
 #include <Arduino.h>
 
@@ -27,7 +32,7 @@
 #define TRANSMIT_TIMEOUT 5
 
 // CAN Inter-Frame Delay (ms)
-#define TRANSMIT_DELAY 1
+#define TRANSMIT_DELAY 100
 
 // Node Information
 #define NODE_ID   22
@@ -265,7 +270,8 @@ void loop()
       // Update time reference
       send_node_status_time = millis();
     }
-  
+
+    #if defined(SEND_ORIENTATION_AS_LOG_MESSAGE)
     static uint64_t send_log_message_time = millis();
     if((millis() - send_log_message_time) > SEND_ORIENTATION_PERIOD_MS)
     {
@@ -442,7 +448,9 @@ void loop()
       // Update time reference
       send_log_message_time = millis();
     }
-    
+    #endif
+
+    #if defined(SEND_ORIENTATION_AS_CAMERA_GIMBAL_STATUS)
     static uint64_t send_camera_gimbal_status = millis();
     if((millis() - send_camera_gimbal_status) >= SEND_ORIENTATION_PERIOD_MS)
     {
@@ -571,7 +579,9 @@ void loop()
       // Update time reference
       send_camera_gimbal_status = millis();
     }
-    
+    #endif
+
+    #if defined(SEND_ORIENTATION_AS_KEY_VALUE)
     static uint64_t send_key_value = millis();
     if((millis() - send_key_value) >= SEND_ORIENTATION_PERIOD_MS)
     {
@@ -709,7 +719,8 @@ void loop()
       }
       send_key_value = millis();
     }
-  
+    #endif
+
     static uint64_t cleanup_uavcan_time = millis();
     if((millis() - cleanup_uavcan_time) > 1000)
     {
@@ -722,10 +733,10 @@ void loop()
       // Get Canard queue stats object
       CanardPoolAllocatorStatistics stats = canardGetPoolAllocatorStatistics(&can.canard);
   
-      // Serial debugging
-      #if defined(SERIAL_DEBUG)
-      printCanardPoolAllocatorStatistics(&stats);
-      #endif // SERIAL_DEBUG
+//      // Serial debugging
+//      #if defined(SERIAL_DEBUG)
+//      printCanardPoolAllocatorStatistics(&stats);
+//      #endif // SERIAL_DEBUG
   
       // Update time reference
       cleanup_uavcan_time = millis();

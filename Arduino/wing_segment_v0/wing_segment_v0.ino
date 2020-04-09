@@ -36,7 +36,7 @@
 #define TRANSMIT_TIMEOUT 5
 
 // CAN Inter-Frame Delay (ms)
-#define TRANSMIT_DELAY 1
+#define TRANSMIT_DELAY 100
 
 // Node Information
 #define NODE_ID   22
