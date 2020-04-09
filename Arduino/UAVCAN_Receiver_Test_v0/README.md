@@ -49,10 +49,6 @@ Node Status
   Mode: 0
   Sub Mode: 0
   Vendor: 0
-
-########## CANARD HANDLE RX ########
-
-Canard Handle Rx Frame Response: 0
 ```
 
 ## Log Message 
@@ -318,11 +314,6 @@ Log Message
   Level: 1
   Source: #.segment.wing
   Text: 0.50,-0.10,0.76,-0.90
-
-
-########## CANARD HANDLE RX ########
-
-Canard Handle Rx Frame Response: 0
 ```
 
 ## Camera Gimbal Status
@@ -537,17 +528,6 @@ Camera Gimbal Status
   Orientation Y: 0.00
   Orientation Z: 0.00
   Orientation W: 0.00
-
-########## CANARD HANDLE RX ########
-
-Canard Handle Rx Frame Response: 0
-
-########## CANARD STATS ########
-
-Canard Pool Allocator Stats
-  Capacity: 32
-  Current Usage: 2
-  Peak Usage: 3
 ```
 
 ## Key Value
@@ -733,15 +713,4 @@ UAVCAN Data
 Key Value
   Value: 0.00
   Key: Z
-
-########## CANARD HANDLE RX ########
-
-Canard Handle Rx Frame Response: 0
-
-########## CANARD STATS ########
-
-Canard Pool Allocator Stats
-  Capacity: 32
-  Current Usage: 2
-  Peak Usage: 2
 ```
