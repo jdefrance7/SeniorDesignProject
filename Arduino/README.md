@@ -14,7 +14,7 @@ Wing segment node using [UAVCAN v0](https://legacy.uavcan.org/) and [UAVCAN v1](
 
 ### Callibration and Callibration Test
 
-Callibrate magnetometers of [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) and then test callibration of magnetometers of [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) (courtesy of Adafruit).
+Callibrate magnetometers of [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) and then test callibration of magnetometers of [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) (code courtesy of Adafruit).
 
 ---
 
@@ -32,7 +32,7 @@ Test the power draw of up to four different power lines using the [Adafruit_INA2
 
 ### CAN Transmitter and Receiver Test
 
-Tests the transmitting and receiving operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver (courtesy of Atlantis Specialist Technologies).
+Tests the transmitting and receiving operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver (code courtesy of Atlantis Specialist Technologies).
 
 ---
 
