@@ -15,7 +15,7 @@ This project was created using the [Arduino IDE](https://www.arduino.cc/en/main/
 
 ![AST-CAN485 Pinout](AST-CAN485-Pinout.png)
 
-Courtesy of Sparkfun [AST-CAN485 Hookup Guide](https://learn.sparkfun.com/tutorials/ast-can485-hookup-guide?_ga=2.39481377.365903456.1581038177-271346267.1574810854)
+Image courtesy of Sparkfun [AST-CAN485 Hookup Guide](https://learn.sparkfun.com/tutorials/ast-can485-hookup-guide?_ga=2.39481377.365903456.1581038177-271346267.1574810854)
 
 ### Installing
 
