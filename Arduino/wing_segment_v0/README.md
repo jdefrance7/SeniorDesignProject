@@ -119,7 +119,7 @@ Sends orientation data onto the CAN bus in one of three ways:
     float16[4] camera_orientation_in_body_frame_xyzw
     float16[<=9] camera_orientation_in_body_frame_covariance   # +inf for non-existent axes
     ```
-3. Sends a [Key Value](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/) message onto the CAN bus with single float of orientation data alongside an axis descriptor key.
+3. Sends a series of [Key Value](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/) messages onto the CAN bus containing a single float of orientation data alongside an axis descriptor key.
 
     ### Key Value
     
