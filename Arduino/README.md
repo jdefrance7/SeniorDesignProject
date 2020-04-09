@@ -8,25 +8,25 @@ Please note that the `libraries` folder is not itself a project sketch but rathe
 
 ### Wing Segment v0 and Wing Segment v1
 
-Wing segment node using [UAVCAN v0](https://legacy.uavcan.org/) and [UAVCAN v1](https://uavcan.org/) (main project).
+Wing segment node implementation using [UAVCAN v0](https://legacy.uavcan.org/) and [UAVCAN v1](https://uavcan.org/) (main project).
 
 ---
 
 ### Callibration and Callibration Test
 
-Code to callibrate the magnetometers of the [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) sensors and then test this callibration (code courtesy of [Adafruit](https://github.com/adafruit/Adafruit_AHRS)).
+Callibrates the magnetometers of the [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) sensors and then tests this callibration (code courtesy of [Adafruit](https://github.com/adafruit/Adafruit_AHRS)).
 
 ---
 
 ### IMU Test
 
-Test data aquisition for different IMU data types using the [BNO055](https://www.adafruit.com/product/2472), [LSM9DS1](https://www.adafruit.com/product/3387), or [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) (development).
+Tests data aquisition for different IMU data types using the [BNO055](https://www.adafruit.com/product/2472), [LSM9DS1](https://www.adafruit.com/product/3387), or [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) (development).
 
 ---
 
 ### Power Test
 
-Test the power draw of up to four different power lines using the [Adafruit_INA219](https://www.adafruit.com/product/904) (development).
+Tests the power draw of up to four different power lines using the [Adafruit_INA219](https://www.adafruit.com/product/904) (development).
 
 ---
 
