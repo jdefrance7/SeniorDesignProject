@@ -4,6 +4,10 @@ Tests the transmitting operation of the [AST-CAN485](https://www.sparkfun.com/pr
 
 Examples of transmitted messages are included below with extra debug information.
 
+## Wiring
+
+![Image](UAVCAN-Transmitter-and-Receiver-Test.png)
+
 ## Node Status
 
 ```
