@@ -60,7 +60,6 @@ Tests the receiving operation of the [AST-CAN485](https://www.sparkfun.com/produ
 
 ---
 
-## UAVCAN Transmitter Test
-
+### UAVCAN Transmitter Test
 
 Tests the transmitting operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver and the encofing of [UAVCAN v0](https://legacy.uavcan.org/) messages.
