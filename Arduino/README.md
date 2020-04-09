@@ -42,4 +42,4 @@ Code courtesy of [Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/examp
 
 ### UAVCAN Transmitter and Receiver Test
 
-Tests the transmitting and receiving operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver and the encoding and decoding of [UAVCAN v0](https://legacy.uavcan.org/) messages.
+Tests the transmitting and receiving operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver for [UAVCAN v0](https://legacy.uavcan.org/) messages.
