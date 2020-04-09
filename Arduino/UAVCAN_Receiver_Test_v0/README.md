@@ -1,5 +1,9 @@
 # UAVCAN Receiver Test
 
+Tests the receiving operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver and the decoding of [UAVCAN v0](https://legacy.uavcan.org/) messages.
+
+Examples of received messages are included below with extra debug information.
+
 ## Node Status
 ```
 ############ MESSAGE ############
