@@ -13,7 +13,7 @@ This project was created using the [Arduino IDE](https://www.arduino.cc/en/main/
 
 ### AST-CAN485
 
-![AST-CAN485 Pinout](./Picutes/AST-CAN485-Pinout.png)
+![AST-CAN485 Pinout](Pictures/AST-CAN485-Pinout.png)
 
 ### Installing
 
