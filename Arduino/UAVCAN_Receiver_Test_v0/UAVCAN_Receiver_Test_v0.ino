@@ -69,16 +69,16 @@ st_cmd_t Msg;
 uint8_t Buffer[8] = {};
 
 void setup() {
-  
+
   // Initialise CAN port. Must be before Serial.begin()
-  canInit(CAN_BITRATE);            
+  canInit(CAN_BITRATE);
 
   // Initialize Serial module
-  Serial.begin(SERIAL_BAUDRATE);      
+  Serial.begin(SERIAL_BAUDRATE);
   while(!Serial);
 
   // Reference message data buffer
-  Msg.pt_data = &Buffer[0];    
+  Msg.pt_data = &Buffer[0];
 
   // Initialise CAN packet (overwritten by a received packet)
   Msg.ctrl.ide = MESSAGE_PROTOCOL;  // Set CAN protocol (0: CAN 2.0A, 1: CAN 2.0B)
@@ -98,7 +98,7 @@ void setup() {
 }
 
 void loop() {
-  
+
   // Clear the message buffer
   clearBuffer(&Buffer[0]);
 
@@ -106,13 +106,13 @@ void loop() {
   Msg.cmd = CMD_RX_DATA;
 
   // Wait for the command to be accepted by the controller
-  
+
   while(can_cmd(&Msg) != CAN_CMD_ACCEPTED);
-  
+
   // Wait for command to finish executing
   while(can_get_status(&Msg) == CAN_STATUS_NOT_COMPLETED);
-  
-  
+
+
   // Print received data to the terminal (slow)
   serialPrintData(&Msg);
 
@@ -121,12 +121,24 @@ void loop() {
 
   // Print Canard Stats (fast)
   printCanardStats();
+
+  // Print Milliseconds since last call (fast)
+  printTimePeriod();
+}
+
+void printTimePeriod()
+{
+  static long time = 0;
+
+  Serial.print("Time Period: "); Serial.println(millis()-time);
+
+  time = millis();
 }
 
 void printCanardStats()
 {
   Serial.println("\n########## CANARD STATS ########");
-  
+
   CanardPoolAllocatorStatistics stats = canardGetPoolAllocatorStatistics(&canard);
   printCanardPoolAllocatorStatistics(&stats);
 }
@@ -247,7 +259,7 @@ void serialPrintData(st_cmd_t *msg){
     Serial.println("  Transfer: Single Frame");
 
     Serial.println("\nUAVCAN Data");
-    
+
     for(int n = 0; n < msg->dlc - 1; n++)
     {
       sprintf(textBuffer, "  Data Byte %d: %02X", n, msg->pt_data[n]);
@@ -286,7 +298,7 @@ void serialPrintData(st_cmd_t *msg){
     Serial.println("  Transfer: Multi Frame Middle");
 
     Serial.println("\nUAVCAN Data");
-    
+
     for(int n = 0; n < msg->dlc - 1; n++)
     {
       sprintf(textBuffer, "  Data Byte %d: %02X", n, msg->pt_data[n]);
@@ -299,7 +311,7 @@ void serialPrintData(st_cmd_t *msg){
     Serial.println("  Transfer: Multi Frame End");
 
     Serial.println("\nUAVCAN Data");
-    
+
     for(int n = 0; n < msg->dlc - 1; n++)
     {
       sprintf(textBuffer, "  Data Byte %d: %02X", n, msg->pt_data[n]);
@@ -330,7 +342,7 @@ void onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer)
     if(transfer->data_type_id == NODE_STATUS_DATA_TYPE_ID)
     {
       Serial.println("\n######## NODE STATUS RECEIVED ########");
-      
+
       NodeStatus status;
       decode_node_status(transfer, 0, &status);
       printNodeStatus(&status);
@@ -340,7 +352,7 @@ void onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer)
     else if(transfer->data_type_id == LOG_MESSAGE_DATA_TYPE_ID)
     {
       Serial.println("\n######## LOG MESSAGE RECEIVED ########");
-      
+
       LogMessage message;
       decode_log_message(transfer, 0, &message);
       printLogMessage(&message);

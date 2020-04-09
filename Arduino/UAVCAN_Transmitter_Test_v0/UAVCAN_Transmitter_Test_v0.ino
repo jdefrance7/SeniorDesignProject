@@ -70,6 +70,9 @@ LED led;
 // Return value for error handling
 int reVal;
 
+// Test Quaternion Values
+float q = {0.5, -0.1, 0.78, -0.33};
+
 void setup()
 {
   // Init LED
@@ -155,36 +158,36 @@ void loop()
     if((millis() - send_node_status_time) > SEND_NODE_STATUS_PERIOD_MS)
     {
       Serial.println("\n######## NODE STATUS ########");
-      
+
         // Update uptime
       node.status.uptime_sec = millis()/1000;
-  
+
       // Serial debugging
       #if defined(SERIAL_DEBUG)
       printNodeStatus(&node.status);
       #endif // SERIAL_DEBUG
 
       Serial.println("\n######## ENCODING NODE STATUS ########");
-  
+
       // Unique ID for node status transfers
       static uint8_t node_status_transfer_id = 0;
-  
+
       // Create data field buffer
       uint8_t buffer[((NODE_STATUS_DATA_TYPE_SIZE + 7) / 8)];
-  
+
       // Clear data field buffer
       memset(buffer, 0, sizeof(buffer));
-  
+
       // Encode data field buffer
       reVal = encode_node_status(buffer, sizeof(buffer), 0, node.status);
-  
+
       if(reVal < 0)
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
         Serial.print("\nERROR: Failed to encode Node Status, reVal = "); Serial.println(reVal);
         #endif // SERIAL_DEBUG
-  
+
         led.toggle(LED_TOGGLE);
       }
       else
@@ -205,12 +208,12 @@ void loop()
         Serial.print("\nNode Status Encoded Bits: "); Serial.println(reVal);
         Serial.println("\nNode Status encoding successful!");
         #endif // SERIAL_DEBUG
-  
+
         led.off();
       }
 
       Serial.println("\n######## QUEUING NODE STATUS ########");
-  
+
       // Format and push message frame(s) onto Canard queue
       reVal = canardBroadcast(
         &can.canard,
@@ -221,14 +224,14 @@ void loop()
         buffer,
         sizeof(buffer)
       );
-  
+
       if(reVal < 0)
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
         Serial.print("\nERROR: Failed to queue Node Status, reVal = "); Serial.println(reVal);
         #endif // SERIAL_DEBUG
-  
+
         led.toggle(LED_TOGGLE);
       }
       else
@@ -239,22 +242,22 @@ void loop()
         printCanardFrame(txf);
         Serial.println("\nNode Status queueing successful!");
         #endif // SERIAL_DEBUG
-  
+
         led.off();
       }
 
       Serial.println("\n######## TRANSMITTING NODE STATUS ########");
-  
+
       // Transmit all frames in Canard queue
       reVal = transmitCanardQueue(&can.canard, 0, TRANSMIT_TIMEOUT);
-  
+
       if(reVal < 0)
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
         Serial.print("\nERROR: Failed to transmit Node Status, reVal = "); Serial.println(reVal);
         #endif // SERIAL_DEBUG
-  
+
         led.toggle(LED_TOGGLE);
       }
       else
@@ -263,10 +266,10 @@ void loop()
         #if defined(SERIAL_DEBUG)
         Serial.println("\nNode Status transmission successful!");
         #endif // SERIAL_DEBUG
-  
+
         led.off();
       }
-  
+
       // Update time reference
       send_node_status_time = millis();
     }
@@ -276,68 +279,68 @@ void loop()
     if((millis() - send_log_message_time) > SEND_ORIENTATION_PERIOD_MS)
     {
       Serial.println("\n######## QUATERNION ########");
-      
+
       // Store quaternion unit values
       float quat[4];
-      quat[W_AXIS] = 0.5;
-      quat[X_AXIS] = -0.1;
-      quat[Y_AXIS] = 0.76;
-      quat[Z_AXIS] = -0.902;
-  
+      quat[W_AXIS] = q[W_AXIS];
+      quat[X_AXIS] = q[X_AXIS];
+      quat[Y_AXIS] = q[Y_AXIS];
+      quat[Z_AXIS] = q[Z_AXIS];
+
       // Format quaternion into comma separated list
       String text = "";
       text += String(quat[W_AXIS]); text += ",";
       text += String(quat[X_AXIS]); text += ",";
       text += String(quat[Y_AXIS]); text += ",";
       text += String(quat[Z_AXIS]); text += "\n";
-  
+
       // Serial debugging
       #if defined(SERIAL_DEBUG)
       Serial.print("\nQuaternion Text: "); Serial.println(text);
       #endif // SERIAL_DEBUG
 
       Serial.println("\n######## LOG MESSAGE ########");
-  
+
       // Create LogMessage data structure
       LogMessage message;
-  
+
       // Set LogMessage level
       message.level = LEVEL_INFO;
-  
+
       // Set LogMessage source
       memset(message.source, 0 , LOG_MESSAGE_SOURCE_SIZE);
       memcpy(message.source, node.name, LOG_MESSAGE_SOURCE_SIZE);
-  
+
       // Set LogMessage text
       memset(message.text, 0, LOG_MESSAGE_TEXT_SIZE);
       memcpy(message.text, text.c_str(), text.length());
-  
+
       // Serial debugging
       #if defined(SERIAL_DEBUG)
       printLogMessage(&message);
       #endif // SERIAL_DEBUG
 
       Serial.println("\n######## ENCODING LOG MESSAGE ########");
-  
+
       // Unique ID for log message transfers
       static uint8_t log_message_transfer_id = 0;
-  
+
       // Create data field buffer
       uint8_t buffer[((LOG_MESSAGE_DATA_TYPE_SIZE + 7) / 8)];
-  
+
       // Clear data field buffer
       memset(buffer, 0, sizeof(buffer));
-  
+
       // Encode data field buffer
       reVal = encode_log_message(buffer, sizeof(buffer), 0, message);
-  
+
       if(reVal < 0)
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
         Serial.print("\nERROR: Failed to encode Log Message, reVal = "); Serial.println(reVal);
         #endif // SERIAL_DEBUG
-  
+
         led.toggle(LED_TOGGLE);
       }
       else
@@ -363,7 +366,7 @@ void loop()
       Serial.println("\n######## QUEUING LOG MESSAGE ########");
 
       uint16_t payload_len = (reVal + 7) / 8;
-    
+
       // Format and push message frame(s) onto Canard queue
       reVal = canardBroadcast(
         &can.canard,
@@ -374,14 +377,14 @@ void loop()
         buffer,
         payload_len
       );
-  
+
       if(reVal < 0)
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
         Serial.print("\nERROR: Failed to queue Log Message, reVal = "); Serial.println(reVal);
         #endif // SERIAL_DEBUG
-  
+
         led.toggle(LED_TOGGLE);
       }
       else
@@ -390,12 +393,12 @@ void loop()
         #if defined(SERIAL_DEBUG)
         Serial.println("\nLog Message queueing successful!");
         #endif // SERIAL_DEBUG
-  
+
         led.off();
       }
 
       Serial.println("\n######## TRANSMITTING LOG MESSAGE ########");
-  
+
       // Transmit all frames in Canard queue
       // reVal = transmitCanardQueue(&can.canard, TRANSMIT_TIMEOUT); // too fast for AST-CAN485 receiver
 
@@ -404,15 +407,15 @@ void loop()
       {
         // Print CAN frame
         printCanardFrame(txf);
-        
+
         // Send CAN frame
         reVal = sendCanardCANFrame(&(can.canard), txf, TRANSMIT_TIMEOUT);
 
         // Print transmit status
-        Serial.print("Transmit: "); 
+        Serial.print("Transmit: ");
         if(reVal == 0)
         {
-          Serial.println("Success");          
+          Serial.println("Success");
         }
         else
         {
@@ -425,14 +428,14 @@ void loop()
         // Hard code delay
         delay(TRANSMIT_DELAY);
       }
-  
+
       if(reVal < 0)
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
         Serial.print("\nERROR: Failed to transmit Log Message, reVal = "); Serial.println(reVal);
         #endif // SERIAL_DEBUG
-  
+
         led.toggle(LED_TOGGLE);
       }
       else
@@ -441,10 +444,10 @@ void loop()
         #if defined(SERIAL_DEBUG)
         Serial.println("\nLogMessage transmission successful!");
         #endif // SERIAL_DEBUG
-  
+
         led.off();
       }
-  
+
       // Update time reference
       send_log_message_time = millis();
     }
@@ -466,18 +469,18 @@ void loop()
       camera.mode = CAMERA_GIMBAL_MODE_ORIENTATION_FIXED_FRAME;
 
       // Set CameraGimbalStatus orientation
-      camera.camera_orientation_in_body_frame_xyzw[X_AXIS] = quaternion(X_AXIS);
-      camera.camera_orientation_in_body_frame_xyzw[Y_AXIS] = quaternion(Y_AXIS);
-      camera.camera_orientation_in_body_frame_xyzw[Z_AXIS] = quaternion(Z_AXIS);
-      camera.camera_orientation_in_body_frame_xyzw[W_AXIS] = quaternion(W_AXIS);
+      camera.camera_orientation_in_body_frame_xyzw[X_AXIS] = q[X_AXIS];
+      camera.camera_orientation_in_body_frame_xyzw[Y_AXIS] = q[Y_AXIS];
+      camera.camera_orientation_in_body_frame_xyzw[Z_AXIS] = q[Z_AXIS];
+      camera.camera_orientation_in_body_frame_xyzw[W_AXIS] = q[W_AXIS];
 
       // Serial debugging
       #if defined(SERIAL_DEBUG)
       printCameraGimbalStatus(&camera);
       #endif // SERIAL_DEBUG
 
-      Serial.println("\n######## ENCODING CAMERA GIMBAL STATUS ########");  
-      
+      Serial.println("\n######## ENCODING CAMERA GIMBAL STATUS ########");
+
       // Unique ID for camera gimbal status transfers
       static uint8_t camera_gimbal_status_transfer_id = 0;
 
@@ -518,8 +521,8 @@ void loop()
         #endif // SERIAL_DEBUG
       }
 
-      Serial.println("\n######## QUEUING CAMERA GIMBAL STATUS ########");  
-      
+      Serial.println("\n######## QUEUING CAMERA GIMBAL STATUS ########");
+
       uint16_t payload_len = (reVal + 7) / 8;
 
       // Format and push message frame(s) onto Canard queue
@@ -551,8 +554,8 @@ void loop()
 
         led.off();
       }
-      
-      Serial.println("\n######## TRANSMITTING CAMERA GIMBAL STATUS ########");  
+
+      Serial.println("\n######## TRANSMITTING CAMERA GIMBAL STATUS ########");
 
       // Transmit all frames in Canard queue
       reVal = transmitCanardQueue(&can.canard, TRANSMIT_DELAY, TRANSMIT_TIMEOUT);
@@ -596,7 +599,7 @@ void loop()
 
       for(int n = 0; n < 4; n++)
       {
-        pair.value = quaternion(n);
+        pair.value = q[n];
         memset(pair.key, 0, KEY_VALUE_KEY_SIZE);
         if(n == W_AXIS)
         {
@@ -614,11 +617,11 @@ void loop()
         {
           memcpy(pair.key, "Z", 1);
         }
-        
+
         Serial.println("\n######## KEY VALUE ########");
 
         printKeyValue(&pair);
-        
+
         Serial.println("\n######## ENCODING KEY VALUE ########");
 
         // Clear data field buffer
@@ -656,7 +659,7 @@ void loop()
 
           led.off();
         }
-        
+
         Serial.println("\n######## QUEUING KEY VALUE ########");
 
         payload_len = (reVal + 7) / 8;
@@ -692,7 +695,7 @@ void loop()
 
           led.off();
         }
-        
+
         Serial.println("\n######## TRANSMITTING KEY VALUE ########");
 
         // Transmit all frames in Canard queue
@@ -726,20 +729,20 @@ void loop()
     {
 
       Serial.println("\n######## UAVCAN CLEANUP ########");
-      
+
       // Removes stale transfers from Canard queue based on microsecond timestamp
       canardCleanupStaleTransfers(&can.canard, 1000*millis() /* usec */);
-  
+
       // Get Canard queue stats object
       CanardPoolAllocatorStatistics stats = canardGetPoolAllocatorStatistics(&can.canard);
-  
+
 //      // Serial debugging
 //      #if defined(SERIAL_DEBUG)
 //      printCanardPoolAllocatorStatistics(&stats);
 //      #endif // SERIAL_DEBUG
-  
+
       // Update time reference
       cleanup_uavcan_time = millis();
-    } 
+    }
   }
 }
