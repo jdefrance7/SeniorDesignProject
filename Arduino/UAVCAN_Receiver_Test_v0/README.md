@@ -6,7 +6,7 @@ Examples of received messages are included below with extra debug information.
 
 ## Wiring
 
-![UAVCAN-Receiver-Test-Image](Pictures/UAVCAN Transmitter and Receiver Test_bb.png)
+![Image](UAVCAN-Transmitter-and-Receiver-Test.png)
 
 ## Node Status
 ```
