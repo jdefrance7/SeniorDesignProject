@@ -442,6 +442,273 @@ void loop()
       // Update time reference
       send_log_message_time = millis();
     }
+    
+    static uint64_t send_camera_gimbal_status = millis();
+    if((millis() - send_camera_gimbal_status) >= SEND_ORIENTATION_PERIOD_MS)
+    {
+      Serial.println("\n######## CAMERA GIMBAL STATUS ########");
+
+      // Create CameraGimbalStatus data structure
+      CameraGimbalStatus camera;
+
+      // Set CameraGimbalStatus gimbal_id
+      camera.gimbal_id = node.id;
+
+      // Set CameraGimbalStatus mode
+      camera.mode = CAMERA_GIMBAL_MODE_ORIENTATION_FIXED_FRAME;
+
+      // Set CameraGimbalStatus orientation
+      camera.camera_orientation_in_body_frame_xyzw[X_AXIS] = quaternion(X_AXIS);
+      camera.camera_orientation_in_body_frame_xyzw[Y_AXIS] = quaternion(Y_AXIS);
+      camera.camera_orientation_in_body_frame_xyzw[Z_AXIS] = quaternion(Z_AXIS);
+      camera.camera_orientation_in_body_frame_xyzw[W_AXIS] = quaternion(W_AXIS);
+
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      printCameraGimbalStatus(&camera);
+      #endif // SERIAL_DEBUG
+
+      Serial.println("\n######## ENCODING CAMERA GIMBAL STATUS ########");  
+      
+      // Unique ID for camera gimbal status transfers
+      static uint8_t camera_gimbal_status_transfer_id = 0;
+
+      // Create data field buffer
+      uint8_t buffer[((CAMERA_GIMBAL_STATUS_DATA_TYPE_SIZE + 7) / 8)];
+
+      // Clear data field buffer
+      memset(buffer, 0, sizeof(buffer));
+
+      // Encode data field buffer
+      reVal = encode_camera_gimbal_status(buffer, sizeof(buffer), 0, camera);
+
+      if(reVal < 0)
+      {
+        // Serial debugging
+        #if defined(SERIAL_DEBUG)
+        Serial.print("ERROR: Failed to encode Camera Gimbal Status, reVal = "); Serial.println(reVal);
+        #endif // SERIAL_DEBUG
+
+        led.toggle(LED_TOGGLE);
+      }
+      else
+      {
+        // Serial debugging
+        #if defined(SERIAL_DEBUG)
+        Serial.print("Camera Gimbal Status Encoded Buffer: ");
+        for(unsigned int n = 0; n < sizeof(buffer); n++)
+        {
+          Serial.print(buffer[n], HEX);
+          if(n == (sizeof(buffer)-1))
+          {
+            Serial.print("\n");
+            break;
+          }
+          Serial.print(",");
+        }
+        Serial.print("Camera Gimbal Status Encoded Bits: "); Serial.println(reVal);
+        #endif // SERIAL_DEBUG
+      }
+
+      Serial.println("\n######## QUEUING CAMERA GIMBAL STATUS ########");  
+      
+      uint16_t payload_len = (reVal + 7) / 8;
+
+      // Format and push message frame(s) onto Canard queue
+      reVal = canardBroadcast(
+        &can.canard,
+        CAMERA_GIMBAL_STATUS_DATA_TYPE_SIGNATURE,
+        CAMERA_GIMBAL_STATUS_DATA_TYPE_ID,
+        &camera_gimbal_status_transfer_id,
+        CANARD_TRANSFER_PRIORITY_MEDIUM,
+        buffer,
+        payload_len
+      );
+
+      if(reVal < 0)
+      {
+        // Serial debugging
+        #if defined(SERIAL_DEBUG)
+        Serial.print("ERROR: Failed to queue Camera Gimbal Status, reVal = "); Serial.println(reVal);
+        #endif // SERIAL_DEBUG
+
+        led.toggle(LED_TOGGLE);
+      }
+      else
+      {
+        // Serial debugging
+        #if defined(SERIAL_DEBUG)
+        Serial.println("Camera Gimbal Status queueing successful.");
+        #endif // SERIAL_DEBUG
+
+        led.off();
+      }
+      
+      Serial.println("\n######## TRANSMITTING CAMERA GIMBAL STATUS ########");  
+
+      // Transmit all frames in Canard queue
+      reVal = transmitCanardQueue(&can.canard, TRANSMIT_DELAY, TRANSMIT_TIMEOUT);
+
+      if(reVal < 0)
+      {
+        // Serial debugging
+        #if defined(SERIAL_DEBUG)
+        Serial.print("ERROR: Failed to transmit Camera Gimbal Status, reVal = "); Serial.println(reVal);
+        #endif // SERIAL_DEBUG
+
+        led.toggle(LED_TOGGLE);
+      }
+      else
+      {
+        // Serial debugging
+        #if defined(SERIAL_DEBUG)
+        Serial.println("Camera Gimbmal Status transmission successful!");
+        #endif // SERIAL_DEBUG
+
+        led.off();
+      }
+
+      // Update time reference
+      send_camera_gimbal_status = millis();
+    }
+    
+    static uint64_t send_key_value = millis();
+    if((millis() - send_key_value) >= SEND_ORIENTATION_PERIOD_MS)
+    {
+      uint16_t payload_len;
+      KeyValue pair;
+
+      // Unique ID for camera gimbal status transfers
+      static uint8_t key_value_transfer_id = 0;
+
+      // Create data field buffer
+      uint8_t buffer[((KEY_VALUE_DATA_TYPE_SIZE + 7) / 8)];
+
+      for(int n = 0; n < 4; n++)
+      {
+        pair.value = quaternion(n);
+        memset(pair.key, 0, KEY_VALUE_KEY_SIZE);
+        if(n == W_AXIS)
+        {
+          memcpy(pair.key, "W", 1);
+        }
+        else if(n == X_AXIS)
+        {
+          memcpy(pair.key, "X", 1);
+        }
+        else if(n == Y_AXIS)
+        {
+          memcpy(pair.key, "Y", 1);
+        }
+        else if(n == Z_AXIS)
+        {
+          memcpy(pair.key, "Z", 1);
+        }
+        
+        Serial.println("\n######## KEY VALUE ########");
+
+        printKeyValue(&pair);
+        
+        Serial.println("\n######## ENCODING KEY VALUE ########");
+
+        // Clear data field buffer
+        memset(buffer, 0, sizeof(buffer));
+
+        // Encode data field buffer
+        reVal = encode_key_value(buffer, sizeof(buffer), 0, pair);
+
+        if(reVal < 0)
+        {
+          // Serial debugging
+          #if defined(SERIAL_DEBUG)
+          Serial.print("ERROR: Failed to encode Camera Gimbal Status, reVal = "); Serial.println(reVal);
+          #endif // SERIAL_DEBUG
+
+          led.toggle(LED_TOGGLE);
+        }
+        else
+        {
+          // Serial debugging
+          #if defined(SERIAL_DEBUG)
+          Serial.print("Key Value Encoded Buffer: ");
+          for(unsigned int n = 0; n < sizeof(buffer); n++)
+          {
+            Serial.print(buffer[n], HEX);
+            if(n == (sizeof(buffer)-1))
+            {
+              Serial.print("\n");
+              break;
+            }
+            Serial.print(",");
+          }
+          Serial.print("Key Value Encoded Bits: "); Serial.println(reVal);
+          #endif // SERIAL_DEBUG
+
+          led.off();
+        }
+        
+        Serial.println("\n######## QUEUING KEY VALUE ########");
+
+        payload_len = (reVal + 7) / 8;
+
+        // Format and push message frame(s) onto Canard queue
+        reVal = canardBroadcast(
+          &can.canard,
+          KEY_VALUE_DATA_TYPE_SIGNATURE,
+          KEY_VALUE_DATA_TYPE_ID,
+          &key_value_transfer_id,
+          CANARD_TRANSFER_PRIORITY_MEDIUM,
+          buffer,
+          payload_len
+        );
+
+        if(reVal < 0)
+        {
+          // Serial debugging
+          #if defined(SERIAL_DEBUG)
+          Serial.print("ERROR: Failed to queue Key Value, reVal = "); Serial.println(reVal);
+          #endif // SERIAL_DEBUG
+
+          led.toggle(LED_TOGGLE);
+        }
+        else
+        {
+          // Serial debugging
+          #if defined(SERIAL_DEBUG)
+          CanardCANFrame* txf = canardPeekTxQueue(&can.canard);
+          printCanardFrame(txf);
+          Serial.println("\nKey Value queueing successful!");
+          #endif // SERIAL_DEBUG
+
+          led.off();
+        }
+        
+        Serial.println("\n######## TRANSMITTING KEY VALUE ########");
+
+        // Transmit all frames in Canard queue
+        reVal = transmitCanardQueue(&can.canard, TRANSMIT_DELAY, TRANSMIT_TIMEOUT);
+
+        if(reVal < 0)
+        {
+          // Serial debugging
+          #if defined(SERIAL_DEBUG)
+          Serial.print("ERROR: Failed to transmit Key Value, reVal = "); Serial.println(reVal);
+          #endif // SERIAL_DEBUG
+
+          led.toggle(LED_TOGGLE);
+        }
+        else
+        {
+          // Serial debugging
+          #if defined(SERIAL_DEBUG)
+          Serial.println("Key Value transmission successful!");
+          #endif // SERIAL_DEBUG
+
+          led.off();
+        }
+      }
+      send_key_value = millis();
+    }
   
     static uint64_t cleanup_uavcan_time = millis();
     if((millis() - cleanup_uavcan_time) > 1000)
