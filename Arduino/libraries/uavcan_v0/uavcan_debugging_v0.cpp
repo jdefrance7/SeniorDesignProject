@@ -83,10 +83,10 @@ void printCameraGimbalStatus(CameraGimbalStatus* status)
   Serial.println("\nCamera Gimbal Status");
   Serial.print("  Gimbal ID: ");      Serial.println((byte)status->gimbal_id);
   Serial.print("  Mode: ");           printCameraGimbalMode(&(status->mode));
-  Serial.print("  Orientation X: ");  Serial.print(status->camera_orientation_in_body_frame_xyzw[0]);
-  Serial.print("  Orientation Y: ");  Serial.print(status->camera_orientation_in_body_frame_xyzw[1]);
-  Serial.print("  Orientation Z: ");  Serial.print(status->camera_orientation_in_body_frame_xyzw[2]);
-  Serial.print("  Orientation W: ");  Serial.print(status->camera_orientation_in_body_frame_xyzw[3]);
+  Serial.print("  Orientation X: ");  Serial.println(status->camera_orientation_in_body_frame_xyzw[0]);
+  Serial.print("  Orientation Y: ");  Serial.println(status->camera_orientation_in_body_frame_xyzw[1]);
+  Serial.print("  Orientation Z: ");  Serial.println(status->camera_orientation_in_body_frame_xyzw[2]);
+  Serial.print("  Orientation W: ");  Serial.println(status->camera_orientation_in_body_frame_xyzw[3]);
   // Note: skipping covariance matrices
 }
 
@@ -164,7 +164,12 @@ void printKeyValue(KeyValue* items)
   Serial.print("  Key: ");
   for(int n = 0; n < KEY_VALUE_KEY_SIZE; n++)
   {
-    Serial.print(items->key[n], HEX);
+    if((unsigned char)items->key[n] == '\0')
+    {
+      Serial.print("\n");
+      break;
+    }
+    Serial.print(char(items->key[n]));
   }
 }
 

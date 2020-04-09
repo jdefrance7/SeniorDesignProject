@@ -21,13 +21,13 @@
 #define LED_TOGGLE 300
 
 // CAN Bitrate
-#define CAN_BITRATE 500000            // AST_CAN
+#define CAN_BITRATE 500000
 
-// CAN Timeout
+// CAN Module Timeout (ms)
 #define TRANSMIT_TIMEOUT 5
 
-// CAN Delay
-#define TRANSMIT_DELAY 100
+// CAN Inter-Frame Delay (ms)
+#define TRANSMIT_DELAY 1
 
 // Node Information
 #define NODE_ID   22
@@ -108,7 +108,6 @@ void setup()
 
   // Initialize CAN & UAVCAN Node
   init_can(&can, node.id);
-  
   while(can.canard.node_id == 0)
   {
     led.toggle(LED_TOGGLE);
@@ -124,7 +123,6 @@ void setup()
 
   // Start Serial module
   Serial.begin(SERIAL_BAUDRATE);
-  
   while(!Serial)
   {
     led.toggle(LED_TOGGLE);
@@ -133,19 +131,12 @@ void setup()
 
   // Print initialization information
   Serial.println("\nWing Segment Config");
-  
   delay(250);
-  
   printCanard(&can);
-
   delay(250);
-
   printNode(&node);
-
   delay(250);
-  
   Serial.println("\nInitialization complete!");
-  
   delay(250);
 
   #endif

@@ -1,5 +1,7 @@
+// CAN Bitrate
 #define CAN_BITRATE 500000
 
+// Serial Baudrate
 #define SERIAL_BAUDRATE 115200
 
 // Mask Values for UAVCAN EID
@@ -56,6 +58,7 @@ bool shouldAcceptTransfer(const CanardInstance* ins,
                                  uint8_t source_node_id);
 
 // Function prototypes
+void printCanardStats();
 void serialPrintData(st_cmd_t *msg);
 void processMessage(st_cmd_t *msg);
 
@@ -67,7 +70,7 @@ uint8_t Buffer[8] = {};
 
 void setup() {
   
-  // Initialise CAN port. must be before Serial.begin
+  // Initialise CAN port. Must be before Serial.begin()
   canInit(CAN_BITRATE);            
 
   // Initialize Serial module
@@ -110,20 +113,26 @@ void loop() {
   while(can_get_status(&Msg) == CAN_STATUS_NOT_COMPLETED);
   
   
-  // Print received data to the terminal
+  // Print received data to the terminal (slow)
   serialPrintData(&Msg);
 
-  // Process UAVCAN frame
+  // Process UAVCAN transfer (fast)
   processMessage(&Msg);
+
+  // Print Canard Stats (fast)
+  printCanardStats();
 }
 
-void processMessage(st_cmd_t *msg)
+void printCanardStats()
 {
   Serial.println("\n########## CANARD STATS ########");
   
   CanardPoolAllocatorStatistics stats = canardGetPoolAllocatorStatistics(&canard);
   printCanardPoolAllocatorStatistics(&stats);
+}
 
+void processMessage(st_cmd_t *msg)
+{
   // Format received data into CanardCanFrame
   CanardCANFrame rxf;
 
@@ -315,19 +324,9 @@ void onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer)
     // Add request handlers here
 
     //...
-
-    /*
-      // Example Handler: Get Node Info
-      if(transfer->data_type_id == GET_NODE_INFO_DATA_TYPE_ID)
-      {
-        // send GET_NODE_INFO response
-      }
-    */
   }
   else if(transfer->transfer_type == CanardTransferTypeBroadcast)
   {
-    // Add braodcast handlers here
-
     if(transfer->data_type_id == NODE_STATUS_DATA_TYPE_ID)
     {
       Serial.println("\n######## NODE STATUS RECEIVED ########");
@@ -345,6 +344,26 @@ void onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer)
       LogMessage message;
       decode_log_message(transfer, 0, &message);
       printLogMessage(&message);
+
+      canardReleaseRxTransferPayload(&canard, transfer);
+    }
+    else if(transfer->data_type_id == KEY_VALUE_DATA_TYPE_ID)
+    {
+      Serial.println("\n######## KEY VALUE RECEIVED ########");
+
+      KeyValue pair;
+      decode_key_value(transfer, 0, &pair);
+      printKeyValue(&pair);
+
+      canardReleaseRxTransferPayload(&canard, transfer);
+    }
+    else if(transfer->data_type_id == CAMERA_GIMBAL_STATUS_DATA_TYPE_ID)
+    {
+      Serial.println("\n######## CAMERA GIMBAL STATUS RECEIVED #########");
+
+      CameraGimbalStatus gimbal;
+      decode_camera_gimbal_status(transfer, 0, &gimbal);
+      printCameraGimbalStatus(&gimbal);
 
       canardReleaseRxTransferPayload(&canard, transfer);
     }
@@ -381,20 +400,9 @@ bool shouldAcceptTransfer(const CanardInstance* ins,
     // Add request handlers here
 
     //...
-
-    /*
-      // Example Handler: Node Info
-      if(data_type_id == NODE_INFO_DATA_TYPE_ID)
-      {
-        *out_data_type_signature = NODE_INFO_DATA_TYPE_SIGNATURE;
-        accept_transfer = true;
-      }
-    */
   }
   else if(transfer_type == CanardTransferTypeBroadcast)
   {
-    // Add broadcast handlers here
-
     if(data_type_id == NODE_STATUS_DATA_TYPE_ID)
     {
       *out_data_type_signature = NODE_STATUS_DATA_TYPE_SIGNATURE;
@@ -403,6 +411,16 @@ bool shouldAcceptTransfer(const CanardInstance* ins,
     else if(data_type_id == LOG_MESSAGE_DATA_TYPE_ID)
     {
       *out_data_type_signature = LOG_MESSAGE_DATA_TYPE_SIGNATURE;
+      accept_transfer = true;
+    }
+    else if(data_type_id == KEY_VALUE_DATA_TYPE_ID)
+    {
+      *out_data_type_signature = KEY_VALUE_DATA_TYPE_SIGNATURE;
+      accept_transfer = true;
+    }
+    else if(data_type_id == CAMERA_GIMBAL_STATUS_DATA_TYPE_ID)
+    {
+      *out_data_type_signature = CAMERA_GIMBAL_STATUS_DATA_TYPE_SIGNATURE;
       accept_transfer = true;
     }
   }

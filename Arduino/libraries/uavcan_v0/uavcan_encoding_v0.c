@@ -529,7 +529,7 @@ int32_t encode_key_value(
     canardEncodeScalar(buffer, bit_offset, UINT8, &key_value.key[n]);
     bit_offset += UINT8;
 
-    if((char)key_value.key[n] == '\0')
+    if((unsigned char)key_value.key[n] == '\0')
     {
       break;
     }
