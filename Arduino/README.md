@@ -6,27 +6,15 @@ Please note that the `libraries` folder is not itself a project sketch but rathe
 
 ---
 
-### Wing Segment v0
+### Wing Segment v0 and Wing Segment v1
 
-Wing segment node using [UAVCAN v0](https://legacy.uavcan.org/) (main project).
-
----
-
-### Wing Segment v1
-
-Wing segment node using [UAVCAN v1](https://uavcan.org/) (main project).
+Wing segment node using [UAVCAN v0](https://legacy.uavcan.org/) and [UAVCAN v1](https://uavcan.org/) (main project).
 
 ---
 
-### Callibration
+### Callibration and Callibration Test
 
-Callibrate magnetometers of [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) (courtesy of Adafruit).
-
----
-
-### Callibration Test
-
-Test callibration of magnetometers of [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) (courtesy of Adafruit).
+Callibrate magnetometers of [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) and then test callibration of magnetometers of [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) (courtesy of Adafruit).
 
 ---
 
@@ -42,24 +30,12 @@ Test the power draw of up to four different power lines using the [Adafruit_INA2
 
 ---
 
-### CAN Receiver Test
+### CAN Transmitter and Receiver Test
 
-Tests the receiving operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver (courtesy of Atlantis Specialist Technologies).
-
----
-
-### CAN Transmitter Test
-
-Tests the transmitting operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver (courtesy of Atlantis Specialist Technologies).
+Tests the transmitting and receiving operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver (courtesy of Atlantis Specialist Technologies).
 
 ---
 
-### UAVCAN Receiver Test
+### UAVCAN Transmitter and Receiver Test
 
-Tests the receiving operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver and the decoding of [UAVCAN v0](https://legacy.uavcan.org/) messages.
-
----
-
-### UAVCAN Transmitter Test
-
-Tests the transmitting operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver and the encoding of [UAVCAN v0](https://legacy.uavcan.org/) messages.
+Tests the transmitting and receiving operation of the [AST-CAN485](https://www.sparkfun.com/products/14483) CAN transceiver and the encoding and decoding of [UAVCAN v0](https://legacy.uavcan.org/) messages.
