@@ -11,9 +11,11 @@ Secondary: Alex Mootz, Andrew Schweyen, George Sahyoun, Luke Timper, Nathan Raab
 ## Getting Started
 This project was created using the [Arduino IDE](https://www.arduino.cc/en/main/software) for the [AST-CAN485](https://www.sparkfun.com/products/14483) board. 
 
-### AST-CAN485
+### AST-CAN485 Pinout
 
 ![AST-CAN485 Pinout](Pictures/AST-CAN485-Pinout.png)
+
+Courtesy of Sparkfun
 
 ### Installing
 
