@@ -57,6 +57,10 @@ CAN Libraries: [Universal Can Library](https://github.com/rennerm/avr-can-lib/tr
 ### UAVCAN
 Both [UAVCAN v0](https://github.com/UAVCAN/libcanard) (legacy) and [UAVCAN v1](https://github.com/UAVCAN/libcanard/tree/legacy-v0) protocols have been implemented in separate projects. See their documentation on implementation specifics.
 
+## System Layout
+
+![Image](Wing-Segment-Layout.png)
+
 ## Redundant System
 
 Plans for a redundant SD logging system are in place such that if the UAVCAN bus ever fails, all data will be logged and stored in individual wing segment SD cards.
