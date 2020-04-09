@@ -57,6 +57,12 @@ CAN Libraries: [Universal Can Library](https://github.com/rennerm/avr-can-lib/tr
 ### UAVCAN
 Both [UAVCAN v0](https://github.com/UAVCAN/libcanard) (legacy) and [UAVCAN v1](https://github.com/UAVCAN/libcanard/tree/legacy-v0) protocols have been implemented in separate projects. See their documentation on implementation specifics.
 
+## Redundant System
+
+Plans for a redundant SD logging system are in place such that if the UAVCAN bus ever fails, all data will be logged and stored in individual wing segment SD cards.
+
+![Image](Redundant-Wing-Segment.png)
+
 ## Acknowledgements
 We would like to thank Professor Nikolaos Papanikolopoulos, Travis Hanson, and all of the team members in the Solar UAV lab at the University of Minnesota - Twin Cities for allowing us to work on this amazing project with them.
 
