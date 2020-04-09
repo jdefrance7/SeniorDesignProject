@@ -14,7 +14,7 @@ Wing segment node using [UAVCAN v0](https://legacy.uavcan.org/) and [UAVCAN v1](
 
 ### Callibration and Callibration Test
 
-Callibrate magnetometers of [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) and then test callibration of magnetometers of [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) (code courtesy of [Adafruit](https://github.com/adafruit/Adafruit_AHRS)).
+Code to callibrate the magnetometers of the [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) sensors and then test this callibration (code courtesy of [Adafruit](https://github.com/adafruit/Adafruit_AHRS)).
 
 ---
 
