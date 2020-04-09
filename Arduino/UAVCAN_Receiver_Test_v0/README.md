@@ -4,6 +4,10 @@ Tests the receiving operation of the [AST-CAN485](https://www.sparkfun.com/produ
 
 Examples of received messages are included below with extra debug information.
 
+## Wiring
+
+![UAVCAN Receiver Test Image](Pictures/UAVCAN Transmitter and Receiver Test_bb.png)
+
 ## Node Status
 ```
 ############ MESSAGE ############
