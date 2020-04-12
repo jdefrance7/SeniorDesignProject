@@ -19,7 +19,7 @@
 */
 
 // Serial Debugging
-#define SERIAL_DEBUG // uncomment for debug information
+#define SERIAL_DEBUG // comment out for production, uncomment for debug information
 #define SERIAL_BAUDRATE 115200
 
 // Select Orientation Message Type
