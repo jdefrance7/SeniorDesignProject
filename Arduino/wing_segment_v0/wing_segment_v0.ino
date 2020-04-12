@@ -171,7 +171,7 @@ void setup()
   delay(1000);
 
   #endif // SERIAL_DEBUG
-
+  
   // Initialization Complete!
   node.status.mode = MODE_OPERATIONAL;
   node.status.uptime_sec = millis()/1000;
