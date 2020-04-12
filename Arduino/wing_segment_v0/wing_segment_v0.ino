@@ -1,6 +1,4 @@
-/*
-  Implements a task structure to initialize hardware modules and periodically send IMU orientation onto a CAN bus according to UAVCAN specification.
-  
+/*  
   Task 0 - Setup
     Initializes all modules according to configuration values set below.
   
@@ -12,14 +10,12 @@
   
   Task 3 - Send Orientation
     Sends orientation data onto the CAN bus in one of three ways:
-      1. Sends a UAVCAN formatted Log Message broadcast onto the CAN bus with orientation encoded as ASCII characters in a comma separated list.
-      2. Sends a UAVCAN formatted Camera Gimbal Status broadcast onto the CAN bus with orientation included as a default variable.
-      3. Sends a series of UAVCAN formatted Key Value broadcasts onto the CAN bus with orientation encoded alongside an axis descriptor key.
+      1. Sends a UAVCAN formatted Log Message broadcast onto the CAN bus.
+      2. Sends a UAVCAN formatted Camera Gimbal Status broadcast onto the CAN bus.
+      3. Sends a series of UAVCAN formatted Key Value broadcasts onto the CAN bus.
   
   Task 4 - Check Memory Pool
     Checks the memory usage statistics of the Canard memory pool.
-    
-  All configuration variables are included below to be set by a user prior to compiling.
 */
 
 // Serial Debugging
