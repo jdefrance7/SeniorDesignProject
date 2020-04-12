@@ -1,3 +1,9 @@
+/*
+  Transmitter loop to test CAN transmitter and UAVCAN data encoding.
+  
+  Includes toggleable orientation data structures.
+*/
+
 // Serial Debugging Enabled
 #define SERIAL_DEBUG
 #define SERIAL_BAUDRATE 115200
