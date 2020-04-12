@@ -1,3 +1,11 @@
+/*
+  Receiver loop to test CAN receiver and UAVCAN data decoding.
+  
+  Includes toggleable print functions to display various packet information.
+  
+  See "onTransferReceived()" and "shouldAcceptTransfer()" for core UAVCAN implementation.
+*/
+
 // CAN Bitrate
 #define CAN_BITRATE 500000
 
