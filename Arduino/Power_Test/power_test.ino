@@ -57,6 +57,7 @@ void loop()
       current = sensors[n].getCurrent_mA();
       power   = sensors[n].getPower_mW();
 
+      // Ignore powers less than 1 mW
       if(power < 1)
       {
         continue;
