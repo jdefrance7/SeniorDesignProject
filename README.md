@@ -29,11 +29,11 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
 ### Compiling
 
-If you do not have the AVR-GCC compiler installed, please follow this link on how to install it: [AVR-GCC download](https://www.microchip.com/mplab/avr-support/avr-and-arm-toolchains-c-compilers)
-
 1. Open the desired project sketch in the Arduino IDE.
 2. Select the AST-CAN485 board from the `Tools->Board` menu in the Arduino IDE toolbar.
 3. Either click the check mark button in the upper left hand corner of the Arduino IDE or select `Sketch->Verify/Compile` from the Arduino IDE toolbar.
+
+  If you do not have the AVR-GCC compiler installed, please follow this link on how to install it: [AVR-GCC download](https://www.microchip.com/mplab/avr-support/avr-and-arm-toolchains-c-compilers)
 
 ### Uploading
 
