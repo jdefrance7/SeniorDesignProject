@@ -1,21 +1,23 @@
 /*  
-  Task 0 - Setup
-    Initializes all hardware and software modules according to configuration values defined below.
+  Implements the following tasks for the purpose of sending IMU orientation over CAN bus via UAVCAN protocol.
   
-  Task 1 - Update IMU
-    Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS.
-  
-  Task 2 - Send Node Status
-    Sends a UAVCAN formatted Node Status broadcast onto the CAN bus.
-  
-  Task 3 - Send Orientation
-    Sends orientation data onto the CAN bus in one of three ways:
-      1. Sends a UAVCAN formatted Log Message broadcast onto the CAN bus.
-      2. Sends a UAVCAN formatted Camera Gimbal Status broadcast onto the CAN bus.
-      3. Sends a series of UAVCAN formatted Key Value broadcasts onto the CAN bus.
-  
-  Task 4 - Check Memory Pool
-    Checks the memory usage statistics of the Canard memory pool.
+    Task 0 - Setup
+      Initializes all hardware and software modules according to configuration values defined below.
+
+    Task 1 - Update IMU
+      Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS.
+
+    Task 2 - Send Node Status
+      Sends a UAVCAN formatted Node Status broadcast onto the CAN bus.
+
+    Task 3 - Send Orientation
+      Sends orientation data onto the CAN bus in one of three ways:
+        1. Sends a UAVCAN formatted Log Message broadcast onto the CAN bus.
+        2. Sends a UAVCAN formatted Camera Gimbal Status broadcast onto the CAN bus.
+        3. Sends a series of UAVCAN formatted Key Value broadcasts onto the CAN bus.
+
+    Task 4 - Check Memory Pool
+      Checks the memory usage statistics of the Canard memory pool.
 */
 
 // Serial Debugging
