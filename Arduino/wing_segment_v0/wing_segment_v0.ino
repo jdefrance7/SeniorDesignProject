@@ -1,6 +1,6 @@
 /*  
   Task 0 - Setup
-    Initializes all modules according to configuration values set below.
+    Initializes all hardware and software modules according to configuration values defined below.
   
   Task 1 - Update IMU
     Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS.
