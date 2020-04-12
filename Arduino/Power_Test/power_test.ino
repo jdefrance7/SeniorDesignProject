@@ -1,3 +1,7 @@
+/*
+  Print loop to test the power draw of up to four lines using Adafruit INA219 sensors.
+*/
+
 #include <Arduino.h>
 #include <Adafruit_INA219.h>
 
