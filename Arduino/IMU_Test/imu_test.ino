@@ -1,3 +1,7 @@
+/*
+  Print loop to test different types of data aquisition from the BNO055, LSM9DS1, and NXP FXOS FXAS sensors. 
+*/
+
 // Select IMU
 #include <bno055.h>
 // #include <lsm9ds1.h>
