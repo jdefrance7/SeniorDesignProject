@@ -6,7 +6,7 @@
     Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS.
   
   Task 2 - Send Node Status
-    Sends a UAVCAN formatted Node Status onto the CAN bus.
+    Sends a UAVCAN formatted Node Status broadcast onto the CAN bus.
   
   Task 3 - Send Orientation
     Sends orientation data onto the CAN bus in one of three ways:
