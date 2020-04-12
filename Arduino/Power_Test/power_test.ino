@@ -63,10 +63,10 @@ void loop()
       }
       else
       {
-        Serial.print(n);        Serial.print(" (#)");     Serial.print(", ");
-        Serial.print(voltage);  Serial.print(" (V)");     Serial.print(", ");
-        Serial.print(current);  Serial.print(" (mA)");    Serial.print(", ");
-        Serial.print(power);    Serial.print(" (mW)");    Serial.print("\n");
+        Serial.print(n);            Serial.print(" (#)");     Serial.print(", ");
+        Serial.print(voltage, 3);   Serial.print(" (V)");     Serial.print(", ");
+        Serial.print(current, 3);   Serial.print(" (mA)");    Serial.print(", ");
+        Serial.print(power, 3);     Serial.print(" (mW)");    Serial.print("\n");
       }
 
       delay(10);
