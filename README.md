@@ -40,7 +40,7 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
 3. Either click the check mark button in the upper left hand corner of the Arduino IDE or select `Sketch->Verify/Compile` from the Arduino IDE toolbar.
 
-  * If you do not have the AVR-GCC compiler installed, please follow this link on how to install it: [AVR-GCC download](https://www.microchip.com/mplab/avr-support/avr-and-arm-toolchains-c-compilers)
+    * If you do not have the AVR-GCC compiler installed, please follow this link on how to install it: [AVR-GCC download](https://www.microchip.com/mplab/avr-support/avr-and-arm-toolchains-c-compilers)
 
 ### Uploading
 
