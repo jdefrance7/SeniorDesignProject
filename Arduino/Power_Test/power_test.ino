@@ -66,7 +66,7 @@ void loop()
         Serial.print(n);        Serial.print(" (#)");     Serial.print(", ");
         Serial.print(voltage);  Serial.print(" (V)");     Serial.print(", ");
         Serial.print(current);  Serial.print(" (mA)");    Serial.print(", ");
-        Serial.print(power);    Serial.print(" (mW)");    Serial.println("");
+        Serial.print(power);    Serial.print(" (mW)");    Serial.print("\n");
       }
 
       delay(10);
