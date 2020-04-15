@@ -30,6 +30,8 @@ void printRestartNode(RestartNode* restart);
 void printKeyValue(KeyValue* items);
 void printLogLevel(LogLevel* level);
 void printLogMessage(LogMessage* msg);
+void printMode(Mode *mode);
+void printAngularCommand(AngularCommand *angles);
 void printNode(UavcanNode* node);
 
 //------------------------------------------------------------------------------

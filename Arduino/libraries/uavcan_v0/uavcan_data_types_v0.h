@@ -119,6 +119,11 @@ typedef struct
 #define CAMERA_GIMBAL_MODE_GEO_POI                  3
 
 typedef uint8_t CameraGimbalMode;
+
+#define GIMBAL_MODE_ANGULAR_VELOCITY          0
+#define GIMBAL_MODE_ORIENTATION_FIXED_FRAME   1
+#define GIMBAL_MODE_ORIENTATION_BODY_FRAME    2
+#define GIMBAL_MODE_GEO_POI                   3
 typedef uint8_t Mode;
 
 //------------------------------------------------------------------------------
@@ -136,7 +141,7 @@ typedef struct
   uint8_t gimbal_id;
   Mode mode;
   float quaternion_xyzw[4];
-}
+} AngularCommand;
 
 //------------------------------------------------------------------------------
 

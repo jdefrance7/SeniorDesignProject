@@ -121,9 +121,9 @@ int32_t decode_angular_command(
   // void5 padding
   bit_offset += UINT5;
 
-  for(int n = 0; n < 4 n++)
+  for(int n = 0; n < 4; n++)
   {
-    canardDecodeScalar(transfer, bit_offset, FLOAT16, SIGNED, &angular_command->orientation_xyzw[n]);
+    canardDecodeScalar(transfer, bit_offset, FLOAT16, SIGNED, &angular_command->quaternion_xyzw[n]);
     bit_offset += FLOAT16;
   }
 

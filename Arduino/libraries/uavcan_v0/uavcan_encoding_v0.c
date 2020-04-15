@@ -129,7 +129,7 @@ int32_t encode_ahrs_solution(
 int32_t encode_angular_command(
   uint8_t buffer[],
   uint32_t buffer_size,
-  uint32_t buffer_offset,
+  uint32_t bit_offset,
   AngularCommand angular_command
 )
 {
@@ -141,11 +141,8 @@ int32_t encode_angular_command(
   canardEncodeScalar(buffer, bit_offset, UINT8, &angular_command.gimbal_id);
   bit_offset += UINT8;
 
-  canardEncodeScalar(buffer, bit_offset, UINT3, &angular_command.mode);
-  bit_offset += 3;
-
-  canardEncodeScalar(buffer, bit_offset, UINT5, 0);
-  bit_offset += 5;
+  canardEncodeScalar(buffer, bit_offset, UINT8, &angular_command.mode);
+  bit_offset += UINT8;
 
   for(int n = 0; n < 4; n++)
   {

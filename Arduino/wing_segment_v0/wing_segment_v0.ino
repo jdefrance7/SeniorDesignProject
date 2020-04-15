@@ -27,7 +27,8 @@
 // Select Orientation Message Type
 //#define SEND_ORIENTATION_AS_LOG_MESSAGE
 //#define SEND_ORIENTATION_AS_CAMERA_GIMBAL_STATUS
-//#define SEND_ORIENTATION_AS_KEY_VALUE
+#define SEND_ORIENTATION_AS_KEY_VALUE
+//#define SEND_ORIENTATION_AS_ANGULAR_COMMAND
 
 // Core Arduino Library
 #include <Arduino.h>
@@ -59,6 +60,8 @@
 
 // CAN Inter-Frame Delay (ms)
 #define TRANSMIT_DELAY 250
+
+#define WING_SEGMENT  '1'
 
 // Node Information
 #define NODE_ID   22
@@ -266,7 +269,7 @@ void loop()
       // Serial debugging
       #if defined(SERIAL_DEBUG)
       Serial.print("\nNode Status - Buffer: ");
-      for(unsigned int n = 0; n < (reVal+7)/8; n++)
+      for(int n = 0; n < (reVal+7)/8; n++)
       {
         Serial.print(buffer[n], HEX);
         if(n == (sizeof(buffer)-1))
@@ -308,7 +311,7 @@ void loop()
     {
       // Serial debugging
       #if defined(SERIAL_DEBUG)
-      CanardCANFrame* txf = canardPeekTxQueue(&can.canard);
+      const CanardCANFrame* txf = canardPeekTxQueue(&can.canard);
       printCanardFrame(txf);
       #endif // SERIAL_DEBUG
 
@@ -379,7 +382,7 @@ void loop()
     // Set LogMessage source
     memset(message.source, 0 , LOG_MESSAGE_SOURCE_SIZE);
     memcpy(message.source, node.name, LOG_MESSAGE_TEXT_SIZE);
-
+    
     // Set LogMessage text
     memset(message.text, 0, LOG_MESSAGE_TEXT_SIZE);
     memcpy(message.text, text.c_str(), text.length());
@@ -654,22 +657,32 @@ void loop()
       // Clear key
       memset(pair.key, 0, KEY_VALUE_KEY_SIZE);
 
+      char key[2];
+
       // Set key according to axis designator
       if(n == W_AXIS)
       {
-        memcpy(pair.key, "QW", 2);
+        key[0] = 'W';
+        key[1] = '\0';
+        memcpy(pair.key, key, sizeof(key));
       }
       else if(n == X_AXIS)
       {
-        memcpy(pair.key, "QX", 2);
+        key[0] = 'X';
+        key[1] = '\0';
+        memcpy(pair.key, key, sizeof(key));
       }
       else if(n == Y_AXIS)
       {
-        memcpy(pair.key, "QY", 2);
+        key[0] = 'Y';
+        key[1] = '\0';
+        memcpy(pair.key, key, sizeof(key));
       }
       else if(n == Z_AXIS)
       {
-        memcpy(pair.key, "QZ", 2);
+        key[0] = 'Z';
+        key[1] = '\0';
+        memcpy(pair.key, key, sizeof(key));
       }
 
       // Serial debugging
@@ -773,6 +786,130 @@ void loop()
       }
     }
     send_key_value = millis();
+  }
+  #endif
+
+  /*
+    Task: Send Orientation as Angular Command
+  */
+  #if defined(SEND_ORIENTATION_AS_ANGULAR_COMMAND)
+  static uint64_t send_angular_command = millis();
+  if((millis() - send_angular_command) >= SEND_ORIENTATION_PERIOD_MS)
+  {
+    // Serial debugging
+    #if defined(SERIAL_DEBUG)
+    Serial.print("\nAngular Command - Period: "); Serial.println((long)(millis()-send_angular_command));
+    #endif
+
+    AngularCommand angles;
+
+    angles.gimbal_id = NODE_ID; // to be set as wing segment number later
+
+    angles.mode = 1;
+
+    angles.quaternion_xyzw[0] = quaternion(X_AXIS);
+    angles.quaternion_xyzw[1] = quaternion(Y_AXIS);
+    angles.quaternion_xyzw[2] = quaternion(Z_AXIS);
+    angles.quaternion_xyzw[3] = quaternion(W_AXIS);
+
+    // Serial debugging
+    #if defined(SERIAL_DEBUG)
+    printAngularCommand(&angles);
+    #endif // SERIAL_DEBUG
+
+    static uint8_t angular_command_transfer_id = 0;
+
+    uint8_t buffer[((ANGULAR_COMMAND_DATA_TYPE_SIZE + 7) / 8)];
+
+    memset(buffer, 0, sizeof(buffer));
+  
+    reVal = encode_angular_command(buffer, sizeof(buffer), 0, angles);
+
+    // Serial debugging
+    #if defined(SERIAL_DEBUG)
+    Serial.print("\nAngular Command - Encoding: "); Serial.println(reVal);
+    #endif // SERIAL_DEBUG
+
+    // Encoding failed
+    if(reVal < 0)
+    {
+      led.toggle(LED_TOGGLE);
+    }
+
+    // Encoding successful
+    else
+    {
+      // Serial debugging
+      #if defined(SERIAL_DEBUG)
+      Serial.print("\nAngular Command - Buffer: ");
+      for(int n = 0; n < (reVal+7)/8; n++)
+      {
+        Serial.print(buffer[n], HEX);
+        if(n == (sizeof(buffer)-1))
+        {
+          Serial.print("\n");
+          break;
+        }
+        Serial.print(",");
+      }
+      #endif // SERIAL_DEBUG
+
+      led.off();
+    }
+
+    // Payload length in bytes (rounded up)
+    uint16_t payload_len = (reVal + 7) / 8;
+
+    // Format and push message frame(s) onto Canard queue
+    reVal = canardBroadcast(
+      &can.canard,
+      ANGULAR_COMMAND_DATA_TYPE_SIGNATURE,
+      ANGULAR_COMMAND_DATA_TYPE_ID,
+      &angular_command_transfer_id,
+      CANARD_TRANSFER_PRIORITY_MEDIUM,
+      buffer,
+      payload_len
+    );
+
+    // Serial debugging
+    #if defined(SERIAL_DEBUG)
+    Serial.print("\nAngular Command - Queuing: "); Serial.println(reVal);
+    #endif // SERIAL_DEBUG
+
+    // Queuing failed
+    if(reVal < 0)
+    {
+      led.toggle(LED_TOGGLE);
+    }
+
+    // Queuing successful
+    else
+    {
+      led.off();
+    }
+
+    // Transmit all frames in Canard queue
+    reVal = transmitCanardQueue(&can.canard, TRANSMIT_DELAY, TRANSMIT_TIMEOUT);
+
+    // Serial debugging
+    #if defined(SERIAL_DEBUG)
+    Serial.print("\nAngular Command - Transmit: "); Serial.println(reVal);
+    #endif // SERIAL_DEBUG
+
+    // Transmit failed
+    if(reVal < 0)
+    {
+      led.toggle(LED_TOGGLE);
+    }
+
+    // Transmit successful
+    else
+    {
+      led.off();
+    }
+
+    // Update time reference
+    send_angular_command = millis();
   }
   #endif
 

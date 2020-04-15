@@ -204,6 +204,22 @@ void printLogMessage(LogMessage* msg)
   }
 }
 
+void printMode(Mode *mode)
+{
+  Serial.println((byte)*mode);
+}
+
+void printAngularCommand(AngularCommand *angles)
+{
+    Serial.println("\nAngularCommand");
+    Serial.print("  Gimbal ID: ");  Serial.println(angles->gimbal_id);
+    Serial.print("  Mode: ");       printMode(&(angles->mode));
+    Serial.print("  Quat X: ");     Serial.println(angles->quaternion_xyzw[0], 2);
+    Serial.print("  Quat Y: ");     Serial.println(angles->quaternion_xyzw[1], 2);
+    Serial.print("  Quat Z: ");     Serial.println(angles->quaternion_xyzw[2], 2);
+    Serial.print("  Quat W: ");     Serial.println(angles->quaternion_xyzw[3], 2);
+}
+
 void printNode(UavcanNode* node)
 {
     Serial.println("\nNode");

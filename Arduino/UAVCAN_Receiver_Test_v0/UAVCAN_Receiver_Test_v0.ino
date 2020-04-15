@@ -122,13 +122,13 @@ void loop() {
 
 
   // Print received data to the terminal (slow)
-//  serialPrintData(&Msg);
+  serialPrintData(&Msg);
 
   // Process UAVCAN transfer (fast)
   processMessage(&Msg);
 
   // Print Canard Stats (fast)
-//  printCanardStats();
+  printCanardStats();
 
   // Print Milliseconds since last CAN message (fast)
 //  printTimePeriod();
@@ -387,6 +387,16 @@ void onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer)
 
       canardReleaseRxTransferPayload(&canard, transfer);
     }
+    else if(transfer->data_type_id == ANGULAR_COMMAND_DATA_TYPE_ID)
+    {
+      Serial.println("\n######## ANGULAR COMMAND RECEIVED ########");
+
+      AngularCommand angles;
+      decode_angular_command(transfer, 0, &angles);
+      printAngularCommand(&angles);
+
+      canardReleaseRxTransferPayload(&canard, transfer);
+    }
   }
 }
 
@@ -441,6 +451,11 @@ bool shouldAcceptTransfer(const CanardInstance* ins,
     else if(data_type_id == CAMERA_GIMBAL_STATUS_DATA_TYPE_ID)
     {
       *out_data_type_signature = CAMERA_GIMBAL_STATUS_DATA_TYPE_SIGNATURE;
+      accept_transfer = true;
+    }
+    else if(data_type_id == ANGULAR_COMMAND_DATA_TYPE_ID)
+    {
+      *out_data_type_signature = ANGULAR_COMMAND_DATA_TYPE_SIGNATURE;
       accept_transfer = true;
     }
   }
