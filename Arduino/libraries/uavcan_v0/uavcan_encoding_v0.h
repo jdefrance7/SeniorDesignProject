@@ -73,6 +73,19 @@ int32_t encode_ahrs_solution(
 
 //------------------------------------------------------------------------------
 
+// Angular Command
+
+// Full name: uavcan.equipment.camera_gimbal.AngularCommand
+
+int32_t encode_angular_command(
+  uint8_t buffer[],
+  uint32_t buffer_size,
+  uint32_t buffer_offset,
+  AngularCommand angular_command
+);
+
+//------------------------------------------------------------------------------
+
 // Camera Gimbal Status
 
 // Full name: uavcan.equipment.camera_gimbal.Status

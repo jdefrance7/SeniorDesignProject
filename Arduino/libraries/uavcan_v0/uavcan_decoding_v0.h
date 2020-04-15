@@ -78,6 +78,18 @@ int32_t decode_ahrs_solution(
 
 //------------------------------------------------------------------------------
 
+// Angular Command
+
+// Full name: uavcan.equipment.camera_gimbal.AngularCommand
+
+int32_t decode_angular_command(
+  CanardRxTransfer* transfer,
+  uint32_t bit_offset,
+  AngularCommand* angular_command
+);
+
+//------------------------------------------------------------------------------
+
 // Camera Gimbal Status
 
 // Full name: uavcan.equipment.camera_gimbal.Status

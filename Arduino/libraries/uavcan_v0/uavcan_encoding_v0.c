@@ -122,6 +122,42 @@ int32_t encode_ahrs_solution(
 
 //------------------------------------------------------------------------------
 
+// Angular Command
+
+// Full name: uavcan.equipment.camera_gimbal.AngularCommand
+
+int32_t encode_angular_command(
+  uint8_t buffer[],
+  uint32_t buffer_size,
+  uint32_t buffer_offset,
+  AngularCommand angular_command
+)
+{
+  if((bit_offset + ANGULAR_COMMAND_DATA_TYPE_SIZE) > (buffer_size * 8))
+  {
+    return ENCODING_BUFFER_OVERFLOW;
+  }
+
+  canardEncodeScalar(buffer, bit_offset, UINT8, &angular_command.gimbal_id);
+  bit_offset += UINT8;
+
+  canardEncodeScalar(buffer, bit_offset, UINT3, &angular_command.mode);
+  bit_offset += 3;
+
+  canardEncodeScalar(buffer, bit_offset, UINT5, 0);
+  bit_offset += 5;
+
+  for(int n = 0; n < 4; n++)
+  {
+    canardEncodeScalar(buffer, bit_offset, FLOAT16, &angular_command.quaternion_xyzw[n]);
+    bit_offset += FLOAT16;
+  }
+
+  return bit_offset;
+}
+
+//------------------------------------------------------------------------------
+
 // Camera Gimbal Status
 
 // Full name: uavcan.equipment.camera_gimbal.Status

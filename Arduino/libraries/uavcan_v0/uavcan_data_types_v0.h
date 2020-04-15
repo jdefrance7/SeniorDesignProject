@@ -104,6 +104,42 @@ typedef struct
 
 //------------------------------------------------------------------------------
 
+// Camera Gimbal Mode
+
+// Full name: uavcan.equipment.camera_gimbal.Mode
+
+#define CAMERA_GIMBAL_MODE_DATA_TYPE_SIZE 8
+#define CAMERA_GIMBAL_MODE_DATA_TYPE_ID   -1
+
+#define CAMERA_GIMBAL_MODE_DATA_TYPE_SIGNATURE 0x9108c7785aeb69c4
+
+#define CAMERA_GIMBAL_MODE_ANGULAR_VELOCITY         0
+#define CAMERA_GIMBAL_MODE_ORIENTATION_FIXED_FRAME  1
+#define CAMERA_GIMBAL_MODE_ORIENTATION_BODY_FRAME   2
+#define CAMERA_GIMBAL_MODE_GEO_POI                  3
+
+typedef uint8_t CameraGimbalMode;
+typedef uint8_t Mode;
+
+//------------------------------------------------------------------------------
+
+// Angular Command
+
+// Full name: uavcan.equipment.camera_gimbal.AngularCommand
+
+#define ANGULAR_COMMAND_DATA_TYPE_SIZE      80
+#define ANGULAR_COMMAND_DATA_TYPE_ID        1040
+#define ANGULAR_COMMAND_DATA_TYPE_SIGNATURE 0x4af6e57b2b2be29c
+
+typedef struct
+{
+  uint8_t gimbal_id;
+  Mode mode;
+  float quaternion_xyzw[4];
+}
+
+//------------------------------------------------------------------------------
+
 // Coarse Orientation
 
 // Full Name: uavcan.CoarseOrientation
@@ -157,24 +193,6 @@ typedef struct
   float linear_acceleration[3];
   float linear_acceleration_covariance[9];
 } AhrsSolution;
-
-//------------------------------------------------------------------------------
-
-// Camera Gimbal Mode
-
-// Full name: uavcan.equipment.camera_gimbal.Mode
-
-#define CAMERA_GIMBAL_MODE_DATA_TYPE_SIZE 8
-#define CAMERA_GIMBAL_MODE_DATA_TYPE_ID   -1
-
-#define CAMERA_GIMBAL_MODE_DATA_TYPE_SIGNATURE 0x9108c7785aeb69c4
-
-#define CAMERA_GIMBAL_MODE_ANGULAR_VELOCITY         0
-#define CAMERA_GIMBAL_MODE_ORIENTATION_FIXED_FRAME  1
-#define CAMERA_GIMBAL_MODE_ORIENTATION_BODY_FRAME   2
-#define CAMERA_GIMBAL_MODE_GEO_POI                  3
-
-typedef uint8_t CameraGimbalMode;
 
 //------------------------------------------------------------------------------
 

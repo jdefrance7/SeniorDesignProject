@@ -102,6 +102,36 @@ int32_t decode_ahrs_solution(
 
 //------------------------------------------------------------------------------
 
+// Angular Command
+
+// Full name: uavcan.equipment.camera_gimbal.AngularCommand
+
+int32_t decode_angular_command(
+  CanardRxTransfer* transfer,
+  uint32_t bit_offset,
+  AngularCommand* angular_command
+)
+{
+  canardDecodeScalar(transfer, bit_offset, UINT8, UNSIGNED, &angular_command->gimbal_id);
+  bit_offset += UINT8;
+
+  canardDecodeScalar(transfer, bit_offset, UINT3, UNSIGNED, &angular_command->mode);
+  bit_offset += UINT3;
+
+  // void5 padding
+  bit_offset += UINT5;
+
+  for(int n = 0; n < 4 n++)
+  {
+    canardDecodeScalar(transfer, bit_offset, FLOAT16, SIGNED, &angular_command->orientation_xyzw[n]);
+    bit_offset += FLOAT16;
+  }
+
+  return (int32_t)bit_offset;
+}
+
+//------------------------------------------------------------------------------
+
 // Camera Gimbal Status
 
 // Full name: uavcan.equipment.camera_gimbal.Status
