@@ -61,10 +61,10 @@
 // CAN Inter-Frame Delay (ms)
 #define TRANSMIT_DELAY 10
 
-#define WING_SEGMENT  '0'
+#define WING_SEGMENT  '2'
 
 // Node Information
-#define NODE_ID   20
+#define NODE_ID   22
 #define NODE_NAME "#.segment.wing"
 
 // Node Hardware Information

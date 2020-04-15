@@ -7,7 +7,7 @@
 */
 
 // CAN Bitrate
-#define CAN_BITRATE 500000
+#define CAN_BITRATE 1000000
 
 // Serial Baudrate
 #define SERIAL_BAUDRATE 115200
