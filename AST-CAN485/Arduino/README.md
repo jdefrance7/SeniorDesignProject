@@ -1,12 +1,14 @@
-# Arduino Project Sketches
+# Arduino
 
 In addition to the `wing_segment_v0` project sketch, multiple sub-projects were created to test various other aspects associated with the overall project.
 
 Brief descriptions of the main project and supporting sketches are included below.
 
-Please note that the `libraries` folder is not itself a project sketch but rather contains the source code for libraries used throughout the project. Read the `libraries` documentation to learn more.
+Please note that the `libraries` folder is not itself a project sketch but rather contains the source code for libraries used throughout the project. 
 
----
+Read the `libraries` documentation to learn more about the custom libraries developed for this project.
+
+## Project Sketches
 
 ### Wing Segment v0 and Wing Segment v1 (Main Project)
 
