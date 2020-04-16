@@ -28,7 +28,7 @@ This project uses [Git](https://git-scm.com/about) for documentation control. Pl
 
 2. Navigate to the desired working directory.
 
-3. Type `git clone` into the terminal and the copy the link provided by clicking on the green `Clone or Download` button on the project homepage.
+3. Type `git clone` into the terminal and then copy the link provided by clicking on the green `Clone or Download` button on the project homepage.
 
 4. Press `Enter` and wait for the download to complete.
 
