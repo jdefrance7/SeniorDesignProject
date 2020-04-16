@@ -24,9 +24,9 @@ This project was created using [Visual Studio Code IDE](https://code.visualstudi
 
 3. Enter the `TERMINAL` window and type `make px4_fmu-v3_default`.
 
-  * Alternatively click `CMake: ...` on the bottom toolbar and then select `px4_fmu-v3_default` from the menu.
+   * Alternatively click `CMake: ...` on the bottom toolbar and then select `px4_fmu-v3_default` from the menu.
   
-  * Then click `Build` on the bottom toolbar.
+   * Then click `Build` on the bottom toolbar.
 
 ### Uploading
 
@@ -49,3 +49,7 @@ This project was created using [Visual Studio Code IDE](https://code.visualstudi
     * A `Sensor 'winglet':` section should be printed somewhere in the response, and channel 0 should show the node id of the connected winglet device. If it shows empty instead, check the CAN bus connection and try again.
   
     * An `Online nodes:` section should be printed near the end of the response, and the node id of the connected winglet device should show up with node health and mode information. If no nodes show up, check the CAN bus connection and try again.
+
+5. Enter `winglet` in the MAVLink Console and read the response.
+
+  * A series of prints should occur with winglet channel statuses and uORB message information, ending with angle computations based on the data received.
