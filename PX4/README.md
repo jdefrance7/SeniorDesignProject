@@ -24,9 +24,7 @@ The flight controller used during testing was the [HobbyKing HKPilot32](https://
 
 1. Open the `Firmware` folder in Visual Studio Code.
 
-2. Wait for the project's extensions to load by reading the text in the `OUTPUT` window until `"Build files have been written to: ..."` appears.
-
-3. Enter the `TERMINAL` window and type `make px4_fmu-v3_default`.
+2. Enter the `TERMINAL` window and type `make px4_fmu-v3_default`.
 
    * Alternatively click `CMake: ...` on the bottom toolbar and then select `px4_fmu-v3_default` from the menu.
   
