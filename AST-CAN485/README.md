@@ -74,13 +74,9 @@ The IMU data is retreived from the BNO055 by the AST-CAN485 using the Inter-Inte
 
 ### Task Structure
 
-This project inplements periodic task structure to meet all of its requirements.
+This project inplements a periodic task structure to meet all of its requirements.
 
-```
-/**************************************************************************************************************
-  
-  Implements the following tasks to send IMU orientation data to the flight controller.
-  
+``` 
     Task 0 - Setup
       Initializes all modules according to configuration values defined in the header.
 
@@ -95,8 +91,6 @@ This project inplements periodic task structure to meet all of its requirements.
 
     Task 4 - Check Memory Pool
       Checks the memory usage statistics of the Canard memory pool.
-      
-**************************************************************************************************************/
 ```
 
 ## Notes
