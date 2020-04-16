@@ -7,10 +7,15 @@ The purpose of this project is to read IMU sensor data from individual UAV wing 
 ## Authors
 
 Joe DeFrance (defra022@umn.edu)
+
 Alex Mootz (mootz017@umn.edu)
+
 Andrew Schweyen (schwe596@umn.edu)
+
 Nathan Raab (raabx028@umn.edu)
+
 George Sahyoun (sahyo002@umn.edu)
+
 Luke Timper (timpe005@umn.edu)
 
 ## Getting Started
