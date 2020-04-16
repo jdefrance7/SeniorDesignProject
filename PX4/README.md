@@ -87,18 +87,18 @@ These fields are populated from UAVCAN v0 AngularCommand broadcasts received by 
   float16[4] quaternion_xyzw
   ```
 
-### Sensor Winglet Bridge
+### Uavcan Winglet Bridge
 
-The PX4 Firmware stack provides a parent class `(UavcanCDevSensorBridgeBase)` to allow implemented child classes to interface with the main UAVCAN sensor bridge `(IUavcanSensorBridge)` and subscribe to incomming UAVCAN data.
+The PX4 Firmware stack provides a parent `UavcanCDevSensorBridgeBase` class to allow implemented child classes to interface with the main `IUavcanSensorBridge` sensor bridge and subscribe to incomming UAVCAN messages.
 
-This project implemented a child of the parent class called `UavcanWingletBridge` that subscribed to UAVCAN AngularCommand broadcasts, processed the incomming data, and forwarded it to a multi-instance publication handler.
+This project implemented a child of the parent `UavcanCDevSensorBridgeBase` class called `UavcanWingletBridge` that subscribed to UAVCAN AngularCommand broadcasts, processed the incomming data, and forwarded it to a multi-instance publication handler.
 
 ### PX4Winglet
 
-The `PublicationMulti` class of uORB allows for there to exist multiple instances of a topic. Combining this with the `CDev` class allows for multiple instances of a sensor to publish their data to separate channels of the same topic.
+The `PublicationMulti` class of uORB allows for there to exist multiple instances of a singular topic. Combining this with the `CDev` class allows for different sensors of the same type to publish their data to separate channels of the same topic.
 
 This project implemented a child of the `CDev` class called `PX4Winglet` that takes the processed data from the `UavcanWingletBridge`, assigns it a channel based on the UAVCAN node id, and publishes a formatted `sensor_winglet` message to that channel.
 
 ### Sensor Winglet Example
 
-An example module was written to test subscribing to the custom `sensor_winglet` uORB topic and extract useable data from its channels.
+An example module was written to subscribe to the custom `sensor_winglet` uORB topic and extract useable data from its channels.
