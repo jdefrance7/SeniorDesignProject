@@ -1,6 +1,10 @@
 # PX4 Firmware
 
-Code was written for the PX4 Firmware to read incomming UAVCAN AngularCommand messages from the wing segments and publish the data to a custom, mulit-instance uORB topic called `sensor_winglet`.
+A custom PX4 Firmware stack to read incomming sensor orientation data and publish it to the flight controller's internal messaging system.
+
+The incomming data is encoded as UAVCAN_v0 `AngularCommand` messages and received by the flight controller over the CAN bus.
+
+The data is published to a custom, multi-instance `sensor_winglet` topic in the flight controller's internal messaging system uORB.
 
 ## Authors
 
@@ -24,11 +28,9 @@ The flight controller used during testing was the [HobbyKing HKPilot32](https://
 
 1. Open the `Firmware` folder in Visual Studio Code.
 
-2. Enter the `TERMINAL` window and type `make px4_fmu-v3_default`.
+2. Click on the `TERMINAL` window tab and type `make px4_fmu-v3_default`.
 
-   * Alternatively click `CMake: ...` on the bottom toolbar and then select `px4_fmu-v3_default` from the menu.
-  
-   * Then click `Build` on the bottom toolbar.
+   * Alternatively, click `CMake: ...` on the bottom toolbar, select `px4_fmu-v3_default` from the menu, and then click `Build` on the bottom toolbar.
 
 Read the [PX4 Developer's Guide](https://dev.px4.io/v1.9.0/en/setup/building_px4.html) section `"Building"` for more information.
 
@@ -36,7 +38,7 @@ Read the [PX4 Developer's Guide](https://dev.px4.io/v1.9.0/en/setup/building_px4
 
 1. Connect the PX4 device to a computer using a data capable Mirco-B USB cable.
 
-2. Enter the `TERMINAL` window and type `make px4_fmu-v3_default upload`.
+2. Click on the `TERMINAL` window tab and type `make px4_fmu-v3_default upload`.
 
 3. Wait for the upload to complete.
 
@@ -44,9 +46,9 @@ Read the [PX4 Developer's Guide](https://dev.px4.io/v1.9.0/en/setup/building_px4
 
 ### Testing
 
-1. Plug an AST-CAN485 winglet device into the CAN bus connected to the PX4 device.
+1. Connect the PX4 device and an AST-CAN485 winglet device to the same CAN bus.
 
-2. Power up the PX4 device and winglet device.
+2. Power up the PX4 device and AST-CAN485 winglet device.
 
 3. Open QGroundControl and navigate to the [MAVLink Console](https://docs.qgroundcontrol.com/en/analyze_view/mavlink_console.html).
 
@@ -91,13 +93,13 @@ These fields are populated from UAVCAN v0 AngularCommand broadcasts received by 
 
 The PX4 Firmware stack provides a parent `UavcanCDevSensorBridgeBase` class to allow implemented child classes to interface with the main `IUavcanSensorBridge` sensor bridge and subscribe to incomming UAVCAN messages.
 
-This project implemented a child of the parent `UavcanCDevSensorBridgeBase` class called `UavcanWingletBridge` that subscribed to UAVCAN AngularCommand broadcasts, processed the incomming data, and forwarded it to a multi-instance uORB publication handler.
+This project implements a child of the parent `UavcanCDevSensorBridgeBase` class called `UavcanWingletBridge` that subscribes to UAVCAN AngularCommand broadcasts, processes the incomming data, and forwards it to a multi-instance uORB publication handler.
 
 ### PX4Winglet
 
 The `PublicationMulti` class of uORB allows for there to exist multiple instances of a singular topic. Combining this with the provided `CDev` class allows for different sensors of the same type to publish their data to separate channels of the same topic.
 
-This project implemented a child of the `CDev` class called `PX4Winglet` that took the forwarded data from the `UavcanWingletBridge`, assigned it a channel based on the UAVCAN node id, and published a `sensor_winglet` message to that channel.
+This project implements a child of the `CDev` class called `PX4Winglet` that takes the forwarded data from the `UavcanWingletBridge`, assigns it a channel based on the UAVCAN node id, and publishes a `sensor_winglet` message to that channel.
 
 ### Winglet Example Module
 
