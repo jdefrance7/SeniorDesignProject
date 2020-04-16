@@ -6,6 +6,8 @@ A number of custom libraries were written to interface with these libraries and 
 
 Please read the documentation of each library to gain a better understanding of its implementation.
 
+---
+
 ### LED
 
 A simple LED class for hardware debugging.
