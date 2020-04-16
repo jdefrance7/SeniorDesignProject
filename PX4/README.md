@@ -6,6 +6,8 @@ Code was written for the PX4 Firmware to read incomming UAVCAN AngularCommand me
 
 Joe DeFrance (defra022@umn.edu)
 
+Nathan Raab (raabx028@umn.edu)
+
 ## Getting Started
 
 This project was created using [Visual Studio Code IDE](https://code.visualstudio.com/) for the [PX4 Firmware](https://github.com/PX4/Firmware) and tested with [QGroundControl](https://docs.qgroundcontrol.com/en/getting_started/download_and_install.html).
