@@ -52,7 +52,7 @@ Read the [PX4 Developer's Guide](https://dev.px4.io/v1.9.0/en/setup/building_px4
 
     * A `Sensor 'winglet': ...` section should be printed somewhere in the response, and channel 0 should show the node id of the connected winglet device. If it shows empty instead, check the CAN bus connection and try again.
   
-    * An `Online nodes: ...` section should be printed near the end of the response, and the node id of the connected winglet device should show up with node health and mode information. If no nodes show up, check the CAN bus connection and try again.
+    * An `Online nodes: ...` section should be printed near the end of the response, and the node id of the connected winglet device should be printed alongside health and mode information. If no nodes show up, check the CAN bus connection and try again.
 
 5. Enter `winglet` in the MAVLink Console and read the response.
 
