@@ -52,4 +52,4 @@ This project was created using [Visual Studio Code IDE](https://code.visualstudi
 
 5. Enter `winglet` in the MAVLink Console and read the response.
 
-  * A series of prints should occur with winglet channel statuses and uORB message information, ending with angle computations based on the data received.
+    * A series of prints should occur with winglet channel statuses and uORB message information, ending with angle computations based on the data received.
