@@ -102,3 +102,15 @@ This project implements a child of the `CDev` class called `PX4Winglet` that tak
 An example module was written to subscribe to the custom `sensor_winglet` uORB topic and extract useable data from its channels.
 
 By entering `winglet` in the MAVLink Console, a series of polls to the multiple `sensor_winglet` topic channels are conducted and the contents are printed. The angles between adjacent winglets are computed and printed as well.
+
+```c
+int sensor_winglet_fd[4];
+
+px4_pollfd_struct_t winglets[4];
+
+for(int n = 0; n < 4; n++)
+{
+  sensor_winglet_fd[n] = orb_subscribe_multi(ORB_ID(sensor_winglet), n);
+  winglets[n] = {.fd = sensor_winglet_fd[n], .events = POLLIN};
+}
+```
