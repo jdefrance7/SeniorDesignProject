@@ -64,18 +64,18 @@ Read the [PX4 Developer's Guide](https://dev.px4.io/v1.9.0/en/setup/building_px4
 
 ### Sensor Winglet Message
 
-A custom uORB message was created for the winglet devices called `sensor_winglet.msg` containing fields for a sample timestamp, device id, and up to four floats.
+A custom `sensor_winglet` uORB topic was created containing fields for a sample timestamp, device id, and up to four floats of rotational data.
 
-#### sensor_winglet_s
+#### sensor_winglet
 
-    ```
-    uint64 timestamp
-    uint8 id
-    float32 x
-    float32 y
-    float32 z
-    float32 w
-    ```
+  ``` 
+  uint64 timestamp
+  uint8 id
+  float32 x
+  float32 y
+  float32 z
+  float32 w
+  ```
     
 These fields are populated from UAVCAN v0 AngularCommand broadcasts received by the PX4 device from the connected winglet devices.
 
@@ -89,16 +89,16 @@ These fields are populated from UAVCAN v0 AngularCommand broadcasts received by 
 
 ### Sensor Winglet Bridge
 
-The PX4 Firmware stack provides a parent class `(UavcanCDevSensorBridgeBase)` to allow child devices to interface with the main UAVCAN sensor bridge `(IUavcanSensorBridge)`.
+The PX4 Firmware stack provides a parent class `(UavcanCDevSensorBridgeBase)` to allow implemented child classes to interface with the main UAVCAN sensor bridge `(IUavcanSensorBridge)` and subscribe to incomming UAVCAN data.
 
-This project implemented a child of the parent class called `UavcanWingletBridge` that subscribed to received UAVCAN AngularCommand broadcasts, processed the incomming data, and forwarded it to a multi-instance publication handler.
+This project implemented a child of the parent class called `UavcanWingletBridge` that subscribed to UAVCAN AngularCommand broadcasts, processed the incomming data, and forwarded it to a multi-instance publication handler.
 
 ### PX4Winglet
 
-The sensor bridge allows for multiple instances of a single device to print their messages to different channels of the same uORB topic using the `PublicationMulti` class of uORB.
+The `PublicationMulti` class of uORB allows for there to exist multiple instances of a topic. Combining this with the `CDev` class allows for multiple instances of a sensor to publish their data to separate channels of the same topic.
 
-This was implemented by creating the `PX4Winglet` class that takes the processed data from the sensor bridge, assigning it a channel based on the UAVCAN node id, and publishing `sensor_winglet_s` topics to that channel.
+This project implemented a child of the `CDev` class called `PX4Winglet` that takes the processed data from the `UavcanWingletBridge`, assigns it a channel based on the UAVCAN node id, and publishes a formatted `sensor_winglet` message to that channel.
 
 ### Sensor Winglet Example
 
-An example module was written to test subscribing to the `sensor_winglet` uORB messages and extract useable data from their contents.
+An example module was written to test subscribing to the custom `sensor_winglet` uORB topic and extract useable data from its channels.
