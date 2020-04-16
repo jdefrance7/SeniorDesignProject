@@ -22,7 +22,7 @@ Luke Timper (timpe005@umn.edu)
 
 This project uses [Git](https://git-scm.com/about) for documentation control. Please [download Git](https://git-scm.com/downloads) if it is not installed already.
 
-### Installing
+### Installation
 
 1. Open a terminal.
 
@@ -31,6 +31,10 @@ This project uses [Git](https://git-scm.com/about) for documentation control. Pl
 3. Type `git clone` into the terminal and then copy the link provided by clicking on the green `Clone or Download` button on the project homepage.
 
 4. Press `Enter` and wait for the download to complete.
+
+### Implementation
+
+Please read through the sub-folders of this project to understand the intended implementation of its various components.
 
 ## Acknowledgements
 
