@@ -99,6 +99,6 @@ The `PublicationMulti` class of uORB allows for there to exist multiple instance
 
 This project implemented a child of the `CDev` class called `PX4Winglet` that took the forwarded data from the `UavcanWingletBridge`, assigned it a channel based on the UAVCAN node id, and published a `sensor_winglet` message to that channel.
 
-### Sensor Winglet Example
+### Winglet Example Module
 
 An example module was written to subscribe to the custom `sensor_winglet` uORB topic and extract useable data from its channels.
