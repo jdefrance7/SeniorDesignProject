@@ -194,6 +194,7 @@ int transmitCanardQueue(CanardInstance* canard, unsigned int delay_ms, unsigned 
 {
   // Return value from send frame
   int reVal;
+  int frames = 0;
 
   // Iterate through Canard queue
   for(CanardCANFrame* txf = NULL; (txf = canardPeekTxQueue(canard)) != NULL;)
@@ -208,6 +209,7 @@ int transmitCanardQueue(CanardInstance* canard, unsigned int delay_ms, unsigned 
     {
       // Remove frame from Canard queue
       canardPopTxQueue(canard);
+      frames++;
     }
     // Timeout
     else if(reVal == ERR_COMMAND_EXECUTE_TIMEOUT)
@@ -222,7 +224,7 @@ int transmitCanardQueue(CanardInstance* canard, unsigned int delay_ms, unsigned 
   }
 
   // Return success
-  return CANARD_OK;
+  return frames;
 }
 
 /**

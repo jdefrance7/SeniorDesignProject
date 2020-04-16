@@ -144,9 +144,11 @@ int32_t encode_angular_command(
   canardEncodeScalar(buffer, bit_offset, UINT8, &angular_command.mode);
   bit_offset += UINT8;
 
+  uint16_t float16;
   for(int n = 0; n < 4; n++)
   {
-    canardEncodeScalar(buffer, bit_offset, FLOAT16, &angular_command.quaternion_xyzw[n]);
+    float16 = canardConvertNativeFloatToFloat16(angular_command.quaternion_xyzw[n]);
+    canardEncodeScalar(buffer, bit_offset, FLOAT16, &float16);
     bit_offset += FLOAT16;
   }
 

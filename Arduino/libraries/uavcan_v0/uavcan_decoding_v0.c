@@ -115,15 +115,14 @@ int32_t decode_angular_command(
   canardDecodeScalar(transfer, bit_offset, UINT8, UNSIGNED, &angular_command->gimbal_id);
   bit_offset += UINT8;
 
-  canardDecodeScalar(transfer, bit_offset, UINT3, UNSIGNED, &angular_command->mode);
-  bit_offset += UINT3;
+  canardDecodeScalar(transfer, bit_offset, UINT8, UNSIGNED, &angular_command->mode);
+  bit_offset += UINT8;
 
-  // void5 padding
-  bit_offset += UINT5;
-
+  uint16_t float16;
   for(int n = 0; n < 4; n++)
   {
-    canardDecodeScalar(transfer, bit_offset, FLOAT16, SIGNED, &angular_command->quaternion_xyzw[n]);
+    canardDecodeScalar(transfer, bit_offset, UINT16, UNSIGNED, &float16);
+    angular_command->quaternion_xyzw[n] = canarConvertFloat16ToNativeFloat(float16);
     bit_offset += FLOAT16;
   }
 
