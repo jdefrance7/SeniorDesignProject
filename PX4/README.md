@@ -28,6 +28,8 @@ This project was created using [Visual Studio Code IDE](https://code.visualstudi
   
    * Then click `Build` on the bottom toolbar.
 
+Read the [PX4 Developer's Guide](https://dev.px4.io/v1.9.0/en/setup/building_px4.html) section `Building` for more information.
+
 ### Uploading
 
 1. Connect the PX4 device to a computer using a data capable Mirco-B USB cable.
@@ -35,6 +37,8 @@ This project was created using [Visual Studio Code IDE](https://code.visualstudi
 2. Enter the `TERMINAL` window and type `make px4_fmu-v3_default upload`.
 
 3. Wait for the upload to complete.
+
+Read the [PX4 Developer's Guide](https://dev.px4.io/v1.9.0/en/setup/building_px4.html) section `Uploading Firmware` for more information.
 
 ### Testing
 
