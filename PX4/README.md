@@ -59,3 +59,36 @@ Read the [PX4 Developer's Guide](https://dev.px4.io/v1.9.0/en/setup/building_px4
 5. Enter `winglet` in the MAVLink Console and read the response.
 
     * A series of prints should occur with winglet channel statuses and uORB message information, ending with angle computations based on the data received (only valid when two or more winglet devices are connected).
+    
+## Walkthrough
+
+### Sensor Winglet Message
+
+A custom uORB message was created for the winglet devices called `sensor_winglet.msg` containing fields for a sample timestamp, device id, and up to four floats.
+
+sensor_winglet:
+
+    ```
+    uint64 timestamp
+    uint8 id
+    float32 x
+    float32 y
+    float32 z
+    float32 w
+    ```
+    
+These fields are populated from UAVCAN v0 AngularCommand broadcasts received by the PX4 device from the connected winglet devices.
+
+AngularCommand:
+
+  ```
+  uint8 gimbal_id
+  Mode mode
+  float16[4] quaternion_xyzw
+  ```
+
+### Sensor Winglet Driver
+
+
+
+### Sensor Winglet Example
