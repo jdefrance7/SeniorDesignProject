@@ -2,7 +2,7 @@
 
 Electrical Engineering Senior Design Project at the University of Minnesota - Twin Cities, Spring 2020
 
-The purpose of this project is to read IMU sensor data from individual UAV wing segments and send it to a PX4 flight controller over CAN for the purpose of obtaining real-time wing segment orientation.
+The purpose of this project is to read IMU sensor data from individual UAV wing segments and send it to a PX4 flight controller over CAN using the UAVCAN protocol for the purpose of obtaining real-time wing segment orientation.
 
 ## Authors
 
