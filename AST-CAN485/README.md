@@ -20,9 +20,11 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
 1. Download the Arduino IDE.
 
-2. Copy this project's `Arduino` folder contents to the created `Arduino` folder (default location is in the user's `Documents` folder).
+2. Copy this project's `Arduino` folder contents to the created `Arduino` folder 
 
-    * If the Arduino IDE is already downloaded, copy over all but the `Arduino/libraries` folder, whose contents should instead be copied to the corresponding `Arduino/libraries` folder as to not delete other libraries that may be already downloaded.
+   * Default location is in the user's `Documents` folder.
+
+   * If the Arduino IDE is already downloaded, copy over all but the `Arduino/libraries` folder, whose contents should instead be copied to the corresponding `Arduino/libraries` folder as to not delete other libraries that may be already downloaded.
 
 3. Use the Arduino IDE Boards Manager to add the AST-CAN485 board to the Arduino IDE.
 
