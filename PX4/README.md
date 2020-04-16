@@ -103,6 +103,8 @@ An example module was written to subscribe to the custom `sensor_winglet` uORB t
 
 By entering `winglet` in the MAVLink Console, a series of polls to the multiple `sensor_winglet` topic channels are conducted and the contents are printed. The angles between adjacent winglets are computed and printed as well.
 
+The method used to subscribe to all four winglet channels is shown below:
+
 ```c
 int sensor_winglet_fd[4];
 
