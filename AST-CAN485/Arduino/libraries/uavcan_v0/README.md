@@ -4,21 +4,21 @@
 
 ## DSDL Sizes
 
-Bit size of DSDL primatives.
+Bit size of DSDL primatives to make encoding/decoding more readable.
 
 Examples:
 
-```
-BOOL = 1
-// ...
-INT3 = 3
-// ...
-UINT8 = 8
-// ...
-FLOAT16 = 16
-// ...
-VOID2 = 2
-// ...
+```c
+#define BOOL        1
+//...
+#define INT5        5
+//...
+#define UINT8       8
+//...
+#define FLOAT16    16
+//...
+#define VOID7       7
+//...
 ```
 
 ## Data Types
@@ -37,7 +37,7 @@ Support functions to handle encoding UAVCAN data types into serialized bytes.
 
 Example:
 
-``
+``c
 int32_t encode_node_status(
   uint8_t buffer[],
   uint32_t buffer_size,
@@ -52,7 +52,7 @@ Support functions to handle decoding serialized bytes to UAVCAN data types.
 
 Example:
 
-```
+```c
 int32_t decode_node_status(
   CanardRxTransfer* transfer,
   uint32_t bit_offset,
@@ -64,7 +64,7 @@ int32_t decode_node_status(
 
 Custom struct for basic UAVCAN node information.
 
-```
+```c
 #define UAVCAN_NODE_NAME_SIZE 80
 
 typedef struct
@@ -83,6 +83,6 @@ Formatted Serial print statements for all data types and structures.
 
 Example:
 
-```
+```c
 void printNodeStatus(NodeStatus* status);
 ```
