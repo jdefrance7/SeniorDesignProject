@@ -36,6 +36,14 @@ This project uses [Git](https://git-scm.com/about) for documentation control. Pl
 
 Please read through the sub-folders of this project to understand the intended implementation of its various components.
 
+#### AST-CAN485
+
+Uses the AST-CAN485 development board and Adafruit BNO055 sensors to obtain and broadcast orientation data via CAN to a PX4 flight controller.
+
+#### PX4
+
+Custom PX4 Firmware stack to read the incomming orientation data and publish it to an internal messaging system.
+
 ## Acknowledgements
 
 We would like to thank Professor Nikolaos Papanikolopoulos, Travis Hanson, and all of the team members in the Solar UAV Lab at the University of Minnesota - Twin Cities for allowing us to work on this amazing project with them.
