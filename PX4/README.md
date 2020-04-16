@@ -2,7 +2,7 @@
 
 A custom PX4 Firmware stack to read the incomming orientation data and publish it to the flight controller's internal messaging system.
 
-## Authors
+## Contributors
 
 Joe DeFrance (defra022@umn.edu)
 
