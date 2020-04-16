@@ -15,4 +15,4 @@ Provides custom Serial debugging print statements for Canard objects.
 
 `void printCanardRxTransfer(CanardRxTransfer* rxt)` -- prints details about a received Canard transfer
 
-`void printCanardPoolAllocatorStatistics(CanardPoolAllocatorStatistics* stats)` - prints details about a Canard memory pool
+`void printCanardPoolAllocatorStatistics(CanardPoolAllocatorStatistics* stats)` - prints memory stats
