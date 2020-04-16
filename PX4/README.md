@@ -1,6 +1,6 @@
 # PX4 Firmware
 
-Code was written for the PX4 firmware stack to read incomming UAVCAN AngularCommand messages from the wing segments and publish the data to a custom, mulit-instance uORB topic called `sensor_winglet`.
+Code was written for the PX4 Firmware to read incomming UAVCAN AngularCommand messages from the wing segments and publish the data to a custom, mulit-instance uORB topic called `sensor_winglet`.
 
 ## Authors
 
@@ -8,7 +8,7 @@ Joe DeFrance (defra022@umn.edu)
 
 ## Getting Started
 
-This project was created using [Visual Studio Code IDE](https://code.visualstudio.com/) for the [PX4 firmware stack](https://github.com/PX4/Firmware) and tested with [QGroundControl](https://docs.qgroundcontrol.com/en/getting_started/download_and_install.html).
+This project was created using [Visual Studio Code IDE](https://code.visualstudio.com/) for the [PX4 Firmware](https://github.com/PX4/Firmware) and tested with [QGroundControl](https://docs.qgroundcontrol.com/en/getting_started/download_and_install.html).
 
 ### Installing
 
@@ -20,7 +20,7 @@ This project was created using [Visual Studio Code IDE](https://code.visualstudi
 
 1. Open the `Firmware` folder in Visual Studio Code.
 
-2. Wait for the project's extensions to load by reading the text in the `OUTPUT` window until `Build files have been written to: ...` appears.
+2. Wait for the project's extensions to load by reading the text in the `OUTPUT` window until `"Build files have been written to: ..."` appears.
 
 3. Enter the `TERMINAL` window and type `make px4_fmu-v3_default`.
 
