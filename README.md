@@ -36,4 +36,4 @@ This project uses [Git](https://git-scm.com/about) for documentation control. Pl
 
 We would like to thank Professor Nikolaos Papanikolopoulos, Travis Hanson, and all of the team members in the Solar UAV Lab at the University of Minnesota - Twin Cities for allowing us to work on this amazing project with them.
 
-We would also like to thank Professor Paul Imbertson for his time and effort as our Senior Design Faculty Mentor.
+We would also like to thank Professor Paul Imbertson for his time and effort as our Senior Design Advisor.
