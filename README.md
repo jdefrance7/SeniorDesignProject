@@ -26,7 +26,7 @@ Luke Timper (timpe005@umn.edu)
 
 2. Navigate to the desired working directory.
 
-3. Type `git clone` into the terminal and the copy the link provided by clicking on the green `Clone or Download` button on this page.
+3. Type `git clone` into the terminal and the copy the link provided by clicking on the green `Clone or Download` button on the project homepage.
 
 4. Press `Enter` and wait for the download to complete.
 
