@@ -46,8 +46,6 @@ This project was created using [Visual Studio Code IDE](https://code.visualstudi
 
 4. Enter `uavcan status` in the MAVLink Console and read the response.
 
-    * A `Sensor 'winglet':` segment should be printed somewhere in the response with information about the sensor channels.
+    * A `Sensor 'winglet':` section should be printed somewhere in the response, and channel 0 should show the node id of the connected winglet device. If it shows empty instead, check the CAN bus connection and try again.
   
-    * The node id of the connected winglet device should show up in `channel 0: node id ...`, if this says `empty` check the CAN bus connection and try again.
-  
-    * A `Online nodes:` section should be printed near the end of the response, the node id of the connected winglet device should show up with node health and mode information.
+    * An `Online nodes:` section should be printed near the end of the response, and the node id of the connected winglet device should show up with node health and mode information. If no nodes show up, check the CAN bus connection and try again.
