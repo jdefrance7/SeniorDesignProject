@@ -12,6 +12,8 @@ Nathan Raab (raabx028@umn.edu)
 
 This project was created using [Visual Studio Code IDE](https://code.visualstudio.com/) for the [PX4 Firmware](https://github.com/PX4/Firmware) and tested with [QGroundControl](https://docs.qgroundcontrol.com/en/getting_started/download_and_install.html).
 
+The flight controller used during testing was the [HobbyKing HKPilot32](https://docs.px4.io/v1.9.0/en/flight_controller/HKPilot32.html).
+
 ### Installing
 
 1. Download [Visual Studio Code](https://code.visualstudio.com/).
