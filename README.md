@@ -22,7 +22,7 @@ Luke Timper (timpe005@umn.edu)
 
 This project uses [Git](https://git-scm.com/about) for documentation control. Please [download Git](https://git-scm.com/downloads) if it is not installed already.
 
-### Installation
+### Installing
 
 1. Open a terminal.
 
@@ -32,15 +32,15 @@ This project uses [Git](https://git-scm.com/about) for documentation control. Pl
 
 4. Press `Enter` and wait for the download to complete.
 
-### Implementation
+## Implementation
 
 Please read through the sub-folders of this project to better understand the implementation of its various components, though a brief description of each is provided below.
 
-#### AST-CAN485
+### AST-CAN485
 
 Code for the AST-CAN485 development board to obtain Adafruit BNO055 sensor orientation data and broadcast it to a PX4 based flight controller.
 
-#### PX4
+### PX4
 
 Custom PX4 Firmware stack to read the incomming orientation data and publish it to the flight controller's internal messaging system.
 
