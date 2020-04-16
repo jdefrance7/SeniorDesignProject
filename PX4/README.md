@@ -102,3 +102,5 @@ This project implemented a child of the `CDev` class called `PX4Winglet` that to
 ### Winglet Example Module
 
 An example module was written to subscribe to the custom `sensor_winglet` uORB topic and extract useable data from its channels.
+
+By entering `winglet` in the MAVLink Console, a series of `sensor_winglet` messages are printed. The angles between the winglets are computed and printed as well.
