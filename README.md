@@ -58,11 +58,21 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
 Multiple third-party libraries were used and adapted to fit this project's needs. They are already included in the `Arduino\libraries` folder, though their references are included below.
 
-IMU Libraries: [Adafruit_BNO055](https://github.com/adafruit/Adafruit_BNO055), [Adafruit_LSM9DS1](https://github.com/adafruit/Adafruit_LSM9DS1), [Adafruit_FXOS8700](https://github.com/adafruit/Adafruit_FXOS8700), [Adafruit_FXAS21002C](https://github.com/adafruit/Adafruit_FXAS21002C), [Adafruit_AHRS](https://github.com/adafruit/Adafruit_AHRS), [Adafruit_Sensor](https://github.com/adafruit/Adafruit_Sensor)
+IMU Libraries: 
+  * [Adafruit_BNO055](https://github.com/adafruit/Adafruit_BNO055)
+  * [Adafruit_LSM9DS1](https://github.com/adafruit/Adafruit_LSM9DS1)
+  * [Adafruit_FXOS8700](https://github.com/adafruit/Adafruit_FXOS8700)
+  * [Adafruit_FXAS21002C](https://github.com/adafruit/Adafruit_FXAS21002C)
+  * [Adafruit_AHRS](https://github.com/adafruit/Adafruit_AHRS)
+  * [Adafruit_Sensor](https://github.com/adafruit/Adafruit_Sensor)
 
-Power Sensor Library: [Adafruit_INA219](https://github.com/adafruit/Adafruit_INA219)
+Power Sensor Library: 
+  * [Adafruit_INA219](https://github.com/adafruit/Adafruit_INA219)
 
-CAN Libraries: [Universal Can Library](https://github.com/rennerm/avr-can-lib/tree/9c6bc9118de66d6edaf1b8539e2b9717ba26d123#universelle-can-blibiothek-avr-can-lib), [Canard AVR](https://github.com/UAVCAN/libcanard/tree/legacy-v0/drivers/avr), [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h)
+CAN Libraries: 
+  * [Universal Can Library](https://github.com/rennerm/avr-can-lib/tree/9c6bc9118de66d6edaf1b8539e2b9717ba26d123#universelle-can-blibiothek-avr-can-lib)
+    * [Canard AVR](https://github.com/UAVCAN/libcanard/tree/legacy-v0/drivers/avr)
+    * [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h)
 
 ### UAVCAN
 
