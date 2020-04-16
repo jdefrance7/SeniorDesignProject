@@ -1,10 +1,8 @@
 # AST-CAN485
 
-Electrical Engineering Senior Design Project at the University of Minnesota - Twin Cities, Spring 2020
+Code for the AST-CAN485 development board to obtain Adafruit BNO055 sensor orientation data and broadcast it to a PX4 based flight controller.
 
-The purpose of this project is to read IMU sensor data from individual UAV wing segments and send it to a PX4 flight controller over CAN for the purpose of obtaining real-time wing segment orientation.
-
-## Authors
+## Contrubtors
 
 Joe DeFrance (defra022@umn.edu)
 
@@ -20,11 +18,11 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
 ### Installing
 
-1. Download the [Arduino IDE](https://www.arduino.cc/en/main/software).
+1. Download the Arduino IDE.
 
-2. Replace the created `Arduino` folder with the one from this repository.
+2. Copy this project's `Arduino` folder contents to the created `Arduino` folder (default location is in the user's `Documents` folder).
 
-   * Alternatively copy the `Arduino\libraries` folder contents to your local `Arduino\libraries` and move desired project sketch folders to the `Arduino` folder.
+    * If the Arduino IDE is already downloaded, copy over all but the `Arduino/libraries` folder, whose contents should instead be copied to the corresponding `Arduino/libraries` folder as to not delete other libraries that may be already downloaded.
 
 3. Use the Arduino IDE Boards Manager to add the AST-CAN485 board to the Arduino IDE.
 
@@ -38,11 +36,9 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
 3. Either click the check mark button in the upper left hand corner of the Arduino IDE or select `Sketch->Verify/Compile` from the Arduino IDE toolbar.
 
-    * If you do not have the AVR-GCC compiler installed, please follow this link on how to install it: [AVR-GCC download](https://www.microchip.com/mplab/avr-support/avr-and-arm-toolchains-c-compilers)
-
 ### Uploading
 
-1. Connect the AST-CAN485 to a computer through a [FTDI Adaptor](https://www.sparkfun.com/products/9716?_ga=2.13897968.631132834.1583434944-271346267.1574810854).
+1. Connect the AST-CAN485 to a computer through a compatible [FTDI Adaptor](https://www.sparkfun.com/products/9716?_ga=2.13897968.631132834.1583434944-271346267.1574810854).
 
 2. Select the proper port from the `Tools->Port` menu in the Arduino IDE toolbar.
 
@@ -50,13 +46,13 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
 4. Either click the right arrow button in the upper left hand corner of the Arduino IDE or select `Sketch->Upload Using Programmer` from the Arduino IDE toolbar.
 
-5. Wait for the upload to complete and read diagnostic info in the Arduino IDE console.
+5. Wait for the upload to complete.
 
 ## Notes
 
 ### Dependencies
 
-Multiple third-party libraries were used and adapted to fit this project's needs. They are already included in the `Arduino\libraries` folder, though their references are included below.
+Multiple third-party libraries were used and adapted to fit this project's needs. They are included in the `Arduino\libraries` folder and their references are included below.
 
 IMU Libraries: 
   * [Adafruit_BNO055](https://github.com/adafruit/Adafruit_BNO055)
@@ -77,13 +73,3 @@ CAN Libraries:
 ### UAVCAN
 
 Both [UAVCAN v0](https://github.com/UAVCAN/libcanard) (legacy) and [UAVCAN v1](https://github.com/UAVCAN/libcanard/tree/legacy-v0) protocols have been implemented in separate projects. See their documentation on implementation specifics.
-
-## System Layout
-
-![Image](Wing-Segment-Layout.png)
-
-## Redundant System
-
-Plans for a redundant SD logging system are in place such that if the UAVCAN bus ever fails, all data will be logged and stored in individual wing segment SD cards.
-
-![Image](Redundant-Wing-Segment.png)
