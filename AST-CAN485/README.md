@@ -62,7 +62,7 @@ This project meets its goals by implementing a code structure with multiple task
   Implements the following tasks for the purpose of sending IMU orientation over CAN bus via UAVCAN protocol.
   
     Task 0 - Setup
-      Initializes all hardware and software modules according to configuration values defined below.
+      Initializes all hardware and software modules according to configuration values defined in the header.
 
     Task 1 - Update IMU
       Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS.
@@ -71,7 +71,7 @@ This project meets its goals by implementing a code structure with multiple task
       Sends a UAVCAN formatted Node Status broadcast onto the CAN bus.
 
     Task 3 - Send Orientation
-      Sends a UAVCAN formattted AngularCommand broadcast onto the CAN bus.
+      Sends a UAVCAN formattted Angular Command broadcast onto the CAN bus.
 
     Task 4 - Check Memory Pool
       Checks the memory usage statistics of the Canard memory pool.
@@ -81,11 +81,13 @@ This project meets its goals by implementing a code structure with multiple task
 
 ### UAVCAN
 
+"UAVCAN is an open lightweight protocol designed for reliable intravehicular communication in aerospace and robotic applications over CAN bus..." - [uavcan.org](https://uavcan.org/)
 
+This project uses UAVCAN formatting for the data it sends over the CAN bus to the flight controller. UAVCAN specification also states that each active node on a CAN bus must send a `Node Status` message at least once every second to be considered active. Orientation data is sent as an `Angular Command` that contains both id and quaternion data fields which is perfect for the purposes of this project.
 
-### Adafruit BNO055
+### IMU Sensor
 
-
+An inertial measurement unit (IMU) sensor uses various physics principles to obtain information about an object's position, speed, and acceleration in space. This project initially looked at three IMU breakout boards made by Adafruit: BNO055, LSM9DS1, and NXP_FXOS_FXAS. The BNO055 was chosen to be the best candidate for this project as it contains an onboard processor to handle the high-level computation required to obtain useful information from an IMU's raw data. This data is requested by the AST-CAN485 via the Inter-Integrated Circuit serial bus protocol (I2C).
 
 ## Notes
 
