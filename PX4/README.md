@@ -91,11 +91,11 @@ These fields are populated from UAVCAN v0 AngularCommand broadcasts received by 
 
 The PX4 Firmware stack provides a parent `UavcanCDevSensorBridgeBase` class to allow implemented child classes to interface with the main `IUavcanSensorBridge` sensor bridge and subscribe to incomming UAVCAN messages.
 
-This project implemented a child of the parent `UavcanCDevSensorBridgeBase` class called `UavcanWingletBridge` that subscribed to UAVCAN AngularCommand broadcasts, processed the incomming data, and forwarded it to a multi-instance publication handler.
+This project implemented a child of the parent `UavcanCDevSensorBridgeBase` class called `UavcanWingletBridge` that subscribed to UAVCAN AngularCommand broadcasts, processed the incomming data, and forwarded it to a multi-instance uORB publication handler.
 
 ### PX4Winglet
 
-The `PublicationMulti` class of uORB allows for there to exist multiple instances of a singular topic. Combining this with the `CDev` class allows for different sensors of the same type to publish their data to separate channels of the same topic.
+The `PublicationMulti` class of uORB allows for there to exist multiple instances of a singular topic. Combining this with the provided `CDev` class allows for different sensors of the same type to publish their data to separate channels of the same topic.
 
 This project implemented a child of the `CDev` class called `PX4Winglet` that took the forwarded data from the `UavcanWingletBridge`, assigned it a channel based on the UAVCAN node id, and published a `sensor_winglet` message to that channel.
 
