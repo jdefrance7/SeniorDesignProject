@@ -32,16 +32,6 @@ This project uses [Git](https://git-scm.com/about) for documentation control. Pl
 
 4. Press `Enter` and wait for the download to complete.
 
-## System Layout
-
-![Image](Wing-Segment-Layout.png)
-
-## Redundant System
-
-Plans for a redundant SD logging system are in place such that if the UAVCAN bus ever fails, all data will be logged and stored in individual wing segment SD cards.
-
-![Image](Redundant-Wing-Segment.png)
-
 ## Acknowledgements
 
 We would like to thank Professor Nikolaos Papanikolopoulos, Travis Hanson, and all of the team members in the Solar UAV lab at the University of Minnesota - Twin Cities for allowing us to work on this amazing project with them.
