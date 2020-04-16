@@ -44,7 +44,7 @@ int32_t encode_node_status(
   uint32_t bit_offset,
   NodeStatus node_status
 );
-``
+```
 
 ## Decoding
 
