@@ -37,7 +37,7 @@ Support functions to handle encoding UAVCAN data types into serialized bytes.
 
 Example:
 
-``c
+```c
 int32_t encode_node_status(
   uint8_t buffer[],
   uint32_t buffer_size,
