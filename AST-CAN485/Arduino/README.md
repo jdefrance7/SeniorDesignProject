@@ -8,6 +8,8 @@ Please note that the `libraries` folder is not itself a project sketch but rathe
 
 Read the `libraries` documentation to learn more about the custom libraries developed for this project.
 
+---
+ 
 ## Project Sketches
 
 ### Wing Segment v0 and Wing Segment v1 (Main Project)
