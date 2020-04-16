@@ -10,9 +10,9 @@ Nathan Raab (raabx028@umn.edu)
 
 ## Getting Started
 
-This project was created using [Visual Studio Code IDE](https://code.visualstudio.com/) for the [PX4 Firmware](https://github.com/PX4/Firmware) and tested with [QGroundControl](https://docs.qgroundcontrol.com/en/getting_started/download_and_install.html).
+This project was created using the [Visual Studio Code IDE](https://code.visualstudio.com/) to edit the existing [PX4 Firmware stack](https://github.com/PX4/Firmware) 
 
-The flight controller used during testing was the [HobbyKing HKPilot32](https://docs.px4.io/v1.9.0/en/flight_controller/HKPilot32.html).
+This project was tested using [QGroundControl](https://docs.qgroundcontrol.com/en/getting_started/download_and_install.html) and the [HobbyKing HKPilot32](https://docs.px4.io/v1.9.0/en/flight_controller/HKPilot32.html) flight controller.
 
 ### Installing
 
@@ -22,7 +22,7 @@ The flight controller used during testing was the [HobbyKing HKPilot32](https://
 
 ### Compiling
 
-1. Open the `Firmware` folder in Visual Studio Code.
+1. Open the `Firmware` folder in the Visual Studio Code IDE.
 
 2. Click on the `TERMINAL` window tab and type `make px4_fmu-v3_default`.
 
@@ -50,13 +50,13 @@ Read the [PX4 Developer's Guide](https://dev.px4.io/v1.9.0/en/setup/building_px4
 
 4. Enter `uavcan status` in the MAVLink Console and read the response.
 
-    * A `Sensor 'winglet': ...` section should be printed somewhere in the response, and channel 0 should show the node id of the connected winglet device. If it shows empty instead, check the CAN bus connection and try again.
+    * A `Sensor 'winglet': ...` section should be printed somewhere in the response, and channel 0 should show the node id and class instance of the connected AST-CAN485 winglet device. If it shows empty, check the CAN bus connection and try again.
   
-    * An `Online nodes: ...` section should be printed near the end of the response, and the node id of the connected winglet device should be printed alongside health and mode information. If no nodes show up, check the CAN bus connection and try again.
+    * An `Online nodes: ...` section should be printed near the end of the response, and the node id of the connected winglet device should be printed alongside health and mode information. If it is not there, check the CAN bus connection and try again.
 
 5. Enter `winglet` in the MAVLink Console and read the response.
 
-    * A series of prints should occur with winglet channel statuses and uORB message information, ending with angle computations based on the data received (only valid when two or more winglet devices are connected).
+    * A series of prints should occur with winglet channel statuses and uORB `sensor_winglet` topic information, ending with angle computations based on the data received (only valid when two or more AST-CAN485 winglet devices are connected).
     
 ## Overview
 
