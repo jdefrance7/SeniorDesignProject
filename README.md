@@ -42,7 +42,7 @@ Code for the AST-CAN485 development board to obtain Adafruit BNO055 sensor orien
 
 #### PX4
 
-Custom PX4 Firmware stack to read the incomming orientation data and publish it to an internal messaging system.
+Custom PX4 Firmware stack to read the incomming orientation data and publish it to the flight controller's internal messaging system.
 
 ## Acknowledgements
 
