@@ -26,7 +26,7 @@ Provides standardized IMU functions for interfacing with the [NXP_FXOS_FXAS](htt
 
 ### AST_CAN_v0
 
-CAN driver interface for the [AST-CAN485](https://www.sparkfun.com/products/14483) using [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h) and [UAVCAN v0](https://legacy.uavcan.org/) (legacy).
+CAN driver interface for the [AST-CAN485](https://www.sparkfun.com/products/14483) using [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h) and [UAVCAN v0](https://legacy.uavcan.org/).
 
 ### AST_CAN_v1
 
@@ -34,7 +34,7 @@ CAN driver interface for the [AST-CAN485](https://www.sparkfun.com/products/1448
 
 ### Libcanard_v0
 
-[Libcanard v0](https://github.com/UAVCAN/libcanard/tree/legacy-v0) source files and Serial debugging print statements (legacy).
+[Libcanard v0](https://github.com/UAVCAN/libcanard/tree/legacy-v0) source files and Serial debugging print statements.
 
 ### Libcanard_v1
 
@@ -42,7 +42,7 @@ CAN driver interface for the [AST-CAN485](https://www.sparkfun.com/products/1448
 
 ### UAVCAN_v0
 
-[UAVCAN v0](https://legacy.uavcan.org/) data type encoding, decoding, and debugging (legacy).
+[UAVCAN v0](https://legacy.uavcan.org/) data type encoding, decoding, and debugging.
 
 ### UAVCAN_v1
 
