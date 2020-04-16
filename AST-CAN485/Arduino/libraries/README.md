@@ -2,9 +2,9 @@
 
 Multiple third-party libraries were implemented in various degrees throughout the projects. 
 
-A number of custom libraries were written to interface with these libraries and are described below.
+A number of custom libraries were written to interface with these third-party libraries and are described below.
 
-Please read the documentation of each library to gain a better understanding of its implementation.
+Please read the documentation of each custom library to gain a better understanding of its implementation.
 
 ---
 
