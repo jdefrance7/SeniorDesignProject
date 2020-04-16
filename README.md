@@ -20,9 +20,11 @@ Luke Timper (timpe005@umn.edu)
 
 ## Getting Started
 
+This project uses [Git](https://git-scm.com/about) for documentation control. Please [download Git](https://git-scm.com/downloads) if it is not installed already.
+
 ### Downloading
 
-1. Open a terminal on the computer.
+1. Open a terminal.
 
 2. Navigate to the desired working directory.
 
