@@ -50,6 +50,43 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
 5. Wait for the upload to complete.
 
+## Overview
+
+### Task Structure
+
+This project meets its goals by implementing a code structure with multiple tasks that each have their own execution periods.
+
+```
+/**************************************************************************************************************
+  
+  Implements the following tasks for the purpose of sending IMU orientation over CAN bus via UAVCAN protocol.
+  
+    Task 0 - Setup
+      Initializes all hardware and software modules according to configuration values defined below.
+
+    Task 1 - Update IMU
+      Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS.
+
+    Task 2 - Send Node Status
+      Sends a UAVCAN formatted Node Status broadcast onto the CAN bus.
+
+    Task 3 - Send Orientation
+      Sends a UAVCAN formattted AngularCommand broadcast onto the CAN bus.
+
+    Task 4 - Check Memory Pool
+      Checks the memory usage statistics of the Canard memory pool.
+      
+**************************************************************************************************************/
+```
+
+### UAVCAN
+
+
+
+### Adafruit BNO055
+
+
+
 ## Notes
 
 ### Dependencies
