@@ -1,10 +1,6 @@
 # PX4 Firmware
 
-A custom PX4 Firmware stack to read incomming sensor orientation data and publish it to the flight controller's internal messaging system.
-
-The incomming data is encoded as UAVCAN_v0 `AngularCommand` messages and received by the flight controller over the CAN bus.
-
-The data is published to a custom, multi-instance `sensor_winglet` topic in the flight controller's internal messaging system uORB.
+A custom PX4 Firmware stack to read the incomming orientation data and publish it to the flight controller's internal messaging system.
 
 ## Authors
 
