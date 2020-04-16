@@ -97,7 +97,7 @@ This project implemented a child of the parent `UavcanCDevSensorBridgeBase` clas
 
 The `PublicationMulti` class of uORB allows for there to exist multiple instances of a singular topic. Combining this with the `CDev` class allows for different sensors of the same type to publish their data to separate channels of the same topic.
 
-This project implemented a child of the `CDev` class called `PX4Winglet` that takes the processed data from the `UavcanWingletBridge`, assigns it a channel based on the UAVCAN node id, and publishes a formatted `sensor_winglet` message to that channel.
+This project implemented a child of the `CDev` class called `PX4Winglet` that took the forwarded data from the `UavcanWingletBridge`, assigned it a channel based on the UAVCAN node id, and published a `sensor_winglet` message to that channel.
 
 ### Sensor Winglet Example
 
