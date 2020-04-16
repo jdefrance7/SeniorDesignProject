@@ -100,8 +100,6 @@ int32_t decode_heartbeat(
 Custom struct for basic UAVCAN node information.
 
 ```c
-#define UAVCAN_NODE_NAME_SIZE 80
-
 typedef struct
 {
   CanardNodeID id;
