@@ -48,7 +48,7 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
 2. Select the proper port from the `Tools->Port` menu in the Arduino IDE toolbar.
 
-3. Select "Parallel Programmer" from the `Tools->Programmer` menu in the Arduino IDE toolbar.
+3. Select `Parallel Programmer` from the `Tools->Programmer` menu in the Arduino IDE toolbar.
 
 4. Select `Sketch->Upload Using Programmer` from the Arduino IDE toolbar.
 
