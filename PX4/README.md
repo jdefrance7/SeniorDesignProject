@@ -66,7 +66,7 @@ Read the [PX4 Developer's Guide](https://dev.px4.io/v1.9.0/en/setup/building_px4
 
 A custom uORB message was created for the winglet devices called `sensor_winglet.msg` containing fields for a sample timestamp, device id, and up to four floats.
 
-sensor_winglet:
+#### sensor_winglet_s
 
     ```
     uint64 timestamp
@@ -79,7 +79,7 @@ sensor_winglet:
     
 These fields are populated from UAVCAN v0 AngularCommand broadcasts received by the PX4 device from the connected winglet devices.
 
-AngularCommand:
+#### AngularCommand
 
   ```
   uint8 gimbal_id
@@ -87,8 +87,18 @@ AngularCommand:
   float16[4] quaternion_xyzw
   ```
 
-### Sensor Winglet Driver
+### Sensor Winglet Bridge
 
+The PX4 Firmware stack provides a parent class `(UavcanCDevSensorBridgeBase)` to allow child devices to interface with the main UAVCAN sensor bridge `(IUavcanSensorBridge)`.
 
+This project implemented a child of the parent class called `UavcanWingletBridge` that subscribed to received UAVCAN AngularCommand broadcasts, processed the incomming data, and forwarded it to a multi-instance publication handler.
+
+### PX4Winglet
+
+The sensor bridge allows for multiple instances of a single device to print their messages to different channels of the same uORB topic using the `PublicationMulti` class of uORB.
+
+This was implemented by creating the `PX4Winglet` class that takes the processed data from the sensor bridge, assigning it a channel based on the UAVCAN node id, and publishing `sensor_winglet_s` topics to that channel.
 
 ### Sensor Winglet Example
+
+An example module was written to test subscribing to the `sensor_winglet` uORB messages and extract useable data from their contents.
