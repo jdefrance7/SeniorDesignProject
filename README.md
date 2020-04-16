@@ -22,13 +22,13 @@ Luke Timper (timpe005@umn.edu)
 
 ### Downloading
 
-1. Open a terminal on your computer.
+1. Open a terminal on the computer.
 
-2. Navigate to your desired working directory.
+2. Navigate to the desired working directory.
 
-3. Type `git clone` and the copy the link provided by clicking on the green `Clone or Download` button on this page.
+3. Type `git clone` into the terminal and the copy the link provided by clicking on the green `Clone or Download` button on this page.
 
-4. Wait for the download to complete.
+4. Press `Enter` and wait for the download to complete.
 
 ## System Layout
 
