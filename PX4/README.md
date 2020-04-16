@@ -60,7 +60,7 @@ Read the [PX4 Developer's Guide](https://dev.px4.io/v1.9.0/en/setup/building_px4
 
     * A series of prints should occur with winglet channel statuses and uORB message information, ending with angle computations based on the data received (only valid when two or more winglet devices are connected).
     
-## Walkthrough
+## Overview
 
 ### Sensor Winglet Message
 
