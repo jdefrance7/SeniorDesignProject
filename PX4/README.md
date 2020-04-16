@@ -66,7 +66,7 @@ A custom `sensor_winglet` uORB topic was created containing fields for a sample 
 
 #### sensor_winglet
 
-  ```c
+  ```
   uint64 timestamp
   uint8 id
   float32 x
@@ -79,7 +79,7 @@ These fields are populated from UAVCAN v0 AngularCommand broadcasts received by 
 
 #### AngularCommand
 
-  ```c
+  ```
   uint8 gimbal_id
   Mode mode
   float16[4] quaternion_xyzw
