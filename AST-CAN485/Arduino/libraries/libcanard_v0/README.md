@@ -1,13 +1,11 @@
 # Libcanard (Version 0)
 
-Contains libcanard source code files:
+Contains libcanard source code files pulled from [UAVCAN/libcanard-legacy-v0](https://github.com/UAVCAN/libcanard/tree/legacy-v0):
 * `canard.h`
 * `canard.c`
 * `canard_internals.h` 
 
-Pulled from [UAVCAN/libcanard-legacy-v0](https://github.com/UAVCAN/libcanard/tree/legacy-v0).
-
-Also provides custom Serial debugging print statements for Canard objects.
+Provides custom Serial debugging print statements for Canard objects.
 
 ## Serial Debugging
 
