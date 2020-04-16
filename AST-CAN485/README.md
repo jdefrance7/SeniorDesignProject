@@ -52,20 +52,40 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
 ## Overview
 
+### UAVCAN
+
+"UAVCAN is an open lightweight protocol designed for reliable intravehicular communication in aerospace and robotic applications over CAN bus..." - [uavcan.org](https://uavcan.org/)
+
+This project uses UAVCAN formatting for the data it sends over the CAN bus to the flight controller. 
+
+Orientation data is sent as an `Angular Command` message that contains both device id and quaternion data fields.
+
+UAVCAN specification states that each active node on a CAN bus must send a `Node Status` message at least once every second to be considered active. 
+
+### IMU Sensor
+
+An inertial measurement unit (IMU) sensor uses various physics principles to obtain information about an object's position, speed, and acceleration in space. 
+
+This project initially considered three IMU breakout boards made by Adafruit: the BNO055, the LSM9DS1, and the NXP_FXOS_FXAS. 
+
+The BNO055 was chosen to be the best candidate for this project as it contains an onboard processor to handle the mathematical computation required to obtain useful information from raw IMU data, reducing the processing load for the AST-CAN485.
+
+The IMU data is retreived from the BNO055 by the AST-CAN485 using the Inter-Integrated Circuit serial bus protocol (I2C).
+
 ### Task Structure
 
-This project meets its goals by implementing a code structure with multiple tasks that each have their own execution periods.
+This project inplements periodic task structure to meet all of its requirements.
 
 ```
 /**************************************************************************************************************
   
-  Implements the following tasks for the purpose of sending IMU orientation over CAN bus via UAVCAN protocol.
+  Implements the following tasks to send IMU orientation data to the flight controller.
   
     Task 0 - Setup
-      Initializes all hardware and software modules according to configuration values defined in the header.
+      Initializes all modules according to configuration values defined in the header.
 
     Task 1 - Update IMU
-      Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS.
+      Updates the IMU data processing filters.
 
     Task 2 - Send Node Status
       Sends a UAVCAN formatted Node Status broadcast onto the CAN bus.
@@ -78,16 +98,6 @@ This project meets its goals by implementing a code structure with multiple task
       
 **************************************************************************************************************/
 ```
-
-### UAVCAN
-
-"UAVCAN is an open lightweight protocol designed for reliable intravehicular communication in aerospace and robotic applications over CAN bus..." - [uavcan.org](https://uavcan.org/)
-
-This project uses UAVCAN formatting for the data it sends over the CAN bus to the flight controller. UAVCAN specification also states that each active node on a CAN bus must send a `Node Status` message at least once every second to be considered active. Orientation data is sent as an `Angular Command` that contains both id and quaternion data fields which is perfect for the purposes of this project.
-
-### IMU Sensor
-
-An inertial measurement unit (IMU) sensor uses various physics principles to obtain information about an object's position, speed, and acceleration in space. This project initially looked at three IMU breakout boards made by Adafruit: BNO055, LSM9DS1, and NXP_FXOS_FXAS. The BNO055 was chosen to be the best candidate for this project as it contains an onboard processor to handle the high-level computation required to obtain useful information from an IMU's raw data. This data is requested by the AST-CAN485 via the Inter-Integrated Circuit serial bus protocol (I2C).
 
 ## Notes
 
