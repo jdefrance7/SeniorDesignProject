@@ -4,7 +4,7 @@ A simple LED class for hardware debugging.
 
 ## Defines
 
-`DEFAULT_PIN` - builtin LED pin (13)
+`DEFAULT_PIN` - builtin LED pin for most Arduino compatible boards (Pin 13)
 
 ## Functions
 
