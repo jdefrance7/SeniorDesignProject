@@ -22,7 +22,7 @@ Luke Timper (timpe005@umn.edu)
 
 This project uses [Git](https://git-scm.com/about) for documentation control. Please [download Git](https://git-scm.com/downloads) if it is not installed already.
 
-### Downloading
+### Installing
 
 1. Open a terminal.
 
