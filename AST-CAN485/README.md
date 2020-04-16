@@ -32,7 +32,7 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
 ### Compiling
 
-1. Open the `wing_segment.ino` project sketch in the Arduino IDE.
+1. Open the `wing_segment_v0.ino` project sketch in the Arduino IDE.
 
 2. Select the AST-CAN485 board from the `Tools->Board` menu in the Arduino IDE toolbar.
 
