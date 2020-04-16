@@ -1,6 +1,6 @@
-# UAVCAN v0
+# UAVCAN (Version 0)
 
-UAVCAN v0 data type encoding, decoding, and debugging (legacy).
+[UAVCAN v0](legacy.uavcan.org) data type encoding, decoding, and debugging (legacy).
 
 ## DSDL Sizes
 
