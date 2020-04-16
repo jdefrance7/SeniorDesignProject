@@ -34,13 +34,13 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
 1. Open the `wing_segment_v0.ino` project sketch in the Arduino IDE.
 
-2. Select the AST-CAN485 board from the `Tools->Board` menu in the Arduino IDE toolbar.
+2. Select the `AST-CAN485` board from the `Tools->Board` menu in the Arduino IDE toolbar.
 
 3. Either click the check mark button in the upper left hand corner of the Arduino IDE or select `Sketch->Verify/Compile` from the Arduino IDE toolbar.
 
 ### Uploading
 
-1. Connect the AST-CAN485 to a computer through a compatible [FTDI Adaptor](https://www.sparkfun.com/products/9716?_ga=2.13897968.631132834.1583434944-271346267.1574810854).
+1. Connect the AST-CAN485 development board to a computer through a compatible [FTDI Adaptor](https://www.sparkfun.com/products/9716?_ga=2.13897968.631132834.1583434944-271346267.1574810854).
 
 2. Select the proper port from the `Tools->Port` menu in the Arduino IDE toolbar.
 
