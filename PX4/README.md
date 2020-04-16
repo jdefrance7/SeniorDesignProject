@@ -62,7 +62,7 @@ Read the [PX4 Developer's Guide](https://dev.px4.io/v1.9.0/en/setup/building_px4
 
 ### Sensor Winglet Message
 
-A custom `sensor_winglet` uORB topic was created containing fields for a sample timestamp, device id, and up to four floats of rotational data.
+A custom, multi-instance `sensor_winglet` uORB topic was created containing fields for a sample timestamp, device id, and up to four floats of rotational data.
 
 #### sensor_winglet
 
