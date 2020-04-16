@@ -20,7 +20,7 @@ Wing segment node implementation using [UAVCAN v0](https://legacy.uavcan.org/) a
 
 ### Callibration and Callibration Test
 
-Callibrates the magnetometers of the [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) sensors and then tests this callibration.
+Callibrates and tests the magnetometers of the [LSM9DS1](https://www.adafruit.com/product/3387) and [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463) sensors.
 
 Code courtesy of [adafruit/Adafruit_AHRS/examples](https://github.com/adafruit/Adafruit_AHRS).
 
@@ -28,7 +28,7 @@ Code courtesy of [adafruit/Adafruit_AHRS/examples](https://github.com/adafruit/A
 
 ### IMU Test
 
-Tests data aquisition for different IMU data types using the [BNO055](https://www.adafruit.com/product/2472), [LSM9DS1](https://www.adafruit.com/product/3387), or [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463).
+Tests custom data aquisition for different IMU data types using the [BNO055](https://www.adafruit.com/product/2472), [LSM9DS1](https://www.adafruit.com/product/3387), or [NXP_FXOS_FXAS](https://www.adafruit.com/product/3463).
 
 ---
 
