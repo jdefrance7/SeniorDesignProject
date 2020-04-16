@@ -10,8 +10,8 @@ Also provides custom Serial debugging print statements for Canard objects.
 
 ## Serial Debugging
 
-`void printCanardFrame(...)` - prints details about a Canard frame
+`void printCanardFrame(CanardFrame* frame)` - prints details about a Canard frame
 
-`void printCanardTransfer(...)` - prints details about a Canard transfer
+`void printCanardTransfer(CanardTransfer* transfer)` - prints details about a Canard transfer
 
-`void printCanardInstance(...)` - prints details about a Canard instance
+`void printCanardInstance(CanardInstance* ins)` - prints details about a Canard instance
