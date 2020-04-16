@@ -34,11 +34,11 @@ This project uses [Git](https://git-scm.com/about) for documentation control. Pl
 
 ### Implementation
 
-Please read through the sub-folders of this project to understand the intended implementation of its various components.
+Please read through the sub-folders of this project to better understand the implementation of its various components, though a brief description of each is provided below.
 
 #### AST-CAN485
 
-Uses the AST-CAN485 development board and Adafruit BNO055 sensors to obtain and broadcast orientation data via CAN to a PX4 flight controller.
+Uses the AST-CAN485 development board and Adafruit BNO055 sensors to obtain and broadcast orientation data via CAN using the UAVCAN protocol to a PX4 based flight controller.
 
 #### PX4
 
