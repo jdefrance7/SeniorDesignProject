@@ -44,7 +44,7 @@ Read the [PX4 Developer's Guide](https://dev.px4.io/v1.9.0/en/setup/building_px4
 
 ### Testing
 
-1. Plug a winglet device into the CAN bus connected to the PX4 device.
+1. Plug an AST-CAN485 winglet device into the CAN bus connected to the PX4 device.
 
 2. Power up the PX4 device and winglet device.
 
