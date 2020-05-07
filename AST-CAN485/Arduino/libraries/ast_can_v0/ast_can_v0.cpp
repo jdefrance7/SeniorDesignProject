@@ -1,3 +1,11 @@
+/**
+ * @file ast_can_v0.cpp
+ *
+ * CAN driver for the AST-CAN485 board using ASTCanLib and Libcanard v0.
+ *
+ * @author Joe DeFrance
+ */
+
 #include "ast_can_v0.h"
 
 void printCanard(Canard* can)

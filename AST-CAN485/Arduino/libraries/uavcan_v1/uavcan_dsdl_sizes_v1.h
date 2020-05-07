@@ -1,11 +1,13 @@
+/**
+ * @file uavcan_dsdl_sizes_v1.h
+ *
+ * Bit size of DSDL primatives.
+ *
+ * @author Joe DeFrance
+ */
+
 #ifndef UAVCAN_DSDL_SIZES_H
 #define UAVCAN_DSDL_SIZES_H
-
-//------------------------------------------------------------------------------
-
-/*
-  Bit size of DSDL primatives.
-*/
 
 //------------------------------------------------------------------------------
 

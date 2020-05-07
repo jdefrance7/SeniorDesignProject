@@ -1,3 +1,12 @@
+/**
+ * @file imu_constants.h
+ *
+ * IMU constants.
+ *
+ * @author Joe DeFrance
+ */
+
+
 #ifndef IMU_CONSTANTS_H
 #define IMU_CONSTANTS_H
 

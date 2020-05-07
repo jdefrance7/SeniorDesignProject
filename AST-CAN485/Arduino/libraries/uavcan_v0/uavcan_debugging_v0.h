@@ -1,3 +1,12 @@
+/**
+ * @file uavcan_debugging_v0.h
+ *
+ * Printing functions for UAVCAN v0 data types.
+ *
+ * @author Joe DeFrance
+ */
+
+
 #ifndef UAVCAN_DEBUGGING
 #define UAVCAN_DEBUGGING
 

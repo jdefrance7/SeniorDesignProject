@@ -1,19 +1,19 @@
+/**
+ * @file uavcan_data_types_v1.h
+ *
+ * Declaration of UAVCAN data types implemented as C structs and primatives.
+ *
+ * Information regarding data type size, id, and signature is also included.
+ *
+ * Constants defined in a data type's DSDL are included.
+ *
+ * Reference: https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/
+ *
+ * @author Joe DeFrance
+ */
+
 #ifndef UAVCAN_DATA_TYPES
 #define UAVCAN_DATA_TYPES
-
-//------------------------------------------------------------------------------
-
-/*
-  Declaration of UAVCAN data types implemented as C structs and primatives.
-
-  Information regarding data type size, id, and signature is also included.
-
-  Constants defined in a data type's DSDL are included.
-
-  Reference: https://uavcan.org/specification/UAVCAN_Specification_v1.0-alpha.pdf
-
-  '''Add more data tyes as necessary.'''
-*/
 
 //------------------------------------------------------------------------------
 

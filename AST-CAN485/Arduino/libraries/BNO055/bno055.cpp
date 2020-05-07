@@ -1,3 +1,11 @@
+/**
+ * @file bno055.cpp
+ *
+ * Standardized interface for the Adafruit BNO055.
+ *
+ * @author Joe DeFrance
+ */
+
 #include "bno055.h"
 
 // Sensor Instance

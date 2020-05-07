@@ -1,3 +1,11 @@
+/**
+ * @file nxp_fxos_fxas.h
+ *
+ * Standardized interface for the Adafruit Precision NXP.
+ *
+ * @author Joe DeFrance
+ */
+
 #ifndef NXP_FXOS_FXAS_H
 #define NXP_FXOS_FXAS_H
 

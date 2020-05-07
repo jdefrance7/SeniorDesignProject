@@ -1,3 +1,11 @@
+/**
+ * @file libcanard_v0.h
+ *
+ * Header to include Libcanard v1 source files and printing functions.
+ *
+ * @author Joe DeFrance
+ */
+
 #ifndef LIBCANARD_VERSION
 #define LIBCANARD_VERSION 1
 

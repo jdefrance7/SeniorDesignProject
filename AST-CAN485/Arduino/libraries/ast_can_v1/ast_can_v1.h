@@ -1,9 +1,14 @@
+/**
+ * @file ast_can_v1.h
+ *
+ * CAN driver for the AST-CAN485 board using ASTCanLib and Libcanard v1.
+ *
+ * @author Joe DeFrance
+ */
+
+
 #ifndef AST_CAN_VERSION
 #define AST_CAN_VERSION 1
-
-/*
-  CAN driver for the AST-CAN485 board using ASTCanLib and Libcanard v1.
-*/
 
 #include <stdint.h> // primative data types
 

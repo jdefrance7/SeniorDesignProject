@@ -1,3 +1,11 @@
+/**
+ * @file nxp_fxos_fxas.cpp
+ *
+ * Standardized interface for the Adafruit Precision NXP.
+ *
+ * @author Joe DeFrance
+ */
+
 #include "nxp_fxos_fxas.h"
 
 // Sensor Instance(s)

@@ -1,3 +1,11 @@
+/**
+ * @file led.cpp
+ *
+ * Basic LED class.
+ *
+ * @author Joe DeFrance
+ */
+
 #include "led.h"
 
 LED::LED()

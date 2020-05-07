@@ -1,3 +1,11 @@
+/**
+ * @file uavcan_debugging_v1.cpp
+ *
+ * Printing functions for UAVCAN v1 data types.
+ *
+ * @author Joe DeFrance
+ */
+
 #include "uavcan_debugging_v1.h"
 
 void printHeartbeat(Heartbeat* heartbeat)

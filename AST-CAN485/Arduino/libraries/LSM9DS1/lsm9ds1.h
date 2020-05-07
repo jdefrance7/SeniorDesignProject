@@ -1,3 +1,12 @@
+/**
+ * @file lsm9ds1.h
+ *
+ * Standardized interface for the Adafruit LSM9DS1.
+ *
+ * @author Joe DeFrance
+ */
+
+
 #ifndef LSM9DS1_H
 #define LSM9DS1_H
 

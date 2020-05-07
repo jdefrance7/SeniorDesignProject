@@ -1,3 +1,12 @@
+/**
+ * @file lsm9ds1.cpp
+ *
+ * Standardized interface for the Adafruit LSM9DS1.
+ *
+ * @author Joe DeFrance
+ */
+
+
 #include "lsm9ds1.h"
 
 // Sensor Instance(s)

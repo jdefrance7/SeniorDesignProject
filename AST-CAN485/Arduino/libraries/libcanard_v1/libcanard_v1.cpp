@@ -1,3 +1,11 @@
+/**
+ * @file libcanard_v0.h
+ *
+ * Libcanard v1 printing functions.
+ *
+ * @author Joe DeFrance
+ */
+
 #include "libcanard_v1.h"
 
 #include <Arduino.h>

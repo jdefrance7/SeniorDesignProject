@@ -1,3 +1,11 @@
+/**
+ * @file uavcan_v0.h
+ *
+ * Header to include custom UAVCAN v0 support files.
+ *
+ * @author Joe DeFrance
+ */
+
 #ifndef UAVCAN_H
 #define UAVCAN_H
 

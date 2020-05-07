@@ -1,11 +1,13 @@
+/**
+ * @file uavcan_encoding_v0.h
+ *
+ * Support functions to handle encoding UAVCAN data types into serialized bytes.
+ *
+ * @author Joe DeFrance
+ */
+
 #ifndef UAVCAN_ENCODING_H
 #define UAVCAN_ENCODING_H
-
-//------------------------------------------------------------------------------
-
-/*
-  Support functions to handle encoding UAVCAN data types into serialized bytes.
-*/
 
 //------------------------------------------------------------------------------
 

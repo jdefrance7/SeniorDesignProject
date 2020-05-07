@@ -1,3 +1,11 @@
+/**
+ * @file uavcan_debugging_v0.cpp
+ *
+ * Printing functions for UAVCAN v0 data types.
+ *
+ * @author Joe DeFrance
+ */
+
 #include "uavcan_debugging_v0.h"
 
 void printNodeStatus(NodeStatus* status)

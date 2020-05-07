@@ -1,3 +1,11 @@
+/**
+ * @file bno055.h
+ *
+ * Standardized interface for the Adafruit BNO055.
+ *
+ * @author Joe DeFrance
+ */
+
 #ifndef BNO055_H
 #define BNO055_H
 

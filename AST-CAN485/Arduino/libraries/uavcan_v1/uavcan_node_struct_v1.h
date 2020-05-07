@@ -1,11 +1,13 @@
+/**
+ * @file uavcan_node_struct_v1.h
+ *
+ * Custom struct for basic UAVCAN node information.
+ *
+ * @author Joe DeFrance
+ */
+
 #ifndef UAVCAN_NODE_STRUCT
 #define UAVCAN_NODE_STRUCT
-
-//------------------------------------------------------------------------------
-
-/*
-  Custom struct for basic UAVCAN node information.
-*/
 
 //------------------------------------------------------------------------------
 
