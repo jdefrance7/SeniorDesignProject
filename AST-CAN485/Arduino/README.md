@@ -6,7 +6,7 @@ Brief descriptions of the main project and supporting sketches are included belo
 
 ## Libraries
 
-Please note that the `libraries` folder is not itself a project sketch but rather contains the source code for libraries used throughout the project. 
+Please note that the `libraries` folder is not itself a project sketch but rather contains the source code for the custom and third-party libraries used throughout the project. 
 
 Read the `libraries` documentation to learn more about the custom libraries developed for this project.
  
