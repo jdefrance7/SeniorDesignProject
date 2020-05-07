@@ -42,10 +42,10 @@ Code for the AST-CAN485 development board to obtain IMU sensor orientation data 
 
 ### PX4
 
-A custom PX4 Firmware stack to read the incomming orientation data and publish it to the flight controller's internal messaging system.
+Contains a custom PX4 Firmware stack to read the incomming orientation data and publish it to the flight controller's internal messaging system.
 
 ## Acknowledgements
 
-We would like to thank Professor Nikolaos Papanikolopoulos, Travis Hanson, and all of the team members in the Solar UAV Lab at the University of Minnesota - Twin Cities for allowing us to work on this amazing project with them.
+We would like to thank Professor Nikolaos Papanikolopoulos, Travis Henderson, and all of the team members in the Solar UAV Lab at the University of Minnesota - Twin Cities for allowing us to work on this amazing project with them.
 
 We would also like to thank Professor Paul Imbertson for his time and effort as our Senior Design Advisor.
