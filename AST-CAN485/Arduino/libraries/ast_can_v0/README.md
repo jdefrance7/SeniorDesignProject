@@ -37,6 +37,6 @@ typedef struct
 
 ## Internals
 
-`onTransferReceived(...)` - used by Canard instance to process incomming transfer frames
+`onTransferReceived(...)` - used by Canard instance to process received transfers
 
 `shouldAcceptTransfer(...)` - used by Canard instance to filter incomming transfer frames
