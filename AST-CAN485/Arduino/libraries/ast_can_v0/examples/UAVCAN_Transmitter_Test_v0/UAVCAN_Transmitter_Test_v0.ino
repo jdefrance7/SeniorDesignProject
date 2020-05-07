@@ -1,5 +1,5 @@
 /**
- *  @file UAVCAN_Receiver_Test.ino
+ *  @file UAVCAN_Transmitter_Test.ino
  *
  *  Loop to test CAN transmitter and UAVCAN data encoding.
  *
