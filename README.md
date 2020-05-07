@@ -4,7 +4,7 @@ Electrical Engineering Senior Design Project at the University of Minnesota - Tw
 
 The purpose of this project is to obtain real-time orientation data of multiple UAV wing segments.
 
-## Authors
+## Contributors
 
 Joe DeFrance (defra022@umn.edu)
 
