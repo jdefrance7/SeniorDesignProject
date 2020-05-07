@@ -18,6 +18,6 @@ Wing segment orientation system using [UAVCAN v0](https://legacy.uavcan.org/).
 
 ### Power Test
 
-Tests the power draw of up to four different power lines using the [Adafruit_INA219](https://www.adafruit.com/product/904).
+Records the power draw of up to four different power lines with the [Adafruit_INA219](https://www.adafruit.com/product/904).
 
 Used during prototyping to measure the power draw of the system.
