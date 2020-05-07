@@ -99,9 +99,6 @@ IMU Libraries:
   * [Adafruit_AHRS](https://github.com/adafruit/Adafruit_AHRS)
   * [Adafruit_Sensor](https://github.com/adafruit/Adafruit_Sensor)
 
-Power Sensor Library: 
-  * [Adafruit_INA219](https://github.com/adafruit/Adafruit_INA219)
-
 CAN Driver Library:
   * [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h)
 
