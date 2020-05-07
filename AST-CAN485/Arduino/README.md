@@ -14,7 +14,7 @@ Read the `libraries` documentation to learn more about the custom libraries deve
 
 ### Wing Segment v0
 
-Wing segment node implementation using [UAVCAN v0](https://legacy.uavcan.org/) and [UAVCAN v1](https://uavcan.org/).
+Wing segment node implementation using [UAVCAN v0](https://legacy.uavcan.org/).
 
 ### Power Test
 
