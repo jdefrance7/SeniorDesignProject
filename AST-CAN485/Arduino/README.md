@@ -14,8 +14,10 @@ Read the `libraries` documentation to learn more about the custom libraries deve
 
 ### Wing Segment v0
 
-Wing segment node implementation using [UAVCAN v0](https://legacy.uavcan.org/).
+Wing segment orientation system using [UAVCAN v0](https://legacy.uavcan.org/).
 
 ### Power Test
 
 Tests the power draw of up to four different power lines using the [Adafruit_INA219](https://www.adafruit.com/product/904).
+
+Used during prototyping to measure the power draw of the system.
