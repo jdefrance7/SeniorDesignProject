@@ -1,11 +1,15 @@
-/*
-  Transmitter loop to test CAN transmitter and UAVCAN data encoding.
-  
-  Includes toggleable orientation data structures.
-*/
+/**
+ *  @file UAVCAN_Receiver_Test.ino
+ *
+ *  Loop to test CAN transmitter and UAVCAN data encoding.
+ *
+ *  Includes selectable orientation message types.
+ *
+ *  @author Joe DeFrance
+ */
 
 // Serial Debugging Enabled
-#define SERIAL_DEBUG
+#define SERIAL_DEBUG // uncomment for extra serial debugging informaiton (slow)
 #define SERIAL_BAUDRATE 115200
 
 // Select Orientation Message Type
@@ -134,25 +138,25 @@ void setup()
 
   // Serial debugging
   #if defined(SERIAL_DEBUG)
-
-  // Start Serial module
-  Serial.begin(SERIAL_BAUDRATE);
-  while(!Serial)
   {
-    led.toggle(LED_TOGGLE);
+    // Start Serial module
+    Serial.begin(SERIAL_BAUDRATE);
+    while(!Serial)
+    {
+      led.toggle(LED_TOGGLE);
+    }
+    led.off();
+
+    // Print initialization information
+    Serial.println("\nWing Segment Config");
+    delay(250);
+    printCanard(&can);
+    delay(250);
+    printNode(&node);
+    delay(250);
+    Serial.println("\nInitialization complete!");
+    delay(250);
   }
-  led.off();
-
-  // Print initialization information
-  Serial.println("\nWing Segment Config");
-  delay(250);
-  printCanard(&can);
-  delay(250);
-  printNode(&node);
-  delay(250);
-  Serial.println("\nInitialization complete!");
-  delay(250);
-
   #endif
 }
 
@@ -170,7 +174,9 @@ void loop()
 
       // Serial debugging
       #if defined(SERIAL_DEBUG)
-      printNodeStatus(&node.status);
+      {
+        printNodeStatus(&node.status);
+      }
       #endif // SERIAL_DEBUG
 
       Serial.println("\n######## ENCODING NODE STATUS ########");
@@ -191,7 +197,9 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.print("\nERROR: Failed to encode Node Status, reVal = "); Serial.println(reVal);
+        {
+          Serial.print("\nERROR: Failed to encode Node Status, reVal = "); Serial.println(reVal);
+        }
         #endif // SERIAL_DEBUG
 
         led.toggle(LED_TOGGLE);
@@ -200,19 +208,21 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.print("\nNode Status Encoded Buffer: ");
-        for(unsigned int n = 0; n < sizeof(buffer); n++)
         {
-          Serial.print(buffer[n], HEX);
-          if(n == (sizeof(buffer)-1))
+          Serial.print("\nNode Status Encoded Buffer: ");
+          for(unsigned int n = 0; n < sizeof(buffer); n++)
           {
-            Serial.print("\n");
-            break;
+            Serial.print(buffer[n], HEX);
+            if(n == (sizeof(buffer)-1))
+            {
+              Serial.print("\n");
+              break;
+            }
+            Serial.print(",");
           }
-          Serial.print(",");
+          Serial.print("\nNode Status Encoded Bits: "); Serial.println(reVal);
+          Serial.println("\nNode Status encoding successful!");
         }
-        Serial.print("\nNode Status Encoded Bits: "); Serial.println(reVal);
-        Serial.println("\nNode Status encoding successful!");
         #endif // SERIAL_DEBUG
 
         led.off();
@@ -235,7 +245,9 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.print("\nERROR: Failed to queue Node Status, reVal = "); Serial.println(reVal);
+        {
+          Serial.print("\nERROR: Failed to queue Node Status, reVal = "); Serial.println(reVal);
+        }
         #endif // SERIAL_DEBUG
 
         led.toggle(LED_TOGGLE);
@@ -244,9 +256,11 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        CanardCANFrame* txf = canardPeekTxQueue(&can.canard);
-        printCanardFrame(txf);
-        Serial.println("\nNode Status queueing successful!");
+        {
+          CanardCANFrame* txf = canardPeekTxQueue(&can.canard);
+          printCanardFrame(txf);
+          Serial.println("\nNode Status queueing successful!");
+        }
         #endif // SERIAL_DEBUG
 
         led.off();
@@ -261,7 +275,9 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.print("\nERROR: Failed to transmit Node Status, reVal = "); Serial.println(reVal);
+        {
+          Serial.print("\nERROR: Failed to transmit Node Status, reVal = "); Serial.println(reVal);
+        }
         #endif // SERIAL_DEBUG
 
         led.toggle(LED_TOGGLE);
@@ -270,7 +286,9 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.println("\nNode Status transmission successful!");
+        {
+          Serial.println("\nNode Status transmission successful!");
+        }
         #endif // SERIAL_DEBUG
 
         led.off();
@@ -302,7 +320,9 @@ void loop()
 
       // Serial debugging
       #if defined(SERIAL_DEBUG)
-      Serial.print("\nQuaternion Text: "); Serial.println(text);
+      {
+        Serial.print("\nQuaternion Text: "); Serial.println(text);
+      }
       #endif // SERIAL_DEBUG
 
       Serial.println("\n######## LOG MESSAGE ########");
@@ -323,7 +343,9 @@ void loop()
 
       // Serial debugging
       #if defined(SERIAL_DEBUG)
-      printLogMessage(&message);
+      {
+        printLogMessage(&message);
+      }
       #endif // SERIAL_DEBUG
 
       Serial.println("\n######## ENCODING LOG MESSAGE ########");
@@ -344,7 +366,9 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.print("\nERROR: Failed to encode Log Message, reVal = "); Serial.println(reVal);
+        {
+          Serial.print("\nERROR: Failed to encode Log Message, reVal = "); Serial.println(reVal);
+        }
         #endif // SERIAL_DEBUG
 
         led.toggle(LED_TOGGLE);
@@ -353,19 +377,21 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.print("\nLog Message Encoded Buffer: ");
-        for(unsigned int n = 0; n < sizeof(buffer); n++)
         {
-          Serial.print(buffer[n], HEX);
-          if(n == (sizeof(buffer)-1))
+          Serial.print("\nLog Message Encoded Buffer: ");
+          for(unsigned int n = 0; n < sizeof(buffer); n++)
           {
-            Serial.print("\n");
-            break;
+            Serial.print(buffer[n], HEX);
+            if(n == (sizeof(buffer)-1))
+            {
+              Serial.print("\n");
+              break;
+            }
+            Serial.print(",");
           }
-          Serial.print(",");
+          Serial.print("\nLog Message Encoded Bits: "); Serial.println(reVal);
+          Serial.println("\nLog Message encoding successful!");
         }
-        Serial.print("\nLog Message Encoded Bits: "); Serial.println(reVal);
-        Serial.println("\nLog Message encoding successful!");
         #endif // SERIAL_DEBUG
       }
 
@@ -388,7 +414,9 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.print("\nERROR: Failed to queue Log Message, reVal = "); Serial.println(reVal);
+        {
+          Serial.print("\nERROR: Failed to queue Log Message, reVal = "); Serial.println(reVal);
+        }
         #endif // SERIAL_DEBUG
 
         led.toggle(LED_TOGGLE);
@@ -397,7 +425,9 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.println("\nLog Message queueing successful!");
+        {
+          Serial.println("\nLog Message queueing successful!");
+        }
         #endif // SERIAL_DEBUG
 
         led.off();
@@ -482,7 +512,9 @@ void loop()
 
       // Serial debugging
       #if defined(SERIAL_DEBUG)
-      printCameraGimbalStatus(&camera);
+      {
+        printCameraGimbalStatus(&camera);
+      }
       #endif // SERIAL_DEBUG
 
       Serial.println("\n######## ENCODING CAMERA GIMBAL STATUS ########");
@@ -503,7 +535,9 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.print("ERROR: Failed to encode Camera Gimbal Status, reVal = "); Serial.println(reVal);
+        {
+          Serial.print("ERROR: Failed to encode Camera Gimbal Status, reVal = "); Serial.println(reVal);
+        }
         #endif // SERIAL_DEBUG
 
         led.toggle(LED_TOGGLE);
@@ -512,18 +546,20 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.print("Camera Gimbal Status Encoded Buffer: ");
-        for(unsigned int n = 0; n < sizeof(buffer); n++)
         {
-          Serial.print(buffer[n], HEX);
-          if(n == (sizeof(buffer)-1))
+          Serial.print("Camera Gimbal Status Encoded Buffer: ");
+          for(unsigned int n = 0; n < sizeof(buffer); n++)
           {
-            Serial.print("\n");
-            break;
+            Serial.print(buffer[n], HEX);
+            if(n == (sizeof(buffer)-1))
+            {
+              Serial.print("\n");
+              break;
+            }
+            Serial.print(",");
           }
-          Serial.print(",");
+          Serial.print("Camera Gimbal Status Encoded Bits: "); Serial.println(reVal);
         }
-        Serial.print("Camera Gimbal Status Encoded Bits: "); Serial.println(reVal);
         #endif // SERIAL_DEBUG
       }
 
@@ -546,7 +582,9 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.print("ERROR: Failed to queue Camera Gimbal Status, reVal = "); Serial.println(reVal);
+        {
+          Serial.print("ERROR: Failed to queue Camera Gimbal Status, reVal = "); Serial.println(reVal);
+        }
         #endif // SERIAL_DEBUG
 
         led.toggle(LED_TOGGLE);
@@ -555,7 +593,9 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.println("Camera Gimbal Status queueing successful.");
+        {
+          Serial.println("Camera Gimbal Status queueing successful.");
+        }
         #endif // SERIAL_DEBUG
 
         led.off();
@@ -570,7 +610,9 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.print("ERROR: Failed to transmit Camera Gimbal Status, reVal = "); Serial.println(reVal);
+        {
+          Serial.print("ERROR: Failed to transmit Camera Gimbal Status, reVal = "); Serial.println(reVal);
+        }
         #endif // SERIAL_DEBUG
 
         led.toggle(LED_TOGGLE);
@@ -579,7 +621,9 @@ void loop()
       {
         // Serial debugging
         #if defined(SERIAL_DEBUG)
-        Serial.println("Camera Gimbmal Status transmission successful!");
+        {
+          Serial.println("Camera Gimbmal Status transmission successful!");
+        }
         #endif // SERIAL_DEBUG
 
         led.off();
@@ -640,7 +684,9 @@ void loop()
         {
           // Serial debugging
           #if defined(SERIAL_DEBUG)
-          Serial.print("ERROR: Failed to encode Camera Gimbal Status, reVal = "); Serial.println(reVal);
+          {
+            Serial.print("ERROR: Failed to encode Camera Gimbal Status, reVal = "); Serial.println(reVal);
+          }
           #endif // SERIAL_DEBUG
 
           led.toggle(LED_TOGGLE);
@@ -649,18 +695,20 @@ void loop()
         {
           // Serial debugging
           #if defined(SERIAL_DEBUG)
-          Serial.print("Key Value Encoded Buffer: ");
-          for(unsigned int n = 0; n < sizeof(buffer); n++)
           {
-            Serial.print(buffer[n], HEX);
-            if(n == (sizeof(buffer)-1))
+            Serial.print("Key Value Encoded Buffer: ");
+            for(unsigned int n = 0; n < sizeof(buffer); n++)
             {
-              Serial.print("\n");
-              break;
+              Serial.print(buffer[n], HEX);
+              if(n == (sizeof(buffer)-1))
+              {
+                Serial.print("\n");
+                break;
+              }
+              Serial.print(",");
             }
-            Serial.print(",");
+            Serial.print("Key Value Encoded Bits: "); Serial.println(reVal);
           }
-          Serial.print("Key Value Encoded Bits: "); Serial.println(reVal);
           #endif // SERIAL_DEBUG
 
           led.off();
@@ -685,7 +733,9 @@ void loop()
         {
           // Serial debugging
           #if defined(SERIAL_DEBUG)
-          Serial.print("ERROR: Failed to queue Key Value, reVal = "); Serial.println(reVal);
+          {
+            Serial.print("ERROR: Failed to queue Key Value, reVal = "); Serial.println(reVal);
+          }
           #endif // SERIAL_DEBUG
 
           led.toggle(LED_TOGGLE);
@@ -694,9 +744,11 @@ void loop()
         {
           // Serial debugging
           #if defined(SERIAL_DEBUG)
-          CanardCANFrame* txf = canardPeekTxQueue(&can.canard);
-          printCanardFrame(txf);
-          Serial.println("\nKey Value queueing successful!");
+          {
+            CanardCANFrame* txf = canardPeekTxQueue(&can.canard);
+            printCanardFrame(txf);
+            Serial.println("\nKey Value queueing successful!");
+          }
           #endif // SERIAL_DEBUG
 
           led.off();
@@ -711,7 +763,9 @@ void loop()
         {
           // Serial debugging
           #if defined(SERIAL_DEBUG)
-          Serial.print("ERROR: Failed to transmit Key Value, reVal = "); Serial.println(reVal);
+          {
+            Serial.print("ERROR: Failed to transmit Key Value, reVal = "); Serial.println(reVal);
+          }
           #endif // SERIAL_DEBUG
 
           led.toggle(LED_TOGGLE);
@@ -720,7 +774,9 @@ void loop()
         {
           // Serial debugging
           #if defined(SERIAL_DEBUG)
-          Serial.println("Key Value transmission successful!");
+          {
+            Serial.println("Key Value transmission successful!");            
+          }
           #endif // SERIAL_DEBUG
 
           led.off();
@@ -742,10 +798,12 @@ void loop()
       // Get Canard queue stats object
       CanardPoolAllocatorStatistics stats = canardGetPoolAllocatorStatistics(&can.canard);
 
-//      // Serial debugging
-//      #if defined(SERIAL_DEBUG)
-//      printCanardPoolAllocatorStatistics(&stats);
-//      #endif // SERIAL_DEBUG
+     // Serial debugging
+     #if defined(SERIAL_DEBUG)
+     {
+       printCanardPoolAllocatorStatistics(&stats);
+     }
+     #endif // SERIAL_DEBUG
 
       // Update time reference
       cleanup_uavcan_time = millis();

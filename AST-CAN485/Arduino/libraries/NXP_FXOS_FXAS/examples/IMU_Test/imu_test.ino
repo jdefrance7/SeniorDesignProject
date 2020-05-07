@@ -1,14 +1,24 @@
-/*
-  Print loop to test different types of data aquisition from the BNO055, LSM9DS1, and NXP FXOS FXAS sensors. 
-*/
+/**
+ *  @file imu_test.ino
+ *
+ *  Example of standardized IMU interface.
+ *
+ *  Covers initialization, updating, and data retreival.
+ *
+ *  Prints all available IMU data to the serial monitor.
+ *
+ *  @author Joe DeFrance
+ */
 
 // Select IMU
-#include <bno055.h>
+// #include <bno055.h>
 // #include <lsm9ds1.h>
-// #include <nxp_fxos_fxas.h>
+#include <nxp_fxos_fxas.h>
 
+// Serial baudrate
 #define SERIAL_BAUDRATE 9600
 
+// Time between prints
 #define PRINT_DELAY_MS  1000
 
 // Print functions
@@ -19,32 +29,36 @@ void printLinearAcceleration();
 void printMagneticField();
 void printTemperature();
 
+// Setup function called once before entering loop()
 void setup()
 {
   Serial.begin(SERIAL_BAUDRATE);
   while(!Serial);
 
+  // Initialization Function
   init_imu();
 }
 
+// Main loop
 void loop()
 {
+  // Update IMU processing filters (LSM9DS1 & NXP_FXOS_FXAS)
   #if defined(FILTER_UPDATE_RATE_HZ)
-
-  static long last_update = millis();
-  if((millis() - last_update) > (1000/FILTER_UPDATE_RATE_HZ))
   {
-    update_imu();
-    last_update = millis();
-  }
+    static long last_update = millis();
+    if((millis() - last_update) > (1000/FILTER_UPDATE_RATE_HZ))
+    {
+      // Updating Function
+      update_imu();
+      last_update = millis();
+    }
 
+  }
   #endif
 
   static long last_print = millis();
   if((millis()-last_print) > PRINT_DELAY_MS)
   {
-    // Select data for printing
-
     printOrientation();
 
     printQuaternion();

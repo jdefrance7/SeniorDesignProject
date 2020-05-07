@@ -1,10 +1,14 @@
-/*
-  Receiver loop to test CAN receiver and UAVCAN data decoding.
-  
-  Includes toggleable print functions to display various packet information.
-  
-  See "onTransferReceived()" and "shouldAcceptTransfer()" for core UAVCAN implementation.
-*/
+/**
+ *  @file UAVCAN_Receiver_Test.ino
+ *
+ *  Loop to test CAN receiver and UAVCAN data decoding.
+ *
+ *  Includes toggleable print functions to display various packet information.
+ *
+ *  See "onTransferReceived()" and "shouldAcceptTransfer()" for core UAVCAN implementation.
+ *
+ *  @author Joe DeFrance
+ */
 
 // CAN Bitrate
 #define CAN_BITRATE 1000000
@@ -12,25 +16,25 @@
 // Serial Baudrate
 #define SERIAL_BAUDRATE 115200
 
-// Mask Values for UAVCAN EID
+// Mask Values for UAVCAN Extended ID Fields
 #define UAVCAN_PRIORITY_MASK      0xF000000
 #define UAVCAN_TYPE_ID_MASK       0x0FFFF00
 #define UAVCAN_SERVICE_MASK       0x0000080
 #define UAVCAN_SOURCE_ID_MASK     0x000007F
 
-// Shift Values for UAVCAN EID
+// Shift Values for UAVCAN Extended ID Fields
 #define UAVCAN_PRIORITY_SHIFT     24
 #define UAVCAN_TYPE_ID_SHIFT      8
 #define UAVCAN_SERVICE_SHIFT      7
 #define UAVCAN_SOURCE_ID_SHIFT    0
 
-// Mask Values for UAVCAN Tail Byte
+// Mask Values for UAVCAN Tail Byte Fields
 #define UAVCAN_START_BIT_MASK     0x80
 #define UAVCAN_END_BIT_MASK       0x40
 #define UAVCAN_TOGGLE_BIT_MASK    0x20
 #define UAVCAN_TRANSFER_ID_MASK   0x1F
 
-// Shift Values for UAVCAN Tail Byte
+// Shift Values for UAVCAN Tail Byte Fields
 #define UAVCAN_START_BIT_SHIFT    7
 #define UAVCAN_END_BIT_SHIFT      6
 #define UAVCAN_TOGGLE_BIT_SHIFT   5
@@ -42,7 +46,7 @@
 #define MESSAGE_LENGTH    8       // Data length: 8 bytes
 #define MESSAGE_RTR       0       // rtr bit
 
-// CAN Driver Library
+// AST CAN Driver Library
 #include <ASTCanLib.h>
 
 // UAVCAN Data Processing
@@ -76,6 +80,7 @@ st_cmd_t Msg;
 // Buffer for CAN data
 uint8_t Buffer[8] = {};
 
+// Setup function called once before entering loop()
 void setup() {
 
   // Initialise CAN port. Must be before Serial.begin()
@@ -105,8 +110,9 @@ void setup() {
   );
 }
 
-void loop() {
-
+// Main loop
+void loop()
+{
   // Clear the message buffer
   clearBuffer(&Buffer[0]);
 
@@ -114,12 +120,10 @@ void loop() {
   Msg.cmd = CMD_RX_DATA;
 
   // Wait for the command to be accepted by the controller
-
   while(can_cmd(&Msg) != CAN_CMD_ACCEPTED);
 
   // Wait for command to finish executing
   while(can_get_status(&Msg) == CAN_STATUS_NOT_COMPLETED);
-
 
   // Print received data to the terminal (slow)
   serialPrintData(&Msg);
@@ -130,8 +134,8 @@ void loop() {
   // Print Canard Stats (fast)
   printCanardStats();
 
-  // Print Milliseconds since last CAN message (fast)
-//  printTimePeriod();
+  // Print milliseconds since last CAN message (fast)
+  printTimePeriod();
 }
 
 void printTimePeriod()

@@ -1,40 +1,40 @@
 /**
- * @file wing_segment_v0.ino
- * 
- * Setup and main loop code for the wing segment orientation sensor system.
+ *  @file wing_segment_v0.ino
  *
- * @author Joe DeFrance
+ *  Setup and main loop code for the wing segment orientation sensor system.
+ *
+ *  Implements the following task structure:
+ *
+ *    Task 0 - Setup
+ *      Initializes all hardware and software modules according to configuration file included.
+ *
+ *    Task 1 - Update IMU
+ *      Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS. Ignored by BNO055.
+ *
+ *    Task 2 - Send Node Status
+ *      Sends a UAVCAN formatted Node Status message onto the CAN bus.
+ *
+ *    Task 3 - Send Orientation
+ *      Sends IMU orientation encoded in a UAVCAN formatted Angular Command message onto the CAN bus.
+ *
+ *    Task 4 - Cleanup Memory Pool
+ *      Frees up stale CAN transfers in the Canard memory pool
+ *
+ *  @author Joe DeFrance
  */
 
-/**************************************************************************************************************
-  
-  Implements the following tasks for the purpose of sending IMU orientation over CAN bus via UAVCAN protocol.
-  
-    Task 0 - Setup
-      Initializes all hardware and software modules according to configuration values defined below.
+//******************************************************************************
+// Select Configuration File
 
-    Task 1 - Update IMU
-      Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS.
-
-    Task 2 - Send Node Status
-      Sends a UAVCAN formatted Node Status broadcast onto the CAN bus.
-
-    Task 3 - Send Orientation
-      Sends a UAVCAN formattted AngularCommand broadcast onto the CAN bus.
-
-    Task 4 - Check Memory Pool
-      Checks the memory usage statistics of the Canard memory pool.
-      
-**************************************************************************************************************/
-
-// Choose Configuration File
 #include "wing_segment_config_0.h"
 //#include "wing_segment_config_1.h"
 //#include "wing_segment_config_2.h"
 //#include "wing_segment_config_3.h"
 
+//******************************************************************************
+
 #ifndef WING_SEGMENT_CONFIG_H
-#error Must select a config.
+  #error Must select a config.
 #endif
 
 // Arduino Constants
@@ -45,13 +45,13 @@
 
 // IMU Sensor
 #if defined(IMU_BNO055)
-#include <bno055.h>
+  #include <bno055.h>
 #elif defined(IMU_LSM9DS1)
-#include <lsm9ds1.h>
+  #include <lsm9ds1.h>
 #elif defined(IMU_NXP_FXOS_FXAS)
-#include <nxp_fxos_fxas.h>
+  #include <nxp_fxos_fxas.h>
 #else // NONE
-#error Must select an IMU in the config.
+  #error Must select an IMU in the config.
 #endif
 
 // CAN Driver
@@ -66,20 +66,25 @@ UavcanNode node;
 // Custom Canard Struct Instance
 Canard can;
 
-// Builtin LED
+// Builtin LED Instance
 LED led;
 
 void setup()
 {
-  // Init LED
+  /**
+   *  Task 0 - Setup
+   *    Called by the microcontroller before entering the main loop.
+   */
+
+  // Initialize Builtin LED Instance
   led = LED();
 
-  // Setup CAN
+  // Initialize CAN
   {
-    can.bitrate = CAN_BITRATE;    
+    can.bitrate = CAN_BITRATE;
   }
 
-  // Setup UAVCAN Node
+  // Initialize UAVCAN Node
   // Node Basics
   {
     node.id = NODE_ID;
@@ -112,7 +117,7 @@ void setup()
     node.software.image_crc = SOFTWARE_IMAGE_CRC;
   }
 
-  // Initialize CAN
+  // Start CAN peripheral
   init_can(&can, node.id);
   while(can.canard.node_id == 0)
   {
@@ -120,62 +125,64 @@ void setup()
   }
   led.off();
 
-  // Initialize IMU
+  // Start IMU peripheral
   while(init_imu() != 0)
   {
     led.toggle(LED_MEDIUM);
   }
   led.off();
 
+  // Serial debugging
   #ifdef SERIAL_DEBUG
-  
-  // Initialize Serial
-  Serial.begin(SERIAL_BAUDRATE);
-  while(!Serial)
   {
-    led.toggle(LED_SLOW);
+    // Start Serial peripheral
+    Serial.begin(SERIAL_BAUDRATE);
+    while(!Serial)
+    {
+      led.toggle(LED_SLOW);
+    }
+    led.off();
+
+    // Print Wing Segment Config
+    Serial.println("\nWing Segment Config");
+    printCanard(&can);
+    printNode(&node);
+
+    // Let the user read the info
+    delay(1000);
   }
-  led.off();
-  
-  // Print Wing Segment Config
-  Serial.println("\nWing Segment Config");
-  printCanard(&can);
-  printNode(&node);
-  
-  // Let the user read the info
-  delay(1000);
-  
   #endif // SERIAL_DEBUG
-  
-  // Initialization Complete!
+
+  // Setup complete
   node.status.mode = MODE_OPERATIONAL;
   node.status.uptime_sec = millis()/1000;
 }
 
 void loop()
 {
-  /*
-    Task 1: Update IMU
-      Note: IMU's running AHRS filters need to be updated for calculations.
-  */
+  /**
+   * Task 1: Update IMU
+   *    IMU's running AHRS filters need to be updated for calculations.
+   */
   static uint64_t update_imu_time = millis();
   if((millis() - update_imu_time) >= UPDATE_IMU_PERIOD_MS)
   {
     // Period since last call
     long period = long(millis() - update_imu_time);
-    
+
     // Update the IMU's filters
     int update = update_imu();
-    
+
+    // Failure
     if(update < 0)
     {
-      // Update Failure
       node.status.mode = HEALTH_WARNING;
       led.toggle(LED_DEFAULT);
     }
-    else 
+
+    // Success
+    else
     {
-      // Update Successful
       node.status.mode = HEALTH_OK;
       led.off();
     }
@@ -183,27 +190,29 @@ void loop()
     // Update time reference
     update_imu_time = millis();
 
+    // Serial debugging
     #ifdef SERIAL_DEBUG
-    Serial.print("\nUpdate IMU - Period: "); Serial.println(period);
-    Serial.print("\nUpdate IMU - Value: "); Serial.println(update);
+    {
+      Serial.print("\nUpdate IMU - Period: ");  Serial.println(period);
+      Serial.print("\nUpdate IMU - Value: ");   Serial.println(update);
+    }
     #endif // SERIAL_DEBUG
   }
 
-  /*
-    Task 2: Send Node Status
-      Note: This message must be sent at least once every second.
-  */
+  /**
+   * Task 2: Send Node Status
+   *    Note: This message must be sent at least once every second.
+   */
   static uint64_t send_node_status_time = millis();
   if((millis() - send_node_status_time) >= SEND_NODE_STATUS_PERIOD_MS)
   {
     // Task Variables
-    long period = -1;
     int encoding = -1;
     int queuing = -1;
     int transmit = -1;
-    
+
     // Period since last call
-    period = long(millis()-send_node_status_time);    
+    long period = long(millis()-send_node_status_time);
 
     // Update uptime
     node.status.uptime_sec = millis()/1000;
@@ -218,8 +227,7 @@ void loop()
     // Encode data field buffer
     encoding = encode_node_status(buffer, sizeof(buffer), 0, node.status);
 
-    // Check return value
-    if(encoding > 0)
+    if(encoding > 0) // Success
     {
       // Format and push message frame(s) onto Canard queue
       queuing = canardBroadcast(
@@ -232,24 +240,21 @@ void loop()
         sizeof(buffer)
       );
 
-      // Check return value
-      if(queuing > 0)
+      if(queuing > 0) // Success
       {
         // Transmit all frames in Canard queue
         transmit = transmitCanardQueue(&can.canard, TRANSMIT_DELAY, TRANSMIT_TIMEOUT);
 
-        // Check return value
-        if(transmit > 0)
+        if(transmit > 0) // Success
         {
-          // Success
           node.status.mode = HEALTH_OK;
           led.off();
         }
       }
     }
-    if(encoding < 0 || queuing < 0 || transmit < 0)
+
+    if(encoding < 0 || queuing < 0 || transmit < 0) // Failure
     {
-      // Failure
       node.status.mode = HEALTH_WARNING;
       led.toggle(LED_DEFAULT);
     }
@@ -259,99 +264,102 @@ void loop()
 
     // Serial debugging
     #ifdef SERIAL_DEBUG
-    Serial.print("\nNode Status - Period: "); Serial.println((long)(millis()-send_node_status_time));
-    printNodeStatus(&node.status);
-    Serial.print("\nNode Status - Encoding: "); Serial.println(encoding);
-    if(encoding > 0)
     {
-      Serial.print("\nNode Status - Buffer: ");
-      for(int n = 0; n < (encoding+7)/8; n++)
+      Serial.print("\nNode Status - Period: "); Serial.println((long)(millis()-send_node_status_time));
+      printNodeStatus(&node.status);
+      Serial.print("\nNode Status - Encoding: "); Serial.println(encoding);
+      if(encoding > 0)
       {
-        Serial.print(buffer[n], HEX);
-        if(n == (sizeof(buffer)-1))
+        Serial.print("\nNode Status - Buffer: ");
+        for(int n = 0; n < (encoding+7)/8; n++)
         {
-          Serial.print("\n");
-          break;
+          Serial.print(buffer[n], HEX);
+          if(n == (sizeof(buffer)-1))
+          {
+            Serial.print("\n");
+            break;
+          }
+          Serial.print(",");
         }
-        Serial.print(",");
       }
+      Serial.print("\nNode Status - Queuing: "); Serial.println(queuing);
+      Serial.print("\nNode Status - Transmit: "); Serial.println(transmit);
     }
-    Serial.print("\nNode Status - Queuing: "); Serial.println(queuing);
-    Serial.print("\nNode Status - Transmit: "); Serial.println(transmit);
     #endif // SERIAL_DEBUG
   }
 
-  /*
-    Task 3: Send Orientation as Angular Command
-  */
+  /**
+   *  Task 3: Send Orientation as Angular Command
+   */
   static uint64_t send_angular_command = millis();
   if((millis() - send_angular_command) >= SEND_ORIENTATION_PERIOD_MS)
   {
     // Task Variables
-    long period = -1;
     int encoding = -1;
     int queuing = -1;
     int transmit = -1;
     uint16_t payload_len = 0;
-    
+
     // Period since last call
-    period = long(millis()-send_angular_command);
-    
+    long period = long(millis()-send_angular_command);
+
     // Create AngularCommand data structure
     AngularCommand angles;
-    
-    // Fill AngularCommand based on config
-    
-    #if defined(SEND_ORIENTATION_AS_QUATERNION) // Quaternion
-    
-    // Set AngularCommand gimbal_id as Wing Segment number
-    angles.gimbal_id = WING_SEGMENT;
-    
-    // Set AngularCommand mode to COMMAND_MODE_ANGULAR_VELOCITY
-    angles.mode = 0;
-    
-    // Set AngularCommand quaterion_xyzw to IMU quaternion
-    angles.quaternion_xyzw[0] = quaternion(X_AXIS);
-    angles.quaternion_xyzw[1] = quaternion(Y_AXIS);
-    angles.quaternion_xyzw[2] = quaternion(Z_AXIS);
-    angles.quaternion_xyzw[3] = quaternion(W_AXIS);
-    
-    #elif defined(SEND_ORIENTATION_AS_EULER_VECTOR) // Euler Vector
-    
-    // Set AngularCommand gimbal_id as Wing Segment number
-    angles.gimbal_id = WING_SEGMENT;
-    
-    // Set AngularCommand mode to COMMAND_MODE_ORIENTATION_FIXED_FRAME
-    angles.mode = 1;
-    
-    // Set AngularCommand quaterion_xyzw to IMU orientation
-    angles.quaternion_xyzw[0] = orientation(X_AXIS);
-    angles.quaternion_xyzw[1] = orientation(Y_AXIS);
-    angles.quaternion_xyzw[2] = orientation(Z_AXIS);
-    angles.quaternion_xyzw[3] = 0;
-    
-    #else // NONE
-    
-    #error Must select orientation type in the config. 
-    
+
+    // Intialize AngularCommand with Quaternion
+    #if defined(SEND_ORIENTATION_AS_QUATERNION)
+    {
+      // Set AngularCommand gimbal_id as Wing Segment number
+      angles.gimbal_id = WING_SEGMENT;
+
+      // Set AngularCommand mode to COMMAND_MODE_ANGULAR_VELOCITY
+      angles.mode = 0;
+
+      // Set AngularCommand quaterion_xyzw to IMU quaternion
+      angles.quaternion_xyzw[0] = quaternion(X_AXIS);
+      angles.quaternion_xyzw[1] = quaternion(Y_AXIS);
+      angles.quaternion_xyzw[2] = quaternion(Z_AXIS);
+      angles.quaternion_xyzw[3] = quaternion(W_AXIS);
+    }
+
+    // Intialize AngularCommand with Euler Vector
+    #elif defined(SEND_ORIENTATION_AS_EULER_VECTOR)
+    {
+      // Set AngularCommand gimbal_id as Wing Segment number
+      angles.gimbal_id = WING_SEGMENT;
+
+      // Set AngularCommand mode to COMMAND_MODE_ORIENTATION_FIXED_FRAME
+      angles.mode = 1;
+
+      // Set AngularCommand quaterion_xyzw to IMU orientation
+      angles.quaternion_xyzw[0] = orientation(X_AXIS);
+      angles.quaternion_xyzw[1] = orientation(Y_AXIS);
+      angles.quaternion_xyzw[2] = orientation(Z_AXIS);
+      angles.quaternion_xyzw[3] = 0;
+    }
+
+    // No AngularCommand formatting chosen
+    #else
+    {
+      #error Must select orientation type in the config.
+    }
     #endif
-    
-    // Unique ID for log message transfers
+
+    // Unique ID for angular command transfers
     static uint8_t angular_command_transfer_id = 0;
-    
+
     // Create data field buffer
     uint8_t buffer[((ANGULAR_COMMAND_DATA_TYPE_SIZE + 7) / 8)];
     memset(buffer, 0, sizeof(buffer));
-    
+
     // Encode data field buffer
     encoding = encode_angular_command(buffer, sizeof(buffer), 0, angles);
-    
-    // Check return value
-    if(encoding > 0)
+
+    if(encoding > 0) // Success
     {
       // Payload length in bytes (rounded up)
       payload_len = (encoding + 7) / 8;
-    
+
       // Format and push message frame(s) onto Canard queue
       queuing = canardBroadcast(
         &can.canard,
@@ -362,73 +370,74 @@ void loop()
         buffer,
         payload_len
       );
-    
-      // Check return value
-      if(queuing > 0)
+
+      if(queuing > 0) // Success
       {
         // Transmit all frames in Canard queue
         transmit = transmitCanardQueue(&can.canard, TRANSMIT_DELAY, TRANSMIT_TIMEOUT);
-    
-        // Check return value
-        if(transmit > 0)
+
+        if(transmit > 0) // Success
         {
-          // Success
           node.status.mode = HEALTH_OK;
           led.off();
         }
       }
     }
-    if(encoding < 0 || queuing < 0 || transmit < 0)
+
+    if(encoding < 0 || queuing < 0 || transmit < 0) // Failure
     {
-      // Failure
       node.status.mode = HEALTH_WARNING;
       led.toggle(LED_DEFAULT);
     }
-    
+
     // Update time reference
     send_angular_command = millis();
-    
+
     // Serial debugging
     #ifdef SERIAL_DEBUG
-    Serial.print("\nAngular Command - Period: "); Serial.println((long)(millis()-send_angular_command));
-    printAngularCommand(&angles);
-    Serial.print("\nAngular Command - Encoding: "); Serial.println(encoding);
-    if(encoding > 0)
     {
-      Serial.print("\nAngular Command - Buffer: ");
-      for(int n = 0; n < (encoding+7)/8; n++)
+      Serial.print("\nAngular Command - Period: ");   Serial.println((long)(millis()-send_angular_command));
+      printAngularCommand(&angles);
+      Serial.print("\nAngular Command - Encoding: "); Serial.println(encoding);
+      if(encoding > 0)
       {
-        Serial.print(buffer[n], HEX);
-        if(n == (sizeof(buffer)-1))
+        Serial.print("\nAngular Command - Buffer: ");
+        for(int n = 0; n < (encoding+7)/8; n++)
         {
-          Serial.print("\n");
-          break;
+          Serial.print(buffer[n], HEX);
+          if(n == (sizeof(buffer)-1))
+          {
+            Serial.print("\n");
+            break;
+          }
+          Serial.print(",");
         }
-        Serial.print(",");
-      }  
+      }
+      Serial.print("\nAngular Command - Queuing: ");  Serial.println(queuing);
+      Serial.print("\nAngular Command - Transmit: "); Serial.println(transmit);
     }
-    Serial.print("\nAngular Command - Queuing: "); Serial.println(queuing);
-    Serial.print("\nAngular Command - Transmit: "); Serial.println(transmit);
     #endif // SERIAL_DEBUG
   }
 
-  /*
-    Task 4: Cleanup UAVCAN
-      Note: should be done once about every second.
-  */
+  /**
+   *  Task 4: Cleanup UAVCAN
+   *    Should be done once about every second.
+   */
   static uint64_t cleanup_uavcan_time = millis();
   if((millis() - cleanup_uavcan_time) > CLEANUP_UAVCAN_PERIOD_MS)
   {
     // Removes stale transfers from Canard queue based on microsecond timestamp
     canardCleanupStaleTransfers(&can.canard, 1000*millis());
-    
+
     // Update time reference
     cleanup_uavcan_time = millis();
 
     // Serial debugging
     #ifdef SERIAL_DEBUG
-    CanardPoolAllocatorStatistics stats = canardGetPoolAllocatorStatistics(&can.canard);
-    printCanardPoolAllocatorStatistics(&stats);
+    {
+      CanardPoolAllocatorStatistics stats = canardGetPoolAllocatorStatistics(&can.canard);
+      printCanardPoolAllocatorStatistics(&stats);
+    }
     #endif // SERIAL_DEBUG
   }
 }
