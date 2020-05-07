@@ -56,15 +56,13 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
 An inertial measurement unit (IMU) sensor uses various physics principles to obtain information about an object's orientation, speed, and acceleration in space. 
 
-Data is retreived from the IMUs by the AST-CAN485 using the Inter-Integrated Circuit serial bus protocol (I2C).
+The BNO055 Absolute Orientation Sensor by Adafruit was chosen as the best candidate for this project, and its data is retreived by the AST-CAN485 using the Inter-Integrated Circuit serial bus protocol (I2C).
 
 ### UAVCAN
 
 "UAVCAN is an open lightweight protocol designed for reliable intravehicular communication in aerospace and robotic applications over CAN bus..." - [uavcan.org](https://uavcan.org/)
 
-Orientation data is sent to the flight controller as an UAVCAN `AngularCommand` message that contains both device id and quaternion data fields.
-
-UAVCAN specification states that each active node on a CAN bus must also send an UAVCAN `NodeStatus` message at least once every second to be considered active. 
+PX4 based flight controllers implement UAVCAN as their overlying CAN protocol, so orientation data is sent to the flight controller as an UAVCAN `AngularCommand` message that contains both device id and quaternion data fields.
 
 ### Task Structure
 
@@ -72,19 +70,19 @@ This project inplements a periodic task structure to meet all of its requirement
 
 ``` 
     Task 0 - Setup
-      Initializes all modules according to configuration values defined in the header.
+      Initializes all hardware and software modules according to the configuration file included.
 
     Task 1 - Update IMU
-      Updates the IMU data processing filters.
+      Updates the IMU processing filters for the LSM9DS1 and NXP_FXOS_FXAS. Ignored by BNO055.
 
     Task 2 - Send Node Status
-      Sends a UAVCAN formatted Node Status broadcast onto the CAN bus.
+      Sends a UAVCAN formatted Node Status message onto the CAN bus.
 
     Task 3 - Send Orientation
-      Sends a UAVCAN formattted Angular Command broadcast onto the CAN bus.
+      Sends IMU orientation encoded in a UAVCAN formatted Angular Command message onto the CAN bus.
 
     Task 4 - Check Memory Pool
-      Checks the memory usage statistics of the Canard memory pool.
+      Frees up stale CAN transfers in the Canard memory pool
 ```
 
 ## Notes
@@ -106,7 +104,6 @@ Power Sensor Library:
 
 CAN Libraries: 
   * [Universal Can Library](https://github.com/rennerm/avr-can-lib/tree/9c6bc9118de66d6edaf1b8539e2b9717ba26d123#universelle-can-blibiothek-avr-can-lib)
-  * [Canard AVR](https://github.com/UAVCAN/libcanard/tree/legacy-v0/drivers/avr)
   * [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h)
 
 ### UAVCAN
