@@ -87,7 +87,7 @@ void loop()
         continue;
       }
 
-      // Print values as a comma seperated list with sensor number
+      // Print values as a comma seperated list including sensor number
       else
       {
         Serial.print(n);            Serial.print(", "); //< Number    (#)
