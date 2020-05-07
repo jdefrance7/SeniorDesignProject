@@ -117,4 +117,4 @@ CAN Libraries:
 
 ### UAVCAN
 
-Both [UAVCAN v0](https://github.com/UAVCAN/libcanard) (legacy) and [UAVCAN v1](https://github.com/UAVCAN/libcanard/tree/legacy-v0) protocols have been implemented in separate projects. See their documentation on implementation specifics.
+[UAVCAN v0](https://github.com/UAVCAN/libcanard) (legacy) was implemented for this project. See its documentation on implementation specifics.
