@@ -102,9 +102,8 @@ IMU Libraries:
 Power Sensor Library: 
   * [Adafruit_INA219](https://github.com/adafruit/Adafruit_INA219)
 
-CAN Libraries: 
-  * [Universal Can Library](https://github.com/rennerm/avr-can-lib/tree/9c6bc9118de66d6edaf1b8539e2b9717ba26d123#universelle-can-blibiothek-avr-can-lib)
+CAN Driver Library:
   * [ASTCanLib](https://github.com/Atlantis-Specialist-Technologies/AST_CAN_Arduino_Library/blob/master/src/ASTCanLib.h)
 
-UAVCAN Library
+UAVCAN Library:
   * [Libcanard](https://github.com/UAVCAN/libcanard/tree/legacy-v0)
