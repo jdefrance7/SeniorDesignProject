@@ -8,7 +8,7 @@ Joe DeFrance (defra022@umn.edu)
 
 ## Getting Started
 
-This project was created using the [Arduino IDE](https://www.arduino.cc/en/main/software) for the [AST-CAN485](https://www.sparkfun.com/products/14483) board.
+This project was created using the [Arduino IDE](https://www.arduino.cc/en/main/software) for the [AST-CAN485](https://www.sparkfun.com/products/14483) development board.
 
 ### AST-CAN485 Pinout
 
@@ -24,7 +24,7 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
    * Default location is in the user's `Documents` folder.
 
-   * If the Arduino IDE is already downloaded, copy over all but the `Arduino/libraries` folder, whose contents should instead be copied to the corresponding `Arduino/libraries` folder as to not delete other libraries that may be already downloaded.
+   * If the Arduino IDE is already downloaded, copy over all but the `Arduino/libraries` folder, whose contents should instead be copied to the user's corresponding `Arduino/libraries` folder as to not delete other libraries that may be already downloaded.
 
 3. Use the Arduino IDE Boards Manager to add the AST-CAN485 board to the Arduino IDE.
 
@@ -52,25 +52,19 @@ Image courtesy of Sparkfun's [AST-CAN485 Hookup Guide](https://learn.sparkfun.co
 
 ## Overview
 
+### IMU Sensor
+
+An inertial measurement unit (IMU) sensor uses various physics principles to obtain information about an object's orientation, speed, and acceleration in space. 
+
+Data is retreived from the IMUs by the AST-CAN485 using the Inter-Integrated Circuit serial bus protocol (I2C).
+
 ### UAVCAN
 
 "UAVCAN is an open lightweight protocol designed for reliable intravehicular communication in aerospace and robotic applications over CAN bus..." - [uavcan.org](https://uavcan.org/)
 
-This project uses UAVCAN formatting for the data it sends over the CAN bus to the flight controller. 
+Orientation data is sent to the flight controller as an UAVCAN `AngularCommand` message that contains both device id and quaternion data fields.
 
-Orientation data is sent as an `Angular Command` message that contains both device id and quaternion data fields.
-
-UAVCAN specification states that each active node on a CAN bus must send a `Node Status` message at least once every second to be considered active. 
-
-### IMU Sensor
-
-An inertial measurement unit (IMU) sensor uses various physics principles to obtain information about an object's position, speed, and acceleration in space. 
-
-This project initially considered three IMU breakout boards made by Adafruit: the BNO055, the LSM9DS1, and the NXP_FXOS_FXAS. 
-
-The BNO055 was chosen to be the best candidate for this project as it contains an onboard processor to handle the mathematical computation required to obtain useful information from raw IMU data, reducing the processing load for the AST-CAN485.
-
-The IMU data is retreived from the BNO055 by the AST-CAN485 using the Inter-Integrated Circuit serial bus protocol (I2C).
+UAVCAN specification states that each active node on a CAN bus must also send an UAVCAN `NodeStatus` message at least once every second to be considered active. 
 
 ### Task Structure
 
