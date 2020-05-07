@@ -2,7 +2,7 @@
 
 Code for the AST-CAN485 development board to obtain IMU sensor orientation data and broadcast it to a PX4 based flight controller.
 
-## Contrubtors
+## Author
 
 Joe DeFrance (defra022@umn.edu)
 
