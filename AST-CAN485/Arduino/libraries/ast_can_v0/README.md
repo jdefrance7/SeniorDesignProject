@@ -12,6 +12,15 @@ CAN driver interface for the AST-CAN485 using [ASTCanLib](https://github.com/Atl
 
 `Canard` - custom struct containing CAN bitrate, Canard instance, and Canard memory pool
 
+```c
+typedef struct
+{
+  long bitrate;
+  CanardInstance canard;
+  uint8_t canard_memory_pool[CANARD_MEMORY_POOL_SIZE];
+} Canard;
+```
+
 ## Functions
 
 `int init_can(...)` - initializes the AST-CAN485 CAN module and Canard instance, returns value for error checking
