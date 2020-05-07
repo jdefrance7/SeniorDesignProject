@@ -1,3 +1,11 @@
+/**
+ * @file wing_segment_v0.ino
+ * 
+ * Setup and main loop code for the wing segment orientation sensor system.
+ *
+ * @author Joe DeFrance
+ */
+
 /**************************************************************************************************************
   
   Implements the following tasks for the purpose of sending IMU orientation over CAN bus via UAVCAN protocol.
@@ -19,7 +27,7 @@
       
 **************************************************************************************************************/
 
-// Choose Configuration
+// Choose Configuration File
 #include "wing_segment_config_0.h"
 //#include "wing_segment_config_1.h"
 //#include "wing_segment_config_2.h"
