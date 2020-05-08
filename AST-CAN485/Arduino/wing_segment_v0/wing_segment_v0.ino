@@ -24,7 +24,7 @@
  */
 
 //******************************************************************************
-// Select Configuration File
+// Select configuration file (uncomment one)
 
 #include "wing_segment_config_0.h"
 //#include "wing_segment_config_1.h"
@@ -33,17 +33,18 @@
 
 //******************************************************************************
 
+// Error if no config selected
 #ifndef WING_SEGMENT_CONFIG_H
   #error Must select a config.
 #endif
 
-// Arduino Constants
+// Arduino constants
 #include <Arduino.h>
 
 // Status LED
 #include <led.h>
 
-// IMU Sensor
+// Include IMU chosen in config, error if no IMU selected
 #if defined(IMU_BNO055)
   #include <bno055.h>
 #elif defined(IMU_LSM9DS1)
@@ -54,29 +55,28 @@
   #error Must select an IMU in the config.
 #endif
 
-// CAN Driver
+// CAN driver
 #include <ast_can_v0.h>
 
-// UAVCAN Version
+// UAVCAN version
 #include <uavcan_v0.h>
 
-// UAVCAN Node Instance
+// Custom UAVCAN node instance
 UavcanNode node;
 
-// Custom Canard Struct Instance
+// Custom Canard struct instance
 Canard can;
 
-// Builtin LED Instance
+// Builtin LED instance
 LED led;
 
 void setup()
 {
-  /**
-   *  Task 0 - Setup
-   *    Called by the microcontroller before entering the main loop.
-   */
+  //////////////////////////////////////////////////////////////////////////////
+  /// Task 0 - Setup
+  //////////////////////////////////////////////////////////////////////////////
 
-  // Initialize Builtin LED Instance
+  // Initialize LED
   led = LED();
 
   // Initialize CAN
@@ -85,13 +85,13 @@ void setup()
   }
 
   // Initialize UAVCAN Node
-  // Node Basics
+  // Node basics
   {
     node.id = NODE_ID;
     memset(node.name, 0, sizeof(node.name));
     memcpy(node.name, NODE_NAME, sizeof(NODE_NAME));
   }
-  // Node Status
+  // Node status
   {
     node.status.uptime_sec = 0;
     node.status.health = HEALTH_OK;
@@ -99,7 +99,7 @@ void setup()
     node.status.sub_mode = 0;
     node.status.vendor_specific_status_code = 0;
   }
-  // Node Hardware Version
+  // Node hardware version
   {
     node.hardware.major = HARDWARE_VERSION_MAJOR;
     node.hardware.minor = HARDWARE_VERSION_MINOR;
@@ -108,7 +108,7 @@ void setup()
     memset(node.hardware.certificate, 0, sizeof(node.hardware.certificate));
     memcpy(node.hardware.certificate, HARDWARE_CERTIFICATE, sizeof(HARDWARE_CERTIFICATE));
   }
-  // Node Software Version
+  // Node software version
   {
     node.software.major = SOFTWARE_VERSION_MAJOR;
     node.software.minor = SOFTWARE_VERSION_MINOR;
@@ -143,7 +143,7 @@ void setup()
     }
     led.off();
 
-    // Print Wing Segment Config
+    // Print loaded configs
     Serial.println("\nWing Segment Config");
     printCanard(&can);
     printNode(&node);
@@ -160,11 +160,14 @@ void setup()
 
 void loop()
 {
-  /**
-   * Task 1: Update IMU
-   *    IMU's running AHRS filters need to be updated for calculations.
-   */
+  //////////////////////////////////////////////////////////////////////////////
+  /// Task 1: Update IMU
+  //////////////////////////////////////////////////////////////////////////////
+
+  // Millisecond time reference for performing task
   static uint64_t update_imu_time = millis();
+
+  // Check that the desired time period has passed
   if((millis() - update_imu_time) >= UPDATE_IMU_PERIOD_MS)
   {
     // Period since last call
@@ -173,15 +176,12 @@ void loop()
     // Update the IMU's filters
     int update = update_imu();
 
-    // Failure
-    if(update < 0)
+    if(update < 0) // Failure
     {
       node.status.mode = HEALTH_WARNING;
       led.toggle(LED_DEFAULT);
     }
-
-    // Success
-    else
+    else // Success
     {
       node.status.mode = HEALTH_OK;
       led.off();
@@ -199,22 +199,25 @@ void loop()
     #endif // SERIAL_DEBUG
   }
 
-  /**
-   * Task 2: Send Node Status
-   *    Note: This message must be sent at least once every second.
-   */
+  //////////////////////////////////////////////////////////////////////////////
+  /// Task 2: Send Node Status
+  //////////////////////////////////////////////////////////////////////////////
+
+  // Millisecond time reference for performing task
   static uint64_t send_node_status_time = millis();
+
+  // Check that the desired time period has passed
   if((millis() - send_node_status_time) >= SEND_NODE_STATUS_PERIOD_MS)
   {
     // Task Variables
-    int encoding = -1;
-    int queuing = -1;
-    int transmit = -1;
+    int encoding = -1;  //< number of bits encoded in data buffer
+    int queuing = -1;   //< number of CAN frames pushed to Canard message queue
+    int transmit = -1;  //< number of CAN frames transmitted
 
     // Period since last call
     long period = long(millis()-send_node_status_time);
 
-    // Update uptime
+    // Update node uptime in seconds
     node.status.uptime_sec = millis()/1000;
 
     // Unique ID for Node Status transfers
@@ -222,6 +225,8 @@ void loop()
 
     // Create data field buffer
     uint8_t buffer[((NODE_STATUS_DATA_TYPE_SIZE + 7) / 8)];
+
+    // Clear data field buffer
     memset(buffer, 0, sizeof(buffer));
 
     // Encode data field buffer
@@ -288,17 +293,22 @@ void loop()
     #endif // SERIAL_DEBUG
   }
 
-  /**
-   *  Task 3: Send Orientation as Angular Command
-   */
+  //////////////////////////////////////////////////////////////////////////////
+  /// Task 3: Send Orientation
+  //////////////////////////////////////////////////////////////////////////////
+
+  // Millisecond time reference for performing task
   static uint64_t send_angular_command = millis();
+
+  // Check that the desired time period has passed
   if((millis() - send_angular_command) >= SEND_ORIENTATION_PERIOD_MS)
   {
     // Task Variables
-    int encoding = -1;
-    int queuing = -1;
-    int transmit = -1;
-    uint16_t payload_len = 0;
+    int encoding = -1;  //< number of bits encoded in data buffer
+    int queuing = -1;   //< number of CAN frames pushed to Canard message queue
+    int transmit = -1;  //< number of CAN frames transmitted
+
+    uint16_t payload_len = 0; //< length (in bytes) of serialized CAN data
 
     // Period since last call
     long period = long(millis()-send_angular_command);
@@ -338,7 +348,7 @@ void loop()
       angles.quaternion_xyzw[3] = 0;
     }
 
-    // No AngularCommand formatting chosen
+    // Error if no AngularCommand formatting chosen
     #else
     {
       #error Must select orientation type in the config.
@@ -350,6 +360,8 @@ void loop()
 
     // Create data field buffer
     uint8_t buffer[((ANGULAR_COMMAND_DATA_TYPE_SIZE + 7) / 8)];
+
+    // Clear data field buffer
     memset(buffer, 0, sizeof(buffer));
 
     // Encode data field buffer
@@ -419,11 +431,14 @@ void loop()
     #endif // SERIAL_DEBUG
   }
 
-  /**
-   *  Task 4: Cleanup UAVCAN
-   *    Should be done once about every second.
-   */
+  //////////////////////////////////////////////////////////////////////////////
+  /// Task 4: Cleanup UAVCAN
+  //////////////////////////////////////////////////////////////////////////////
+
+  // Millisecond time reference for performing task
   static uint64_t cleanup_uavcan_time = millis();
+
+  // Check that the desired time period has passed
   if((millis() - cleanup_uavcan_time) > CLEANUP_UAVCAN_PERIOD_MS)
   {
     // Removes stale transfers from Canard queue based on microsecond timestamp
