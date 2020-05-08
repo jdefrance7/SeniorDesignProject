@@ -1,6 +1,6 @@
 # Wing Segmet (UAVCAN v0)
 
-Implements a UAVCAN node for the purpose of sending IMU data of wing segment orientation onto a CAN bus.
+Implements a UAVCAN node on the AST-CAN485 for the purpose of sending BNO055 data of wing segment orientation onto a CAN bus to a PX4 based flight controller.
 
 Uses a sequential task structure with separate execution periods for each task.
 
@@ -26,7 +26,7 @@ Must be done at a freqency of `FILTER_UPDATE_RATE_HZ` defined internally by the 
 
 Sends a [Node Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/) message onto the CAN bus. 
 
-Required by every UAVCAN node at least once every second.
+Required by each UAVCAN node at least once every second.
 
 ### Node Status
 
@@ -83,61 +83,19 @@ uint16 vendor_specific_status_code
 
 ## Task 3 - Send Orientation
 
-Sends orientation data onto the CAN bus in one of three ways:
+Sends BNO055 orientation data onto the CAN bus encoded in an UAVCAN Angular Command message.
 
-1. Sends a [Log Message](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/) message onto the CAN bus with orientation data encoded as ASCII text.
+### Angular Command
 
-    ### Log Message
-    
-    ```
-    #
-    # Generic log message.
-    # All items are byte aligned.
-    #
+```
+#
+# Generic camera gimbal control.
+#
 
-    LogLevel level
-    uint8[<=31] source
-    uint8[<=90] text
-    ```
-
-2. Sends a [Camera Gimbal Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/) message onto the CAN bus with orientation data included as an internal variable.
-
-    ### Gimbal Status
-
-    ```
-    #
-    # Generic gimbal status.
-    #
-
-    uint8 gimbal_id
-
-    Mode mode
-
-    #
-    # Camera axis orientation in body frame (not in fixed frame).
-    #
-    float16[4] camera_orientation_in_body_frame_xyzw
-    float16[<=9] camera_orientation_in_body_frame_covariance   # +inf for non-existent axes
-    ```
-3. Sends a series of [Key Value](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/) messages onto the CAN bus containing a single float of orientation data alongside an axis descriptor key.
-
-    ### Key Value
-    
-    ```
-    #
-    # Generic named parameter (key/value pair).
-    #
-
-    #
-    # Integers are exactly representable in the range (-2^24, 2^24) which is (-16'777'216, 16'777'216).
-    #
-    float32 value
-
-    #
-    # If key length does not exceed 3 characters, the whole message can fit into one CAN frame.
-    #
-    uint8[<=58] key
-    ```
+uint8 gimbal_id
+Mode mode
+float16[4] quaternion_xyzw
+```
 
 ## Task 4 - Check Memory Pool
 
